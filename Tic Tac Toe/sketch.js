@@ -45,10 +45,11 @@ function setup() {
 	restartButton = rect(buttonX1, buttonY1, widthOfBoard / 2, heightOfButton);
 
 	// Text in the restart button
-	textSize(35);
+	let sizeOfText2 = 35;
+	textSize(sizeOfText2);
 	textAlign(CENTER);
 	textFont("fantasy");
-	text('RESTART', widthOfBoard / 2, heightOfBoard + 35);
+	text('RESTART', widthOfBoard / 2, heightOfBoard + sizeOfText2);
 
 }	
 
@@ -139,10 +140,10 @@ function mouseClicked() {
 	}
 
 	if (check4winner() === 'Draw') {
-		let sizeOfText = 65;
+		let sizeOfText1 = 65;
 
 		noStroke();
-		textSize(sizeOfText);
+		textSize(sizeOfText1);
 		fill(255);
 		textAlign(CENTER);
 		textStyle(BOLD);
@@ -150,16 +151,16 @@ function mouseClicked() {
 	}
 	else if (check4winner()){
 		let winner;
-		let sizeOfText = 65;
+		let sizeOfText1 = 65;
 		const whoIsThePlayer = currentPlayer === 'X' ? winner = "O" : winner = "X";
 	
 		winLine(check4winner()[0], check4winner()[1]);
 		noStroke();
-		textSize(sizeOfText);
+		textSize(sizeOfText1);
 		fill(255,255,102);
 		textAlign(CENTER);
 		textStyle(BOLD);
 		text('GAME OVER', widthOfBoard / 2, heightOfBoard / 2);
-		text(winner + " WON", widthOfBoard / 2, heightOfBoard / 2 + sizeOfText);
+		text(winner + " WON", widthOfBoard / 2, heightOfBoard / 2 + sizeOfText1);
 	}
 }
