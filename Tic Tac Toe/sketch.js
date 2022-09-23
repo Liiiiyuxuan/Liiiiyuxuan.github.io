@@ -1,29 +1,71 @@
-let cols = 3, rows = 3;
-let w = 420;
-let h = 420;
+let numberOfColumns = 3, numberOfRows = 3;
+let widthOfBoard = 420;
+let heightOfBoard = 420;
+let heightOfButton = 50;
+let smallGapNearEdge = 5;
 let player1 = 'X', player2 = 'O';
 let board;
 let currentPlayer;
 let restartButton;
-let buttonX1 = w / 6 + w / 12;
-let buttonX2 = buttonX1 + w / 3 + w / 6;
-let buttonY1 = h;
-let buttonY2 = h + 50;
+let buttonX1 = widthOfBoard / 4;
+let buttonX2 = buttonX1 + widthOfBoard / 2;
+let buttonY1 = heightOfBoard;
+let buttonY2 = heightOfBoard + heightOfButton;
+
+
+function setup() {
+	createCanvas(widthOfBoard, heightOfBoard + heightOfButton);
+	background(0, 250, 120);
+
+	currentPlayer = player1;
+	board = [
+		['', '', ''],
+		['', '', ''],
+		['', '', ''],
+	];
+	
+	strokeWeight(9);
+	stroke(0, 120, 34);
+	for (let i = 1; i < numberOfRows; i++) {
+		line(widthOfBoard / numberOfColumns * i, smallGapNearEdge, widthOfBoard / numberOfColumns * i, widthOfBoard - smallGapNearEdge);
+		line(smallGapNearEdge, heightOfBoard / numberOfRows * i, heightOfBoard - smallGapNearEdge, heightOfBoard / numberOfRows * i);
+  	}	
+	
+	noStroke();
+	fill(255);
+	rect(0, heightOfBoard, widthOfBoard, heightOfButton);
+	
+	stroke(0);
+	strokeWeight(3);
+	fill(153, 224, 255);
+	
+	restartButton = rect(buttonX1, buttonY1, widthOfBoard / 2, heightOfButton);
+
+	textSize(35);
+	textAlign(CENTER);
+	textFont("fantasy");
+	text('RESTART', widthOfBoard / 2, heightOfBoard + 35);
+
+}	
+
+function draw() {
+
+}
 
 function drawX(i, j) {
-	let gapW4 = w / 12;
+	let gapW4 = widthOfBoard / 12;
 	strokeWeight(20);
 	stroke(0);
-	line(w / 3 * j + gapW4, h / 3 * i + gapW4, w / 3 * j + 3 * gapW4, h / 3 * i + 3 * gapW4);
-	line(w / 3 * j + 3 * gapW4, h / 3 * i + gapW4, w / 3 * j + gapW4, h / 3 * i + 3 * gapW4);
+	line(widthOfBoard / 3 * j + gapW4, heightOfBoard / 3 * i + gapW4, widthOfBoard / 3 * j + 3 * gapW4, heightOfBoard / 3 * i + 3 * gapW4);
+	line(widthOfBoard / 3 * j + 3 * gapW4, heightOfBoard / 3 * i + gapW4, widthOfBoard / 3 * j + gapW4, heightOfBoard / 3 * i + 3 * gapW4);
 }
 
 function drawO(i, j) {
-	let gapW2 = w / 6;
+	let gapW2 = widthOfBoard / 6;
 	strokeWeight(20);
 	stroke(0);
 	fill(0, 250, 120);
-	ellipse(w / 3 * j + gapW2 , h / 3 * i + gapW2, gapW2, gapW2);
+	ellipse(widthOfBoard / 3 * j + gapW2 , heightOfBoard / 3 * i + gapW2, gapW2, gapW2);
 }
 
 function winLine(start, end) {
@@ -35,15 +77,15 @@ function winLine(start, end) {
 
 	strokeWeight(10);
 	stroke(255, 0, 0);
-	line(w / 3 * startJ + w / 6, h / 3 * startI + h / 6, w / 3 * endJ + w / 6, h / 3 * endI + h / 6);
+	line(widthOfBoard / 3 * startJ + widthOfBoard / 6, heightOfBoard / 3 * startI + heightOfBoard / 6, widthOfBoard / 3 * endJ + widthOfBoard / 6, heightOfBoard / 3 * endI + heightOfBoard / 6);
 }
 
 function check4winner() {
-	for (let j = 0; j < cols; j++) {
+	for (let j = 0; j < numberOfColumns; j++) {
 		if (board[0][j] === board[1][j] && board[1][j] === board[2][j] && board[0][j] != '')
 		    return [[0, j], [2, j]];
 	}
-	for (let i = 0; i < rows; i++) {
+	for (let i = 0; i < numberOfRows; i++) {
 		if (board[i][0] === board[i][1] && board[i][1] === board[i][2] && board[i][0] != '')
 			return [[i, 0], [i, 2]];
 	}
@@ -66,16 +108,15 @@ function check4winner() {
 	}
 
 	return false;
-	
 }
 
 function mouseClicked() {
 	if ((buttonX1 <= mouseX && mouseX <= buttonX2) && (buttonY1 <= mouseY && mouseY < buttonY2))
 		setup();
 	
-	if (mouseY < h && check4winner() === false) {
-		let gapI = floor(mouseY / (w / 3));
-		let gapJ = floor(mouseX / (h / 3));
+	if (mouseY < heightOfBoard && check4winner() === false) {
+		let gapI = floor(mouseY / (widthOfBoard / 3));
+		let gapJ = floor(mouseX / (heightOfBoard / 3));
 		
 		if (currentPlayer === player1 && board[gapI][gapJ] === '') {
 			drawX(gapI, gapJ);
@@ -99,10 +140,8 @@ function mouseClicked() {
 	}
 	else if (check4winner()){
 		let winner;
-		if (currentPlayer === 'X')
-			winner = 'O';
-		else
-			winner = 'X';
+		const whoIsThePlayer = currentPlayer === 'X' ? winner = "O" : winner = "X";
+	
 		winLine(check4winner()[0], check4winner()[1]);
 		noStroke();
 		textSize(65);
@@ -112,44 +151,4 @@ function mouseClicked() {
 		text('GAME OVER', 210, 200);
 		text(winner + " WON", 210, 265);
 	}
-}
-
-function setup() {
-	createCanvas(w, h + 50);
-	background(0, 250, 120);
-
-	currentPlayer = player1;
-	board = [
-		['', '', ''],
-		['', '', ''],
-		['', '', ''],
-	];
-	
-	strokeWeight(9);
-	stroke(0, 120, 34);
-	for (let i = 1; i < rows; i++) {
-		line(w / 3 * i, 0 + 5, w / 3 * i, w - 2);
-		line(0 + 5, h / 3 * i, h - 5, h / 3 * i);
-  	}	
-	
-	noStroke();
-	fill(255);
-	rect(0, h, w, 50);
-	
-	stroke(0);
-	strokeWeight(3);
-	fill(153, 224, 255);
-	
-	restartButton = rect(w / 6 + w / 12, h, w / 3 + w / 6, 50);
-
-	fill(0);
-	textSize(35);
-	textAlign(CENTER);
-	textWidth(100);
-	text('ɾ ҽ ʂ ƚ α ɾ ƚ', w / 2, h + 35);
-	
-}
-
-function draw() {
-
 }
