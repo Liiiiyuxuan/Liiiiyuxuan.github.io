@@ -13,16 +13,16 @@ let buttonY2 = h + 50;
 function drawX(i, j) {
 	let gapW4 = w / 12;
 	strokeWeight(20);
-	stroke(0)
+	stroke(0);
 	line(w / 3 * j + gapW4, h / 3 * i + gapW4, w / 3 * j + 3 * gapW4, h / 3 * i + 3 * gapW4);
 	line(w / 3 * j + 3 * gapW4, h / 3 * i + gapW4, w / 3 * j + gapW4, h / 3 * i + 3 * gapW4);
 }
 
 function drawO(i, j) {
 	let gapW2 = w / 6;
-	strokeWeight(20)
-	stroke(0)
-	fill(0, 250, 120)
+	strokeWeight(20);
+	stroke(0);
+	fill(0, 250, 120);
 	ellipse(w / 3 * j + gapW2 , h / 3 * i + gapW2, gapW2, gapW2);
 }
 
@@ -92,7 +92,7 @@ function mouseClicked() {
 	if (check4winner() === 'Draw') {
 		noStroke();
 		textSize(65);
-		fill(255)
+		fill(255);
 		textAlign(CENTER);
 		textStyle(BOLD);
 		text('DRAW', 210, 230);
@@ -136,7 +136,7 @@ function setup() {
 	fill(255);
 	rect(0, h, w, 50);
 	
-	stroke(0)
+	stroke(0);
 	strokeWeight(3);
 	fill(153, 224, 255);
 	
@@ -145,7 +145,7 @@ function setup() {
 	fill(0);
 	textSize(35);
 	textAlign(CENTER);
-	textWidth(100)
+	textWidth(100);
 	text('ɾ ҽ ʂ ƚ α ɾ ƚ', w / 2, h + 35);
 	
 }
