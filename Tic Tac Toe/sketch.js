@@ -24,6 +24,7 @@ function setup() {
 		['', '', ''],
 	];
 	
+	// Draw the four lines to get the grids needed for the game board
 	strokeWeight(9);
 	stroke(0, 120, 34);
 	for (let i = 1; i < numberOfRows; i++) {
@@ -31,6 +32,7 @@ function setup() {
 		line(smallGapNearEdge, heightOfBoard / numberOfRows * i, heightOfBoard - smallGapNearEdge, heightOfBoard / numberOfRows * i);
   	}	
 	
+	// Make the colour of the margin white 
 	noStroke();
 	fill(255);
 	rect(0, heightOfBoard, widthOfBoard, heightOfButton);
@@ -39,8 +41,10 @@ function setup() {
 	strokeWeight(3);
 	fill(153, 224, 255);
 	
+	// Create the restart button 
 	restartButton = rect(buttonX1, buttonY1, widthOfBoard / 2, heightOfButton);
 
+	// Text in the restart button
 	textSize(35);
 	textAlign(CENTER);
 	textFont("fantasy");
@@ -56,8 +60,10 @@ function drawX(i, j) {
 	let gapW4 = widthOfBoard / 12;
 	strokeWeight(20);
 	stroke(0);
-	line(widthOfBoard / 3 * j + gapW4, heightOfBoard / 3 * i + gapW4, widthOfBoard / 3 * j + 3 * gapW4, heightOfBoard / 3 * i + 3 * gapW4);
-	line(widthOfBoard / 3 * j + 3 * gapW4, heightOfBoard / 3 * i + gapW4, widthOfBoard / 3 * j + gapW4, heightOfBoard / 3 * i + 3 * gapW4);
+	line(widthOfBoard / numberOfColumns * j + gapW4, heightOfBoard / numberOfRows * i + gapW4, 
+	widthOfBoard / numberOfColumns * j + 3 * gapW4, heightOfBoard / numberOfRows * i + 3 * gapW4);
+	line(widthOfBoard / numberOfColumns * j + 3 * gapW4, heightOfBoard / numberOfRows * i + gapW4, 
+	widthOfBoard / numberOfColumns * j + gapW4, heightOfBoard / numberOfRows * i + 3 * gapW4);
 }
 
 function drawO(i, j) {
@@ -65,7 +71,7 @@ function drawO(i, j) {
 	strokeWeight(20);
 	stroke(0);
 	fill(0, 250, 120);
-	ellipse(widthOfBoard / 3 * j + gapW2 , heightOfBoard / 3 * i + gapW2, gapW2, gapW2);
+	ellipse(widthOfBoard / numberOfColumns * j + gapW2 , heightOfBoard / numberOfRows * i + gapW2, gapW2, gapW2);
 }
 
 function winLine(start, end) {
@@ -77,7 +83,8 @@ function winLine(start, end) {
 
 	strokeWeight(10);
 	stroke(255, 0, 0);
-	line(widthOfBoard / 3 * startJ + widthOfBoard / 6, heightOfBoard / 3 * startI + heightOfBoard / 6, widthOfBoard / 3 * endJ + widthOfBoard / 6, heightOfBoard / 3 * endI + heightOfBoard / 6);
+	line(widthOfBoard / 3 * startJ + widthOfBoard / 6, heightOfBoard / 3 * startI + heightOfBoard / 6, 
+	widthOfBoard / 3 * endJ + widthOfBoard / 6, heightOfBoard / 3 * endI + heightOfBoard / 6);
 }
 
 function check4winner() {
@@ -111,6 +118,7 @@ function check4winner() {
 }
 
 function mouseClicked() {
+	// If the mouse is clicked in the region of the restart button
 	if ((buttonX1 <= mouseX && mouseX <= buttonX2) && (buttonY1 <= mouseY && mouseY < buttonY2))
 		setup();
 	
@@ -131,24 +139,27 @@ function mouseClicked() {
 	}
 
 	if (check4winner() === 'Draw') {
+		let sizeOfText = 65;
+
 		noStroke();
-		textSize(65);
+		textSize(sizeOfText);
 		fill(255);
 		textAlign(CENTER);
 		textStyle(BOLD);
-		text('DRAW', 210, 230);
+		text('DRAW', widthOfBoard / 2, (heightOfBoard + heightOfButton) / 2);
 	}
 	else if (check4winner()){
 		let winner;
+		let sizeOfText = 65;
 		const whoIsThePlayer = currentPlayer === 'X' ? winner = "O" : winner = "X";
 	
 		winLine(check4winner()[0], check4winner()[1]);
 		noStroke();
-		textSize(65);
+		textSize(sizeOfText);
 		fill(255,255,102);
 		textAlign(CENTER);
 		textStyle(BOLD);
-		text('GAME OVER', 210, 200);
-		text(winner + " WON", 210, 265);
+		text('GAME OVER', widthOfBoard / 2, heightOfBoard / 2);
+		text(winner + " WON", widthOfBoard / 2, heightOfBoard / 2 + sizeOfText);
 	}
 }
