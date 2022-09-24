@@ -58,21 +58,22 @@ function draw() {
 }
 
 function drawX(i, j) {
-	let gapW4 = widthOfBoard / 12;
+	let lengthOfCorrectionX = widthOfBoard / 12;
 	strokeWeight(20);
 	stroke(0);
-	line(widthOfBoard / numberOfColumns * j + gapW4, heightOfBoard / numberOfRows * i + gapW4, 
-	widthOfBoard / numberOfColumns * j + 3 * gapW4, heightOfBoard / numberOfRows * i + 3 * gapW4);
-	line(widthOfBoard / numberOfColumns * j + 3 * gapW4, heightOfBoard / numberOfRows * i + gapW4, 
-	widthOfBoard / numberOfColumns * j + gapW4, heightOfBoard / numberOfRows * i + 3 * gapW4);
+	line(widthOfBoard / numberOfColumns * j + lengthOfCorrectionX, heightOfBoard / numberOfRows * i + lengthOfCorrectionX, 
+	widthOfBoard / numberOfColumns * j + 3 * lengthOfCorrectionX, heightOfBoard / numberOfRows * i + 3 * lengthOfCorrectionX);
+	line(widthOfBoard / numberOfColumns * j + 3 * lengthOfCorrectionX, heightOfBoard / numberOfRows * i + lengthOfCorrectionX, 
+	widthOfBoard / numberOfColumns * j + lengthOfCorrectionX, heightOfBoard / numberOfRows * i + 3 * lengthOfCorrectionX);
 }
 
 function drawO(i, j) {
-	let gapW2 = widthOfBoard / 6;
+	let lengthOfCorrectionO = widthOfBoard / 6;
+	
 	strokeWeight(20);
 	stroke(0);
 	fill(0, 250, 120);
-	ellipse(widthOfBoard / numberOfColumns * j + gapW2 , heightOfBoard / numberOfRows * i + gapW2, gapW2, gapW2);
+	ellipse(widthOfBoard / numberOfColumns * j + lengthOfCorrectionO , heightOfBoard / numberOfRows * i + lengthOfCorrectionO, lengthOfCorrectionO, lengthOfCorrectionO);
 }
 
 function winLine(start, end) {
@@ -124,8 +125,8 @@ function mouseClicked() {
 		setup();
 	
 	if (mouseY < heightOfBoard && check4winner() === false) {
-		let gapI = floor(mouseY / (widthOfBoard / 3));
-		let gapJ = floor(mouseX / (heightOfBoard / 3));
+		let gapI = floor(mouseY / (widthOfBoard / numberOfColumns));
+		let gapJ = floor(mouseX / (heightOfBoard / numberOfRows));
 		
 		if (currentPlayer === player1 && board[gapI][gapJ] === '') {
 			drawX(gapI, gapJ);

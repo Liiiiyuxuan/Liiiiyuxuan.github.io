@@ -78,3 +78,66 @@ input {
   color: #000000;
   font-family: "Bungee Inline", cursive;
 }
+
+@font-face {
+  font-family: gamefont; src: url('04B_19.TTF');
+}
+
+img {
+  width: 100%;
+}
+
+.column p{
+  text-align: center;
+  font-family: gamefont;
+  font-size: 1.2em;
+}
+
+.columnleft {
+  background-color: white;
+  box-shadow: 0 0 10px 5px rgb(173, 173, 173);
+  border-radius: 3px;
+  overflow: hidden;
+  padding: 1em;
+  width: 33%;
+  float: left;
+  margin-left: 9%;
+  margin-right: 0px;
+  margin-top: 15px;
+}
+
+.columnright {
+  background-color: white;
+  box-shadow: 0 0 10px 5px rgb(173, 173, 173);
+  border-radius: 3px;
+  overflow: hidden;
+  padding: 1em;
+  width: 33%;
+  float: right;
+  margin-right: 9%;
+  margin-top: 15px;
+}
+
+.button {
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.button1 {
+  background-color: #4baf4f; 
+  color: whitesmoke; 
+  border: 2px solid #4baf4f;
+  margin-left: 40%;
+}
+
+.button1:hover {
+  background-color: #308833;
+  color: white;
+}
