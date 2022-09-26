@@ -25,22 +25,22 @@ function drawSquare (squareSize) {
 }
 
 function moveSquare (squareSize) {
-  if (xCoordinate < windowWidth - lengthOfSquare && yCoordinate <= 0) {
+  if (xCoordinate < windowWidth - squareSize && yCoordinate <= 0) {
     adjustSquare(squareSize);
     xCoordinate += speed;
   }
 
-  else if (yCoordinate < windowHeight - lengthOfSquare && xCoordinate >= lengthOfSquare) {
+  else if (yCoordinate < windowHeight - squareSize && xCoordinate >= squareSize) {
     adjustSquare(squareSize);
     yCoordinate += speed;
   }
 
-  else if (xCoordinate > 0 && yCoordinate >= windowHeight - lengthOfSquare) {
+  else if (xCoordinate > 0 && yCoordinate >= windowHeight - squareSize) {
     adjustSquare(squareSize);
     xCoordinate -= speed;
   }
 
-  else if (yCoordinate > 0 && xCoordinate <= lengthOfSquare) {
+  else if (yCoordinate > 0 && xCoordinate <= squareSize) {
     adjustSquare(squareSize);
     yCoordinate -= speed;
   }
@@ -48,16 +48,16 @@ function moveSquare (squareSize) {
 }
 
 function  adjustSquare(squareSize) {
-  if (xCoordinate > windowWidth - lengthOfSquare) {
-    xCoordinate = windowWidth - lengthOfSquare;
+  if (xCoordinate > windowWidth - squareSize) {
+    xCoordinate = windowWidth - squareSize;
   }
 
   if (xCoordinate < 0) {
     xCoordinate = 0;
   }
 
-  if (yCoordinate > windowHeight - lengthOfSquare) {
-    yCoordinate = windowHeight - lengthOfSquare;
+  if (yCoordinate > windowHeight - squareSize) {
+    yCoordinate = windowHeight - squareSize;
   }
 
   if (yCoordinate < 0) {
