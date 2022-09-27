@@ -11,6 +11,7 @@ let buttonX1 = widthOfBoard / 4;
 let buttonX2 = buttonX1 + widthOfBoard / 2;
 let buttonY1 = heightOfBoard;
 let buttonY2 = heightOfBoard + heightOfButton;
+let restartTimer = 10000
 
 
 function setup() {
@@ -149,6 +150,10 @@ function mouseClicked() {
 		textAlign(CENTER);
 		textStyle(BOLD);
 		text('DRAW', widthOfBoard / 2, (heightOfBoard + heightOfButton) / 2);
+
+		if (millis() > restartTimer) {
+			setup()
+		}
 	}
 	else if (check4winner()){
 		let winner;
