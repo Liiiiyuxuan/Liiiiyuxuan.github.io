@@ -203,7 +203,7 @@ class Cell {
     let y = (this.rowNum * size) / rows;
     // console.log(`x =${x}`);
     // console.log(`y =${y}`);
-    ctx.strokeStyle = "#ffffff";
+    ctx.strokeStyle = "white";
     ctx.fillStyle = "black";
     ctx.lineWidth = 2;
     if (this.walls.topWall) this.drawTopWall(x, y, size, columns, rows);
