@@ -1,5 +1,3 @@
-from re import A
-from numpy import number
 import keyboard
 
 
