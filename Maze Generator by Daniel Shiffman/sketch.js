@@ -1,5 +1,5 @@
 let columns, rows;
-let sizeOfCell = 10; // change this value to change the number of cells drawn
+let sizeOfCell = 20; // change this value to change the number of cells drawn
 let ValueForFrameRate = 60; // change this value to change the speed the maze generated
 let grid = [];
 let current; // current cell 
@@ -99,6 +99,20 @@ function removeWalls(a, b) {
   }
 }
 
+function moveObject(a, b) {
+  let i = 0;
+  let j = 0;
+  fill(0, 255, 0);
+  rect(x, y, sizeOfCell, sizeOfCell);
+  if (keyCode === 87 || keyCode === UP_ARROW) {
+    if (i >= 1) {
+      i -= 1;
+    } else {
+      i = i;
+    }
+  }
+}
+
 
 
 class Cell{
@@ -177,9 +191,13 @@ class Cell{
     this.highlight = function() {
       let x = this.i * sizeOfCell;
       let y = this.j * sizeOfCell;
-      noStroke();
-      fill(0, 0, 255, 100);
-      rect(x, y, sizeOfCell, sizeOfCell);
+      if (x != 0 || y != 0) {
+        noStroke();
+        fill(0, 255, 0);
+        rect(x, y, sizeOfCell, sizeOfCell);
+      } else if (x === 0 && y === 0) { // change the colour of the highlighted to be the same as the background
+        fill(255, 0, 255, 100);
+      }
     };
   }
 }
