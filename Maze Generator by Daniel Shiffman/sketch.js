@@ -1,17 +1,20 @@
 let columns, rows;
-let sizeOfCell = 40; // change this value to change the number of cells drawn
-let ValueForFrameRate = 5; // change this value to change the speed the maze generated
+let sizeOfCell = 10; // change this value to change the number of cells drawn
+let ValueForFrameRate = 60; // change this value to change the speed the maze generated
 let grid = [];
 let current; // current cell 
+
+let widthOfCanvas = 400;
+let heightOfCanvas = 400;
 
 // the stack is used to trace back to the cell (visited) with !visited neighbour 
 let stack = [];
 
 
 function setup() {
-  createCanvas(400, 400);
-  columns = floor(width / sizeOfCell);
-  rows = floor(height / sizeOfCell);
+  createCanvas(widthOfCanvas, heightOfCanvas);
+  columns = floor(widthOfCanvas / sizeOfCell);
+  rows = floor(heightOfCanvas / sizeOfCell);
   // lowering the frame rate to see the process of generating a maze
   frameRate(ValueForFrameRate);
 
