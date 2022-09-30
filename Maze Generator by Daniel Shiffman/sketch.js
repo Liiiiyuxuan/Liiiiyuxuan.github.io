@@ -1,5 +1,5 @@
 let columns, rows;
-let sizeOfCell = 20; // change this value to change the number of cells drawn
+let sizeOfCell = 40; // change this value to change the number of cells drawn
 let ValueForFrameRate = 60; // change this value to change the speed the maze generated
 let grid = [];
 let current; // current cell 
@@ -9,6 +9,7 @@ let heightOfCanvas = 400;
 
 // the stack is used to trace back to the cell (visited) with !visited neighbour 
 let stack = [];
+let generateObject;
 
 
 function setup() {
@@ -60,6 +61,7 @@ function draw() {
   }  else if (stack.length > 0) { // we will use the stack.pop() to select a cell visited to access more neighbours 
     current = stack.pop();
   }
+
 }
 
 
@@ -96,20 +98,6 @@ function removeWalls(a, b) {
   } else if (yDifference === -1) {
     a.walls[2] = false;
     b.walls[0] = false;
-  }
-}
-
-function moveObject(a, b) {
-  let i = 0;
-  let j = 0;
-  fill(0, 255, 0);
-  rect(x, y, sizeOfCell, sizeOfCell);
-  if (keyCode === 87 || keyCode === UP_ARROW) {
-    if (i >= 1) {
-      i -= 1;
-    } else {
-      i = i;
-    }
   }
 }
 
@@ -197,6 +185,42 @@ class Cell{
         rect(x, y, sizeOfCell, sizeOfCell);
       } else if (x === 0 && y === 0) { // change the colour of the highlighted to be the same as the background
         fill(255, 0, 255, 100);
+      }
+    };
+
+    this.moveObject = function () {
+      let x = this.i * sizeOfCell;
+      let y = this.j * sizeOfCell;
+
+      fill(0, 255, 0);
+      rect(x, y, sizeOfCell, sizeOfCell);
+    
+      if ((keyCode === 87 || keyCode === UP_ARROW) && this.walls[0] === false) {
+        if (y >= 1) {
+          y -= 1;
+        } else {
+          y = y;
+        }
+      }
+    
+      if ((keyCode === 68 || keyCode === RIGHT_ARROW) && this.walls[1] === false) {
+        if (x <= columns - 1) {
+          x += 1;
+        } else {
+          x = x;
+        }
+      }
+    
+      if ((keyCode === 83 || keyCode === DOWN_ARROW) && this.walls[2] === false) {
+          y += 1;
+      }
+    
+      if ((keyCode === 63 || keyCode === LEFT_ARROW) && this.walls[3] === false) {
+        if (x >= 1) {
+          x -= 1;
+        } else {
+          x = x;
+        }
       }
     };
   }
