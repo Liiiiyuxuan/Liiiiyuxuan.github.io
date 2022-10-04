@@ -206,26 +206,21 @@ class Cell{
       fill(0, 255, 0);
       rect(x + 2, y + 2, sizeOfCell - 4, sizeOfCell - 4);
     
-      if ((keyIsDown(87) || keyIsDown(UP_ARROW)) && this.walls[0] === false) {
+
+      if ((keyCode === 87 || keyCode === UP_ARROW) && this.walls[0] === false) {
         let state = this.j >= 1 ? this.j -= 1 : this.j = this.j;
-        j -= 1;
       }
     
-      if ((keyIsDown(68) || keyIsDown(RIGHT_ARROW)) && this.walls[1] === false) {
-        let state = this.i <= columns - 1 ? this.i += 1 : this.i = this.i;
-        i += 1;
-        console.log("right");
+      if ((keyCode === 68 || keyCode === RIGHT_ARROW) && this.walls[1] === false) {
+        let state = this.i <= columns - 1 ? this.i += this.i : this.i = this.i;
       }
     
-      if ((keyIsDown(83) || keyIsDown(DOWN_ARROW)) && this.walls[2] === false) {
-        let state = this.j <= rows - 1 ? this.j += 1 : this.j = this.j;
-        j += 1;
-        console.log("down");
+      if ((keyCode === 83 || keyCode === DOWN_ARROW) && this.walls[2] === false) {
+        let state = this.j <= columns - 1 ? this.j += this.j : this.j = this.j;
       }
     
-      if ((keyIsDown(63) || keyIsDown(LEFT_ARROW)) && this.walls[3] === false) {
+      if ((keyCode === 63 || keyCode === LEFT_ARROW) && this.walls[3] === false) {
         let state = this.i >= 1 ? this.i -= 1 : this.i = this.i;
-        i -= 1;
       }
     };
   }
