@@ -9,7 +9,10 @@ let heightOfCanvas = 400;
 
 // the stack is used to trace back to the cell (visited) with !visited neighbour 
 let stack = [];
-let generateObject;
+let generationComplete;
+
+
+
 
 
 function setup() {
@@ -61,6 +64,11 @@ function draw() {
   }  else if (stack.length > 0) { // we will use the stack.pop() to select a cell visited to access more neighbours 
     current = stack.pop();
   }
+
+  if (stack.length === 0) {
+    current.moveObject();
+  }
+
 }
 
 
@@ -184,10 +192,56 @@ class Cell{
         rect(x, y, sizeOfCell, sizeOfCell);
       } else if (x === 0 && y === 0) { // change the colour of the highlighted to be the same as the background
         fill(255, 0, 255, 100);
-        if (millis() > 1000) {
-          generateObject = true;
+      }
+    };
+
+    this.moveObject = function () {
+      let x = this.i * sizeOfCell;
+      let y = this.j * sizeOfCell;
+
+      fill(0, 255, 0);
+      rect(x, y, sizeOfCell, sizeOfCell);
+    
+      if ((keyCode === 87 || keyCode === UP_ARROW) && this.walls[0] === false) {
+        if (this.j >= 1) {
+          this.j -= 1;
+          return;
+        } else {
+          this.j = this.j;
+          return;
+        }
+      }
+    
+      if ((keyCode === 68 || keyCode === RIGHT_ARROW) && this.walls[1] === false) {
+        if (this.i <= columns - 1) {
+          this.i += 1;
+          return;
+        } else {
+          this.i = this.i;
+          return;
+        }
+      }
+    
+      if ((keyCode === 83 || keyCode === DOWN_ARROW) && this.walls[2] === false) {
+        if (this.j <= rows - 1) {
+          this.j += 1;
+          return;
+        } else {
+          this.j = this.j;
+          return;
+        }
+      }
+    
+      if ((keyCode === 63 || keyCode === LEFT_ARROW) && this.walls[3] === false) {
+        if (this.i >= 1) {
+          this.i -= 1;
+          return;
+        } else {
+          this.i = this.i;
+          return;
         }
       }
     };
   }
 }
+
