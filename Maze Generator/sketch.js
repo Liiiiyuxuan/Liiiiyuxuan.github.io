@@ -1,5 +1,5 @@
 let columns, rows;
-let sizeOfCell = 40; // change this value to change the number of cells drawn
+let sizeOfCell = 80; // change this value to change the number of cells drawn
 let ValueForFrameRate = 60; // change this value to change the speed the maze generated
 let grid = [];
 let current; // current cell 
@@ -204,7 +204,7 @@ class Cell{
       let y = this.j * sizeOfCell;
 
       fill(0, 255, 0);
-      rect(x, y, sizeOfCell, sizeOfCell);
+      rect(x + 2, y + 2, sizeOfCell - 4, sizeOfCell - 4);
     
       if ((keyIsDown(87) || keyIsDown(UP_ARROW)) && this.walls[0] === false) {
         let state = this.j >= 1 ? this.j -= 1 : this.j = this.j;
