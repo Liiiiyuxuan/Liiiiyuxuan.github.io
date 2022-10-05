@@ -73,6 +73,28 @@ function draw() {
     object.moveObject();
   }
 
+      
+  // if ((keyCode === 87 || keyCode === UP_ARROW) && this.walls[0] === false) {
+  //   let state = i >= 1 ? "upward" : "nothing";
+  //   console.log(state);
+  // }
+
+  // if ((keyCode === 68 || keyCode === RIGHT_ARROW) && this.walls[1] === false) {
+  //   let state = x <= columns - 1 ? "rightward" : "";
+  //   console.log(state);
+  // }
+
+  // if ((keyCode === 83 || keyCode === DOWN_ARROW) && this.walls[2] === false) {
+  //   let state = y <= rows - 1 ? "downward" : "";
+  //   console.log(state);
+  // }
+
+  // if ((keyCode === 63 || keyCode === LEFT_ARROW) && this.walls[3] === false) {
+  //   let state = x >= 1 ? "leftward" : "";
+  //   console.log(state);
+  // }
+
+
 }
 
 
