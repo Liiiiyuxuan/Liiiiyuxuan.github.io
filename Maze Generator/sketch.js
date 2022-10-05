@@ -76,7 +76,7 @@ function draw() {
     y = object.j * sizeOfCell;
     noStroke();
     fill(0, 255, 0);
-    rect(x, y, sizeOfCell, sizeOfCell);
+    rect(x + 1, y + 1, sizeOfCell - 2, sizeOfCell - 2); // make sure the square drawn is not attached to the walls of the cells
 
     if ((keyCode === 87 || keyCode === UP_ARROW) && object.walls[0] === false) {
       if (j >= 1) {
@@ -85,6 +85,7 @@ function draw() {
     }
 
     if ((keyCode === 68 || keyCode === RIGHT_ARROW) && object.walls[1] === false) {
+      console.log("right");
       if (i <= columns - 1) {
         i += 1;
         console.log("right");
@@ -92,6 +93,7 @@ function draw() {
     }
 
     if ((keyCode === 83 || keyCode === DOWN_ARROW) && object.walls[2] === false) {
+      console.log("down");
       if (j <= rows - 1) {
         j += 1;
         console.log("down");
