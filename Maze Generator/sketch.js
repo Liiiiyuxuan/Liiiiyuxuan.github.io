@@ -11,6 +11,8 @@ let heightOfCanvas = 400;
 let stack = [];
 let generationComplete;
 
+let array = [];
+
 
 
 
@@ -66,6 +68,7 @@ function draw() {
   }
 
   if (stack.length === 0) {
+    console.log(array); ///////////////////////////////////////////////////////////////////////////////////////////
     let i = 0;
     let j = 0;
     let x;
@@ -76,40 +79,32 @@ function draw() {
     y = object.j * sizeOfCell;
     noStroke();
     fill(0, 255, 0);
-    rect(x + 1, y + 1, sizeOfCell - 2, sizeOfCell - 2); // make sure the square drawn is not attached to the walls of the cells
+    rect(x + 2, y + 2, sizeOfCell - 4, sizeOfCell - 4); // make sure the square drawn is not attached to the walls of the cells
 
-    if ((keyCode === 87 || keyCode === UP_ARROW) && object.walls[0] === false) {
-      if (j >= 1) {
-        j -= 1;
-      }
-    }
-
-    if ((keyCode === 68 || keyCode === RIGHT_ARROW) && object.walls[1] === false) {
-      console.log("right");
-      if (i <= columns - 1) {
-        i += 1;
-        console.log("right");
-      }
-    }
-
-    if ((keyCode === 83 || keyCode === DOWN_ARROW) && object.walls[2] === false) {
-      console.log("down");
-      if (j <= rows - 1) {
-        j += 1;
-        console.log("down");
-      }
-    }
-
-    if ((keyCode === 63 || keyCode === LEFT_ARROW) && object.walls[3] === false) {
-      if (i >= 1) {
-        i -= 1;
-      }
-    }
+    moveObject(object, i, j);
   }
 
 }
 
 
+
+function moveObject(cell, i, j) {
+  if (keyCode === UP_ARROW && cell.walls[0] === false && j >= 1) {
+    j -= 1;
+  }
+
+  if (keyCode === RIGHT_ARROW && cell.walls[1] === false && i <= columns - 1) {
+    i += 1;
+  }
+
+  if (keyCode === DOWN_ARROW && cell.walls[2] === false && j <= rows - 1) {
+    j += 1;
+  }
+
+  if (keyCode === LEFT_ARROW && cell.walls[3] === false && i >= 1) {
+    i -= 1;
+  }
+}
 
 // function calculates the index used to help us access(check) the neighbouring cells if they have been visited
 function calculateIndex(i, j) {
@@ -125,6 +120,7 @@ function calculateIndex(i, j) {
 }
 
 function removeWalls(a, b) {
+  array.push(a); ///////////////////////////////////////////////////////////////////////////////////////////////
   let xDifference = a.i - b.i;
   // remove the right/left walls of the two adjacent cells according to the difference between their x-coordinates
   if (xDifference === 1) {
