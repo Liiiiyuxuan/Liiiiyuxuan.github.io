@@ -68,32 +68,42 @@ function draw() {
   if (stack.length === 0) {
     let i = 0;
     let j = 0;
+    let x;
+    let y;
 
     let object = new Cell(i, j);
-    object.moveObject();
+    x = object.i * sizeOfCell;
+    y = object.j * sizeOfCell;
+    noStroke();
+    fill(0, 255, 0);
+    rect(x, y, sizeOfCell, sizeOfCell);
+
+    if ((keyCode === 87 || keyCode === UP_ARROW) && object.walls[0] === false) {
+      if (j >= 1) {
+        j -= 1;
+      }
+    }
+
+    if ((keyCode === 68 || keyCode === RIGHT_ARROW) && object.walls[1] === false) {
+      if (i <= columns - 1) {
+        i += 1;
+        console.log("right");
+      }
+    }
+
+    if ((keyCode === 83 || keyCode === DOWN_ARROW) && object.walls[2] === false) {
+      if (j <= rows - 1) {
+        j += 1;
+        console.log("down");
+      }
+    }
+
+    if ((keyCode === 63 || keyCode === LEFT_ARROW) && object.walls[3] === false) {
+      if (i >= 1) {
+        i -= 1;
+      }
+    }
   }
-
-      
-  // if ((keyCode === 87 || keyCode === UP_ARROW) && this.walls[0] === false) {
-  //   let state = i >= 1 ? "upward" : "nothing";
-  //   console.log(state);
-  // }
-
-  // if ((keyCode === 68 || keyCode === RIGHT_ARROW) && this.walls[1] === false) {
-  //   let state = x <= columns - 1 ? "rightward" : "";
-  //   console.log(state);
-  // }
-
-  // if ((keyCode === 83 || keyCode === DOWN_ARROW) && this.walls[2] === false) {
-  //   let state = y <= rows - 1 ? "downward" : "";
-  //   console.log(state);
-  // }
-
-  // if ((keyCode === 63 || keyCode === LEFT_ARROW) && this.walls[3] === false) {
-  //   let state = x >= 1 ? "leftward" : "";
-  //   console.log(state);
-  // }
-
 
 }
 
@@ -218,31 +228,6 @@ class Cell{
         rect(x, y, sizeOfCell, sizeOfCell);
       } else if (x === 0 && y === 0) { // change the colour of the highlighted to be the same as the background
         fill(255, 0, 255, 100);
-      }
-    };
-
-    this.moveObject = function () {
-      let x = this.i * sizeOfCell;
-      let y = this.j * sizeOfCell;
-
-      fill(0, 255, 0);
-      rect(x + 2, y + 2, sizeOfCell - 4, sizeOfCell - 4);
-    
-
-      if ((keyCode === 87 || keyCode === UP_ARROW) && this.walls[0] === false) {
-        let state = this.j >= 1 ? this.j -= 1 : this.j = this.j;
-      }
-    
-      if ((keyCode === 68 || keyCode === RIGHT_ARROW) && this.walls[1] === false) {
-        let state = this.i <= columns - 1 ? this.i += this.i : this.i = this.i;
-      }
-    
-      if ((keyCode === 83 || keyCode === DOWN_ARROW) && this.walls[2] === false) {
-        let state = this.j <= columns - 1 ? this.j += this.j : this.j = this.j;
-      }
-    
-      if ((keyCode === 63 || keyCode === LEFT_ARROW) && this.walls[3] === false) {
-        let state = this.i >= 1 ? this.i -= 1 : this.i = this.i;
       }
     };
   }
