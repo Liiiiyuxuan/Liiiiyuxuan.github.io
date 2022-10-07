@@ -16,7 +16,6 @@ let array = [];
 
 
 
-
 function setup() {
   createCanvas(widthOfCanvas, heightOfCanvas);
   columns = floor(widthOfCanvas / sizeOfCell);
@@ -68,41 +67,55 @@ function draw() {
   }
 
   if (stack.length === 0) {
-    console.log(array); ///////////////////////////////////////////////////////////////////////////////////////////
+    //console.log(array); ///////////////////////////////////////////////////////////////////////////////////////////
     let i = 0;
     let j = 0;
-    let x;
-    let y;
 
-    let object = new Cell(i, j);
-    x = object.i * sizeOfCell;
-    y = object.j * sizeOfCell;
     noStroke();
     fill(0, 255, 0);
-    rect(x + 2, y + 2, sizeOfCell - 4, sizeOfCell - 4); // make sure the square drawn is not attached to the walls of the cells
 
-    moveObject(object, i, j);
+    // make sure the square drawn is not attached to the walls of the cells
+    rect(i * sizeOfCell + 2, j * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
+
+    moveObject(i, j);
+    console.log([i, j]);
   }
 
 }
 
 
 
-function moveObject(cell, i, j) {
-  if (keyCode === UP_ARROW && cell.walls[0] === false && j >= 1) {
-    j -= 1;
-  }
+function moveObject(i, j) {
+  let counter;
+  let constant;
 
-  if (keyCode === RIGHT_ARROW && cell.walls[1] === false && i <= columns - 1) {
-    i += 1;
-  }
+  for (counter = 0; counter < array.length; counter++) {
+    
+    // the array constains all the cells with their coordinates and their wall lists (four booleans inside)
+    if (array[counter].i === i && array[counter].j === j) {
+      // the constant will not change, so the following codes can be operated peoperly
+      constant = counter;
 
-  if (keyCode === DOWN_ARROW && cell.walls[2] === false && j <= rows - 1) {
-    j += 1;
-  }
-
-  if (keyCode === LEFT_ARROW && cell.walls[3] === false && i >= 1) {
-    i -= 1;
+      if (keyCode === UP_ARROW && array[constant].walls[0] === false && j >= 1) {
+        console.log("up");
+        j -= 1;
+      }
+    
+      if (keyCode === RIGHT_ARROW && array[constant].walls[1] === false && i <= columns - 1) {
+        console.log("right");
+        i += 1;
+      }
+    
+      if (keyCode === DOWN_ARROW && array[constant].walls[2] === false && j <= rows - 1) {
+        console.log("down");
+        j += 1;
+      }
+    
+      if (keyCode === LEFT_ARROW && array[constant].walls[3] === false && i >= 1) {
+        console.log("left");
+        i -= 1;
+      }
+    }
   }
 }
 
