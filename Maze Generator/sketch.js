@@ -13,6 +13,12 @@ let generationComplete;
 
 let array = [];
 
+let xValue = 0;
+let yValue = 0;
+
+
+
+
 
 
 
@@ -68,17 +74,14 @@ function draw() {
 
   if (stack.length === 0) {
     //console.log(array); ///////////////////////////////////////////////////////////////////////////////////////////
-    let i = 0;
-    let j = 0;
 
     noStroke();
     fill(0, 255, 0);
 
     // make sure the square drawn is not attached to the walls of the cells
-    rect(i * sizeOfCell + 2, j * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
+    rect(xValue * sizeOfCell + 2, yValue * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
 
-    moveObject(i, j);
-    console.log([i, j]);
+    moveObject(xValue, yValue);
   }
 
 }
@@ -99,7 +102,7 @@ function moveObject(i, j) {
       if (keyCode === UP_ARROW && array[constant].walls[0] === false && j >= 1) {
         console.log("up");
         j -= 1;
-      }
+    }
     
       if (keyCode === RIGHT_ARROW && array[constant].walls[1] === false && i <= columns - 1) {
         console.log("right");
