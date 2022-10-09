@@ -102,7 +102,7 @@ function moveObject(i, j) {
       if (keyCode === UP_ARROW && array[constant].walls[0] === false && j >= 1) {
         console.log("up");
         j -= 1;
-    }
+      }
     
       if (keyCode === RIGHT_ARROW && array[constant].walls[1] === false && i <= columns - 1) {
         console.log("right");
