@@ -1,3 +1,6 @@
+// Established class to help creating cells in the canvas.
+
+
 let columns, rows;
 let sizeOfCell = 80; // change this value to change the number of cells drawn
 let ValueForFrameRate = 60; // change this value to change the speed the maze generated
@@ -73,7 +76,7 @@ function draw() {
   }
 
   if (stack.length === 0) {
-    //console.log(array); ///////////////////////////////////////////////////////////////////////////////////////////
+    // console.log(array); //Used for the purpose of debugging/////////////////////////////////////////////////////
 
     noStroke();
     fill(0, 255, 0);
@@ -81,41 +84,52 @@ function draw() {
     // make sure the square drawn is not attached to the walls of the cells
     rect(xValue * sizeOfCell + 2, yValue * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
 
-    moveObject(xValue, yValue);
+    moveObject();
   }
 }
 
 
 
-function moveObject(i, j) {
+function moveObject() {
   let counter;
   let constant;
+  let state;
 
   for (counter = 0; counter < array.length; counter++) {
     
     // the array constains all the cells with their coordinates and their wall lists (four booleans inside)
-    if (array[counter].i === i && array[counter].j === j) {
+    if (array[counter].i === xValue && array[counter].j === yValue) {
       // the constant will not change, so the following codes can be operated peoperly
       constant = counter;
 
-      if (keyCode === UP_ARROW && array[constant].walls[0] === false && j >= 1) {
-        console.log("up");
-        j -= 1;
+      if (keyCode === UP_ARROW && array[constant].walls[0] === false && yValue >= 1) {
+        state = "up";
       }
     
-      if (keyCode === RIGHT_ARROW && array[constant].walls[1] === false && i <= columns - 1) {
-        console.log("right");
-        i += 1;
+      if (keyCode === RIGHT_ARROW && array[constant].walls[1] === false && xValue <= columns - 1) {
+        state = "right";
       }
     
-      if (keyCode === DOWN_ARROW && array[constant].walls[2] === false && j <= rows - 1) {
-        console.log("down");
-        j += 1;
+      if (keyCode === DOWN_ARROW && array[constant].walls[2] === false && yValue <= rows - 1) {
+        state = "down";
       }
     
-      if (keyCode === LEFT_ARROW && array[constant].walls[3] === false && i >= 1) {
-        console.log("left");
-        i -= 1;
+      if (keyCode === LEFT_ARROW && array[constant].walls[3] === false && xValue >= 1) {
+        state = "left";
+      }
+
+      if (state === "up") {
+        yValue -= 1;
+        state = "";
+      } else if (state === "right") {
+        xValue += 1;
+        state = "";
+      } else if (state === "down") {
+        yValue += 1;
+        state = "";
+      } else if (state === "left") {
+        xValue -= 1;
+        state = "";
       }
     }
   }
@@ -135,7 +149,8 @@ function calculateIndex(i, j) {
 }
 
 function removeWalls(a, b) {
-  array.push(a); ///////////////////////////////////////////////////////////////////////////////////////////////
+  array.push(a);///////////////////////////////////////////////////////////////////////////////////////////////
+  array.push(b);///////////////////////////////////////////////////////////////////////////////////////////////
   let xDifference = a.i - b.i;
   // remove the right/left walls of the two adjacent cells according to the difference between their x-coordinates
   if (xDifference === 1) {
@@ -239,8 +254,6 @@ class Cell{
         noStroke();
         fill(0, 255, 0);
         rect(x, y, sizeOfCell, sizeOfCell);
-      } else if (x === 0 && y === 0) { // change the colour of the highlighted to be the same as the background
-        fill(255, 0, 255, 100);
       }
     };
   }
