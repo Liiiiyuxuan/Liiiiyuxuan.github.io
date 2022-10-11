@@ -83,7 +83,6 @@ function draw() {
 
     moveObject(xValue, yValue);
   }
-
 }
 
 
