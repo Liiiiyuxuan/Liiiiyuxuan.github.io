@@ -12,8 +12,8 @@ let generationComplete;
 
 let array = [];
 
-let listofColour = ["maroon", "red", "purple", "fuchsia", "green", "lime", "olive", "yellow", "navy", "blue", "teal", "aqua"];
-let chosenColour = listofColour[round(random(0, listofColour.length - 1))];
+// let listOfColour = ["maroon", "red", "purple", "fuchsia", "green", "lime", "olive", "yellow", "navy", "blue", "teal", "aqua"];
+// let chosenColour = listOfColour[round(random(0, listOfColour.length - 1))];
 
 let xValue = 0;
 let yValue = 0;
@@ -74,7 +74,7 @@ function draw() {
     // console.log(array); //Used for the purpose of debugging/////////////////////////////////////////////////////
 
     noStroke();
-    fill(chosenColour);
+    fill("yellow");
 
     // make sure the square drawn is not attached to the walls of the cells
     rect(xValue * sizeOfCell + 2, yValue * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
@@ -91,7 +91,7 @@ function keyPressed() {
 // function mousePressed() {
 //   if (mouseX >= xValue * sizeOfCell + 2 && mouseX <= (xValue + 1) * sizeOfCell - 2 && 
 //   mouseY >= yValue * sizeOfCell + 2 && mouseY <= (yValue + 1) * sizeOfCell - 2) {
-//         chosenColour =  listofColour[round(random(0, listofColour.length - 1))];
+//         chosenColour =  listOfColour[round(random(0, listOfColour.length - 1))];
 //       }
 // }
 
