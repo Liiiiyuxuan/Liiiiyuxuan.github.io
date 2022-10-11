@@ -88,12 +88,12 @@ function keyPressed() {
   moveObject();
 }
 
-function mousePressed() {
-  if (mouseX >= xValue * sizeOfCell + 2 && mouseX <= (xValue + 1) * sizeOfCell - 2 && 
-  mouseY >= yValue * sizeOfCell + 2 && mouseY <= (yValue + 1) * sizeOfCell - 2) {
-        chosenColour =  listofColour[Math.round(random(0, listofColour.length - 1))];
-      }
-}
+// function mousePressed() {
+//   if (mouseX >= xValue * sizeOfCell + 2 && mouseX <= (xValue + 1) * sizeOfCell - 2 && 
+//   mouseY >= yValue * sizeOfCell + 2 && mouseY <= (yValue + 1) * sizeOfCell - 2) {
+//         chosenColour =  listofColour[round(random(0, listofColour.length - 1))];
+//       }
+// }
 
 
 
