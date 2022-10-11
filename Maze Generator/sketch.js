@@ -13,7 +13,7 @@ let generationComplete;
 let array = [];
 
 let listofColour = ["maroon", "red", "purple", "fuchsia", "green", "lime", "olive", "yellow", "navy", "blue", "teal", "aqua"];
-let chosenColour = listofColour[Math.round(random(0, listofColour.length - 1))];
+let chosenColour = listofColour[round(random(0, listofColour.length - 1))];
 
 let xValue = 0;
 let yValue = 0;
