@@ -1,5 +1,4 @@
-// Established class to help creating cells in the canvas.
-
+// 
 
 let columns, rows;
 let sizeOfCell = 80; // change this value to change the number of cells drawn
@@ -7,28 +6,24 @@ let ValueForFrameRate = 60; // change this value to change the speed the maze ge
 let grid = [];
 let current; // current cell 
 
-let widthOfCanvas = 400;
-let heightOfCanvas = 400;
-
 // the stack is used to trace back to the cell (visited) with !visited neighbour 
 let stack = [];
 let generationComplete;
 
 let array = [];
 
+let listofColour = ["maroon", "red", "purple", "fuchsia", "green", "lime", "olive", "yellow", "navy", "blue", "teal", "aqua"];
+let chosenColour = listofColour[Math.round(random(0, listofColour.length - 1))];
+
 let xValue = 0;
 let yValue = 0;
 
 
 
-
-
-
-
 function setup() {
-  createCanvas(widthOfCanvas, heightOfCanvas);
-  columns = floor(widthOfCanvas / sizeOfCell);
-  rows = floor(heightOfCanvas / sizeOfCell);
+  createCanvas(windowWidth, windowHeight);
+  columns = floor(windowWidth / sizeOfCell);
+  rows = floor(windowHeight / sizeOfCell);
   // lowering the frame rate to see the process of generating a maze
   frameRate(ValueForFrameRate);
 
@@ -79,13 +74,25 @@ function draw() {
     // console.log(array); //Used for the purpose of debugging/////////////////////////////////////////////////////
 
     noStroke();
-    fill(0, 255, 0);
+    fill(chosenColour);
 
     // make sure the square drawn is not attached to the walls of the cells
     rect(xValue * sizeOfCell + 2, yValue * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
 
-    moveObject();
+  
+
   }
+}
+
+function keyPressed() {
+  moveObject();
+}
+
+function mousePressed() {
+  if (mouseX >= xValue * sizeOfCell + 2 && mouseX <= (xValue + 1) * sizeOfCell - 2 && 
+  mouseY >= yValue * sizeOfCell + 2 && mouseY <= (yValue + 1) * sizeOfCell - 2) {
+        chosenColour =  listofColour[Math.round(random(0, listofColour.length - 1))];
+      }
 }
 
 
@@ -93,7 +100,6 @@ function draw() {
 function moveObject() {
   let counter;
   let constant;
-  let state;
 
   for (counter = 0; counter < array.length; counter++) {
     
@@ -103,33 +109,23 @@ function moveObject() {
       constant = counter;
 
       if (keyCode === UP_ARROW && array[constant].walls[0] === false && yValue >= 1) {
-        state = "up";
+        yValue -= 1;
+        return;
       }
     
       if (keyCode === RIGHT_ARROW && array[constant].walls[1] === false && xValue <= columns - 1) {
-        state = "right";
+        xValue += 1;
+        return;
       }
     
       if (keyCode === DOWN_ARROW && array[constant].walls[2] === false && yValue <= rows - 1) {
-        state = "down";
+        yValue += 1;
+        return;
       }
     
       if (keyCode === LEFT_ARROW && array[constant].walls[3] === false && xValue >= 1) {
-        state = "left";
-      }
-
-      if (state === "up") {
-        yValue -= 1;
-        state = "";
-      } else if (state === "right") {
-        xValue += 1;
-        state = "";
-      } else if (state === "down") {
-        yValue += 1;
-        state = "";
-      } else if (state === "left") {
         xValue -= 1;
-        state = "";
+        return;
       }
     }
   }
@@ -241,7 +237,7 @@ class Cell{
 
       if (this.visited) {
         noStroke();
-        fill(255, 0, 255, 100);
+        fill("black");
         rect(x, y, sizeOfCell, sizeOfCell);
       }
 
