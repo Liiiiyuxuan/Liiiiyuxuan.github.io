@@ -41,7 +41,7 @@ function setup() {
 }
 
 function draw() {
-  background(51);
+  background("gray");
 
   // the show() function is defined in the Cell class, which is used to draw the walls of the cells
   for (let i = 0; i < grid.length; i++) {
