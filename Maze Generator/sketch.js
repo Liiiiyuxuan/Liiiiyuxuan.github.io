@@ -8,14 +8,14 @@ let current; // current cell
 
 // the stack is used to trace back to the cell (visited) with !visited neighbour 
 let stack = [];
-let generationComplete;
 
-let array = [];
+// array is used to store all the cells created with their coordinates and wall status
+let array = []; 
 
-// let listOfColour = ["maroon", "red", "purple", "fuchsia", "green", "lime", "olive", "yellow", "navy", "blue", "teal", "aqua"];
-// let chosenColour = listOfColour[round(random(0, listOfColour.length - 1))];
+let listOfColour = ["maroon", "red", "purple", "fuchsia", "green", "lime", "olive", "yellow", "navy", "blue", "teal", "aqua"];
+let chosenColour = listOfColour[floor(random(0, listOfColour.length - 1))];
 
-let xValue = 0;
+let xValue = 0; // used in the moveObject() function indicates that we start from the top left cell
 let yValue = 0;
 
 
@@ -74,7 +74,8 @@ function draw() {
     // console.log(array); //Used for the purpose of debugging/////////////////////////////////////////////////////
 
     noStroke();
-    fill("yellow");
+    // colour of the object
+    fill(chosenColour);
 
     // make sure the square drawn is not attached to the walls of the cells
     rect(xValue * sizeOfCell + 2, yValue * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
@@ -88,12 +89,12 @@ function keyPressed() {
   moveObject();
 }
 
-// function mousePressed() {
-//   if (mouseX >= xValue * sizeOfCell + 2 && mouseX <= (xValue + 1) * sizeOfCell - 2 && 
-//   mouseY >= yValue * sizeOfCell + 2 && mouseY <= (yValue + 1) * sizeOfCell - 2) {
-//         chosenColour =  listOfColour[round(random(0, listOfColour.length - 1))];
-//       }
-// }
+function mousePressed() {
+  if (mouseX >= xValue * sizeOfCell + 2 && mouseX <= (xValue + 1) * sizeOfCell - 2 && 
+  mouseY >= yValue * sizeOfCell + 2 && mouseY <= (yValue + 1) * sizeOfCell - 2) {
+        chosenColour =  listOfColour[floor(random(0, listOfColour.length - 1))];
+      }
+}
 
 
 
@@ -235,6 +236,7 @@ class Cell{
 
       };
 
+      // draw the visited cells
       if (this.visited) {
         noStroke();
         fill("black");
