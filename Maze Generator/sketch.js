@@ -1,4 +1,16 @@
-// 
+// basic: Randomly generated maze using the methods of class and array. Sound effect is also added in the maze game. 
+//        Player can move the object in the maze (after the maze is completely generated) by using WASD or the arrows.
+//        Player is able to change the colour of the object by clicking the object itself. (Still works after it has been moved)
+//        The size of the maze is depending on the size of the window, which means player can adjust the size of the maze prior to creating it.
+//        (However, the size of the maze is fixed after it statrs generating)
+//        
+
+// class: Class method is been used to create each cell in the maze for convenience becuase all the cell "behave" in the same way.
+
+// array:
+
+// sound: 
+
 
 let columns, rows;
 let sizeOfCell = 80; // change this value to change the number of cells drawn
@@ -98,10 +110,10 @@ function draw() {
     // make sure the square drawn is not attached to the walls of the cells
     rect(xValue * sizeOfCell + 2, yValue * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
 
-    if (xValue === columns - 1 && yValue === rows - 1) {
-      youWin();
-      return;
-    }
+    // if (xValue === columns - 1 && yValue === rows - 1) {
+    //   youWin();
+    //   return;
+    // }
   }
 }
 
@@ -133,25 +145,25 @@ function moveObject() {
       // the constant will not change, so the following codes can be operated peoperly
       constant = counter;
 
-      if (keyCode === UP_ARROW && array[constant].walls[0] === false && yValue >= 1) {
+      if ((keyCode === UP_ARROW || keyCode === 87) && array[constant].walls[0] === false && yValue >= 1) {
         playRetroClick();
         yValue -= 1;
         return;
       }
     
-      if (keyCode === RIGHT_ARROW && array[constant].walls[1] === false && xValue <= columns - 1) {
+      if ((keyCode === RIGHT_ARROW || keyCode === 68) && array[constant].walls[1] === false && xValue <= columns - 1) {
         playRetroClick();
         xValue += 1;
         return;
       }
     
-      if (keyCode === DOWN_ARROW && array[constant].walls[2] === false && yValue <= rows - 1) {
+      if ((keyCode === DOWN_ARROW || keyCode === 83) && array[constant].walls[2] === false && yValue <= rows - 1) {
         playRetroClick();
         yValue += 1;
         return;
       }
     
-      if (keyCode === LEFT_ARROW && array[constant].walls[3] === false && xValue >= 1) {
+      if ((keyCode === LEFT_ARROW || keyCode === 65) && array[constant].walls[3] === false && xValue >= 1) {
         playRetroClick();
         xValue -= 1;
         return;
