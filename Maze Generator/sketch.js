@@ -13,10 +13,27 @@ let stack = [];
 let array = []; 
 
 let listOfColour = ["maroon", "red", "purple", "fuchsia", "green", "lime", "olive", "yellow", "navy", "blue", "teal", "aqua"];
-let chosenColour = listOfColour[floor(random(0, listOfColour.length - 1))];
+let chosenColour;
 
 let xValue = 0; // used in the moveObject() function indicates that we start from the top left cell
 let yValue = 0;
+
+let retroClick;
+
+function preload() {
+  soundFormats('mp3', 'wav', 'ogg');
+  retroClick = loadSound('retro-click.wav');
+  bling = loadSound('bling.wav');
+}
+
+function playRetroClick() {
+  retroClick.play();
+}
+
+function playBling() {
+  bling.play();
+}
+
 
 
 
@@ -26,6 +43,7 @@ function setup() {
   rows = floor(windowHeight / sizeOfCell);
   // lowering the frame rate to see the process of generating a maze
   frameRate(ValueForFrameRate);
+  chosenColour = listOfColour[floor(random(0, listOfColour.length - 1))];
 
   for (let j = 0; j < rows; j++) {
     for (let i = 0; i < columns; i++) {
@@ -80,6 +98,10 @@ function draw() {
     // make sure the square drawn is not attached to the walls of the cells
     rect(xValue * sizeOfCell + 2, yValue * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
 
+    if (xValue === columns - 1 && yValue === rows - 1) {
+      youWin();
+      return;
+    }
   }
 }
 
@@ -92,9 +114,11 @@ function keyPressed() {
 function mousePressed() {
   if (mouseX >= xValue * sizeOfCell + 2 && mouseX <= (xValue + 1) * sizeOfCell - 2 && 
   mouseY >= yValue * sizeOfCell + 2 && mouseY <= (yValue + 1) * sizeOfCell - 2) {
+    playBling();
     chosenColour =  listOfColour[floor(random(0, listOfColour.length - 1))];
   }
 }
+
 
 
 
@@ -110,26 +134,35 @@ function moveObject() {
       constant = counter;
 
       if (keyCode === UP_ARROW && array[constant].walls[0] === false && yValue >= 1) {
+        playRetroClick();
         yValue -= 1;
         return;
       }
     
       if (keyCode === RIGHT_ARROW && array[constant].walls[1] === false && xValue <= columns - 1) {
+        playRetroClick();
         xValue += 1;
         return;
       }
     
       if (keyCode === DOWN_ARROW && array[constant].walls[2] === false && yValue <= rows - 1) {
+        playRetroClick();
         yValue += 1;
         return;
       }
     
       if (keyCode === LEFT_ARROW && array[constant].walls[3] === false && xValue >= 1) {
+        playRetroClick();
         xValue -= 1;
         return;
       }
     }
   }
+}
+
+function youWin() {
+  alert("YOU WON!");
+  return;
 }
 
 // function calculates the index used to help us access(check) the neighbouring cells if they have been visited
