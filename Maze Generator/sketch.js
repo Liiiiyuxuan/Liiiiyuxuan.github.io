@@ -9,9 +9,12 @@
 //        I have used the constructor method defined in a class, and I have also defined functions in the class. 
 //        Now, I have a better understanding of how a class work in javascript
 
-// array: Arrays are frequently used in the code below because they have been used for 
+// array: Arrays are frequently used in the code below because they have been used for the resurcing method in the maze generation.
+//        Arrays are also used for cheking the wall status while moving the objected created
 
-// sound: 
+// sound: Sound effect can be discovered in two ways in the assignment:
+//        1. As the player click the square to change its colour, sound can be found
+//        2. As the player moves the object in the maze, sound can also be found
 
 
 let columns, rows;
@@ -112,10 +115,13 @@ function draw() {
     // make sure the square drawn is not attached to the walls of the cells
     rect(xValue * sizeOfCell + 2, yValue * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
 
-    // if (xValue === columns - 1 && yValue === rows - 1) {
-    //   youWin();
-    //   return;
-    // }
+    if (xValue === columns - 1 && yValue === rows - 1) {
+      let msgDisplay = false;
+      if (msgDisplay === false) {
+        youWin();
+        msgDisplay = true;
+      }
+    }
   }
 }
 
