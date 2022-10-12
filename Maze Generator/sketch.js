@@ -80,10 +80,10 @@ function draw() {
     // make sure the square drawn is not attached to the walls of the cells
     rect(xValue * sizeOfCell + 2, yValue * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
 
-  
-
   }
 }
+
+
 
 function keyPressed() {
   moveObject();
@@ -92,8 +92,8 @@ function keyPressed() {
 function mousePressed() {
   if (mouseX >= xValue * sizeOfCell + 2 && mouseX <= (xValue + 1) * sizeOfCell - 2 && 
   mouseY >= yValue * sizeOfCell + 2 && mouseY <= (yValue + 1) * sizeOfCell - 2) {
-        chosenColour =  listOfColour[floor(random(0, listOfColour.length - 1))];
-      }
+    chosenColour =  listOfColour[floor(random(0, listOfColour.length - 1))];
+  }
 }
 
 
