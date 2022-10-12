@@ -6,8 +6,10 @@
 //        
 
 // class: Class method is been used to create each cell in the maze for convenience becuase all the cell "behave" in the same way.
+//        I have used the constructor method defined in a class, and I have also defined functions in the class. 
+//        Now, I have a better understanding of how a class work in javascript
 
-// array:
+// array: Arrays are frequently used in the code below because they have been used for 
 
 // sound: 
 
