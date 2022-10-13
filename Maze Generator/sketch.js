@@ -2,8 +2,7 @@
 //        Player can move the object in the maze (after the maze is completely generated) by using WASD or the arrows.
 //        Player is able to change the colour of the object by clicking the object itself. (Still works after it has been moved)
 //        The size of the maze is depending on the size of the window, which means player can adjust the size of the maze prior to creating it.
-//        (However, the size of the maze is fixed after it statrs generating)
-//        
+//        (However, the size of the maze is fixed after it statrs generating)      
 
 // class: Class method is been used to create each cell in the maze for convenience becuase all the cell "behave" in the same way.
 //        I have used the constructor method defined in a class, and I have also defined functions in the class. 
@@ -11,6 +10,7 @@
 
 // array: Arrays are frequently used in the code below because they have been used for the resurcing method in the maze generation.
 //        Arrays are also used for cheking the wall status while moving the objected created
+//        Array.push()  /  Array.pop()  /  Array.length  /  Array[num] are the basic methods used
 
 // sound: Sound effect can be discovered in two ways in the assignment:
 //        1. As the player click the square to change its colour, sound can be found
@@ -114,14 +114,6 @@ function draw() {
 
     // make sure the square drawn is not attached to the walls of the cells
     rect(xValue * sizeOfCell + 2, yValue * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
-
-    if (xValue === columns - 1 && yValue === rows - 1) {
-      let msgDisplay = false;
-      if (msgDisplay === false) {
-        youWin();
-        msgDisplay = true;
-      }
-    }
   }
 }
 
@@ -178,11 +170,6 @@ function moveObject() {
       }
     }
   }
-}
-
-function youWin() {
-  alert("YOU WON!");
-  return;
 }
 
 // function calculates the index used to help us access(check) the neighbouring cells if they have been visited
