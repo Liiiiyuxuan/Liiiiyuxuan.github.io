@@ -18,7 +18,7 @@
 
 
 let columns, rows;
-let sizeOfCell = 80; // change this value to change the number of cells drawn
+let sizeOfCell = 76; // change this value to change the number of cells drawn
 let ValueForFrameRate = 60; // change this value to change the speed the maze generated
 let grid = [];
 let current; // current cell 
@@ -34,6 +34,8 @@ let chosenColour;
 
 let xValue = 0; // used in the moveObject() function indicates that we start from the top left cell
 let yValue = 0;
+
+let startScreenOn = true;
 
 let retroClick;
 
@@ -72,48 +74,63 @@ function setup() {
 
   // the current cell starts at the top left cell
   current = grid[0];
-
 }
 
 function draw() {
-  background("gray");
-
-  // the show() function is defined in the Cell class, which is used to draw the walls of the cells
-  for (let i = 0; i < grid.length; i++) {
-    grid[i].show();
+  if (startScreenOn === true) {
+    background("black");
+    rect(0, 0, 100, 100);
+    textAlign(CENTER);
+    text("start", 50, 50);
+    if (mouseX >= 0 && mouseX <= 100) {
+      if (mouseY >= 0 && mouseY <= 100) {
+        if (mouseIsPressed) {
+          startScreenOn = false;
+        }
+      }
+    }
   }
 
-  current.visited = true;
-
-  // show us the "current" cell
-  current.highlight();
-
-  let next = current.checkNeighbours();
-  // let the neightbour chosen to be current cell and hence be visited
-  if (next) {
-    next.visited = true;
-
-    // push the current cell into the stack to be traced back in the future
-    stack.push(current);
-
-    // remove the walls between the current cell and the chosen neighbour cell
-    removeWalls(current, next);
-
-    // mark the neighbour cell to be the new current cell
-    current = next;
-  }  else if (stack.length > 0) { // we will use the stack.pop() to select a cell visited to access more neighbours 
-    current = stack.pop();
-  }
-
-  if (stack.length === 0) {
-    // console.log(array); //Used for the purpose of debugging/////////////////////////////////////////////////////
-
-    noStroke();
-    // colour of the object
-    fill(chosenColour);
-
-    // make sure the square drawn is not attached to the walls of the cells
-    rect(xValue * sizeOfCell + 2, yValue * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
+  else if (startScreenOn === false) {
+    background("gray");
+  
+    // the show() function is defined in the Cell class, which is used to draw the walls of the cells
+    for (let i = 0; i < grid.length; i++) {
+      grid[i].show();
+    }
+  
+    current.visited = true;
+  
+    // show us the "current" cell
+    current.highlight();
+  
+    let next = current.checkNeighbours();
+    // let the neightbour chosen to be current cell and hence be visited
+    if (next) {
+      next.visited = true;
+  
+      // push the current cell into the stack to be traced back in the future
+      stack.push(current);
+  
+      // remove the walls between the current cell and the chosen neighbour cell
+      removeWalls(current, next);
+  
+      // mark the neighbour cell to be the new current cell
+      current = next;
+    }  else if (stack.length > 0) { // we will use the stack.pop() to select a cell visited to access more neighbours 
+      current = stack.pop();
+    }
+  
+    if (stack.length === 0) {
+      // console.log(array); //Used for the purpose of debugging/////////////////////////////////////////////////////
+  
+      noStroke();
+      // colour of the object
+      fill(chosenColour);
+  
+      // make sure the square drawn is not attached to the walls of the cells
+      rect(xValue * sizeOfCell + 2, yValue * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
+    }
   }
 }
 
