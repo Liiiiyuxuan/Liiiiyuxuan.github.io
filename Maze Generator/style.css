@@ -1,3 +1,7 @@
+@font-face {
+  font-family: gamefont; src: url('04B_19.TTF');
+}
+
 html, body {
   margin: 0;
   padding: 0;

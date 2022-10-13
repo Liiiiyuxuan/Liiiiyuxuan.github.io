@@ -18,7 +18,7 @@
 
 
 let columns, rows;
-let sizeOfCell = 76; // change this value to change the number of cells drawn
+let sizeOfCell; // change this value to change the number of cells drawn
 let ValueForFrameRate = 60; // change this value to change the speed the maze generated
 let grid = [];
 let current; // current cell 
@@ -43,6 +43,8 @@ function preload() {
   soundFormats('mp3', 'wav', 'ogg');
   retroClick = loadSound('retro-click.wav');
   bling = loadSound('bling.wav');
+
+  myFont = loadFont('gameFont.ttf');
 }
 
 function playRetroClick() {
@@ -78,13 +80,43 @@ function setup() {
 
 function draw() {
   if (startScreenOn === true) {
+    let rectWidth = windowWidth / 4;
+    let rectHeight = windowHeight / 12;
+    let cornerRadius = 10;
+
     background("black");
-    rect(0, 0, 100, 100);
+    rect((windowWidth - rectWidth) / 2 , rectHeight * 5, rectWidth, rectHeight, cornerRadius);
+    rect((windowWidth - rectWidth) / 2 , rectHeight * 7, rectWidth, rectHeight, cornerRadius);
+    rect((windowWidth - rectWidth) / 2 , rectHeight * 9, rectWidth, rectHeight, cornerRadius);
+
     textAlign(CENTER);
-    text("start", 50, 50);
-    if (mouseX >= 0 && mouseX <= 100) {
-      if (mouseY >= 0 && mouseY <= 100) {
+    textFont(myFont);
+    textSize(40);
+    fill("black");
+    text("Easy Level",      (windowWidth - rectWidth) / 2 + rectWidth / 2, rectHeight * 5 + rectHeight / 2);
+    text("Medium Level",    (windowWidth - rectWidth) / 2 + rectWidth / 2, rectHeight * 7 + rectHeight / 2);
+    text("Difficult Level", (windowWidth - rectWidth) / 2 + rectWidth / 2, rectHeight * 9 + rectHeight / 2);
+
+    textAlign(CENTER);
+    textFont(myFont);
+    textSize(60);
+    fill("white");
+    text("Maze Generator Game", windowWidth / 2, rectHeight * 3);
+
+    if (mouseX >= (windowWidth - rectWidth) / 2 && mouseX <= (windowWidth - rectWidth) / 2 + rectWidth) {
+      if (mouseY >= rectHeight * 5 && mouseY <= rectHeight * 5 + rectHeight) {
         if (mouseIsPressed) {
+          sizeOfCell = 80;
+          startScreenOn = false;
+        }
+      } else if (mouseY >= rectHeight * 7 && mouseY <= rectHeight * 7 + rectHeight) {
+        if (mouseIsPressed) {
+          sizeOfCell = 40;
+          startScreenOn = false;
+        }
+      } else if (mouseY >= rectHeight * 9 && mouseY <= rectHeight * 9 + rectHeight) {
+        if (mouseIsPressed) {
+          sizeOfCell = 20;
           startScreenOn = false;
         }
       }
