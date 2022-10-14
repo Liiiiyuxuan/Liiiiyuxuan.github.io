@@ -38,6 +38,7 @@ let yValue = 0;
 let startScreenOn = true;
 
 let retroClick;
+let bling;
 
 function preload() {
   soundFormats('mp3', 'wav', 'ogg');
@@ -80,47 +81,7 @@ function setup() {
 
 function draw() {
   if (startScreenOn === true) {
-    let rectWidth = windowWidth / 4;
-    let rectHeight = windowHeight / 12;
-    let cornerRadius = 10;
-
-    background("black");
-    rect((windowWidth - rectWidth) / 2 , rectHeight * 5, rectWidth, rectHeight, cornerRadius);
-    rect((windowWidth - rectWidth) / 2 , rectHeight * 7, rectWidth, rectHeight, cornerRadius);
-    rect((windowWidth - rectWidth) / 2 , rectHeight * 9, rectWidth, rectHeight, cornerRadius);
-
-    textAlign(CENTER);
-    textFont(myFont);
-    textSize(40);
-    fill("black");
-    text("Easy Level",      (windowWidth - rectWidth) / 2 + rectWidth / 2, rectHeight * 5 + rectHeight / 2);
-    text("Medium Level",    (windowWidth - rectWidth) / 2 + rectWidth / 2, rectHeight * 7 + rectHeight / 2);
-    text("Difficult Level", (windowWidth - rectWidth) / 2 + rectWidth / 2, rectHeight * 9 + rectHeight / 2);
-
-    textAlign(CENTER);
-    textFont(myFont);
-    textSize(60);
-    fill("white");
-    text("Maze Generator Game", windowWidth / 2, rectHeight * 3);
-
-    if (mouseX >= (windowWidth - rectWidth) / 2 && mouseX <= (windowWidth - rectWidth) / 2 + rectWidth) {
-      if (mouseY >= rectHeight * 5 && mouseY <= rectHeight * 5 + rectHeight) {
-        if (mouseIsPressed) {
-          sizeOfCell = 80;
-          startScreenOn = false;
-        }
-      } else if (mouseY >= rectHeight * 7 && mouseY <= rectHeight * 7 + rectHeight) {
-        if (mouseIsPressed) {
-          sizeOfCell = 40;
-          startScreenOn = false;
-        }
-      } else if (mouseY >= rectHeight * 9 && mouseY <= rectHeight * 9 + rectHeight) {
-        if (mouseIsPressed) {
-          sizeOfCell = 20;
-          startScreenOn = false;
-        }
-      }
-    }
+    chooseDifficulty();
   }
 
   else if (startScreenOn === false) {
@@ -182,6 +143,57 @@ function mousePressed() {
 
 
 
+
+function chooseDifficulty() {
+  let rectWidth = windowWidth / 4;
+  let rectHeight = windowHeight / 12;
+  let cornerRadius = 10;
+
+  background("black");
+  rect((windowWidth - rectWidth) / 2 , rectHeight * 5, rectWidth, rectHeight, cornerRadius);
+  rect((windowWidth - rectWidth) / 2 , rectHeight * 7, rectWidth, rectHeight, cornerRadius);
+  rect((windowWidth - rectWidth) / 2 , rectHeight * 9, rectWidth, rectHeight, cornerRadius);
+
+  textAlign(CENTER);
+  textFont(myFont);
+  textSize(40);
+  fill("black");
+  text("Easy Level",      (windowWidth - rectWidth) / 2 + rectWidth / 2, rectHeight * 5 + rectHeight / 2);
+  text("Medium Level",    (windowWidth - rectWidth) / 2 + rectWidth / 2, rectHeight * 7 + rectHeight / 2);
+  text("Difficult Level", (windowWidth - rectWidth) / 2 + rectWidth / 2, rectHeight * 9 + rectHeight / 2);
+
+  textAlign(CENTER);
+  textFont(myFont);
+  textSize(60);
+  fill("white");
+  text("Maze Generator Game", windowWidth / 2, rectHeight * 3);
+
+  if (mouseX >= (windowWidth - rectWidth) / 2 && mouseX <= (windowWidth - rectWidth) / 2 + rectWidth) {
+    if (mouseY >= rectHeight * 5 && mouseY <= rectHeight * 5 + rectHeight) {
+      if (mouseIsPressed) {
+        sizeOfCell = 80;
+        startScreenOn = false;
+        setup();
+      }
+    } else if (mouseY >= rectHeight * 7 && mouseY <= rectHeight * 7 + rectHeight) {
+      if (mouseIsPressed) {
+        sizeOfCell = 40;
+        startScreenOn = false;
+        setup();
+      }
+    } else if (mouseY >= rectHeight * 9 && mouseY <= rectHeight * 9 + rectHeight) {
+      if (mouseIsPressed) {
+        sizeOfCell = 20;
+        startScreenOn = false;
+        setup();
+      }
+    }
+  }
+}
+
+function generateFruits() {
+
+}
 
 function moveObject() {
   let counter;
