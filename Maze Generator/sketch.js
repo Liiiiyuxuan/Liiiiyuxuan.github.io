@@ -279,6 +279,23 @@ function moveObject() {
   }
 }
 
+function collectApple() {
+  if (xValue === appleOneI + 1 && yValue === appleOneJ + 1 && firstApple) {
+    collectAppleSound.play();
+    firstApple = false;
+  }
+
+  if (xValue === appleTwoI + 1 && yValue === appleTwoJ + 1 && secondApple) {
+    collectAppleSound.play();
+    secondApple = false;
+  }
+
+  if (xValue === appleThreeI + 1 && yValue === appleThreeJ + 1 && thirdApple) {
+    collectAppleSound.play();
+    thirdApple = false;
+  }
+}
+
 function gameOver() {
   if (firstApple === false && secondApple === false && thirdApple === false) {
     background('black')
@@ -288,7 +305,7 @@ function gameOver() {
     fill("white");
     text("Game Over", windowWidth / 2, windowHeight / 3);
 
-    text("Your Score was", windowWidth / 2, windowHeight / 2);
+    text ("Your Score was " , windowWidth / 2, windowHeight / 2);
 
     text("Restart", windowWidth / 2, windowHeight / 3 * 2)
 
@@ -318,22 +335,7 @@ function gameOver() {
   }
 }
 
-function collectApple() {
-  if (xValue === appleOneI + 1 && yValue === appleOneJ + 1 && firstApple) {
-    collectAppleSound.play();
-    firstApple = false;
-  }
 
-  if (xValue === appleTwoI + 1 && yValue === appleTwoJ + 1 && secondApple) {
-    collectAppleSound.play();
-    secondApple = false;
-  }
-
-  if (xValue === appleThreeI + 1 && yValue === appleThreeJ + 1 && thirdApple) {
-    collectAppleSound.play();
-    thirdApple = false;
-  }
-}
 
 // function calculates the index used to help us access(check) the neighbouring cells if they have been visited
 function calculateIndex(i, j) {
