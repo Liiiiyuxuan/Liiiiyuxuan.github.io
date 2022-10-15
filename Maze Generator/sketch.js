@@ -12,9 +12,10 @@
 //        Arrays are also used for cheking the wall status while moving the objected created
 //        Array.push()  /  Array.pop()  /  Array.length  /  Array[num] are the basic methods used
 
-// sound: Sound effect can be discovered in two ways in the assignment:
-//        1. As the player click the square to change its colour, sound can be found
-//        2. As the player moves the object in the maze, sound can also be found
+// sound: Sound effect can be discovered in various ways in the assignment:
+//        1. As the player choose the difficulty as the starting page
+//        2. As the player click the square to change its colour
+//        3. As the player moves the object in the maze
 
 
 let columns, rows;
@@ -39,11 +40,13 @@ let startScreenOn = true;
 
 let retroClick;
 let bling;
+let extraBonus;
 
 function preload() {
   soundFormats('mp3', 'wav', 'ogg');
   retroClick = loadSound('retro-click.wav');
   bling = loadSound('bling.wav');
+  extraBonus = loadSound('extra-bonus.wav')
 
   myFont = loadFont('gameFont.ttf');
 }
@@ -123,6 +126,7 @@ function draw() {
   
       // make sure the square drawn is not attached to the walls of the cells
       rect(xValue * sizeOfCell + 2, yValue * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
+      generateFruits();
     }
   }
 }
@@ -171,18 +175,21 @@ function chooseDifficulty() {
   if (mouseX >= (windowWidth - rectWidth) / 2 && mouseX <= (windowWidth - rectWidth) / 2 + rectWidth) {
     if (mouseY >= rectHeight * 5 && mouseY <= rectHeight * 5 + rectHeight) {
       if (mouseIsPressed) {
+        extraBonus.play();
         sizeOfCell = 80;
         startScreenOn = false;
         setup();
       }
     } else if (mouseY >= rectHeight * 7 && mouseY <= rectHeight * 7 + rectHeight) {
       if (mouseIsPressed) {
+        extraBonus.play();
         sizeOfCell = 40;
         startScreenOn = false;
         setup();
       }
     } else if (mouseY >= rectHeight * 9 && mouseY <= rectHeight * 9 + rectHeight) {
       if (mouseIsPressed) {
+        extraBonus.play();
         sizeOfCell = 20;
         startScreenOn = false;
         setup();
@@ -192,7 +199,7 @@ function chooseDifficulty() {
 }
 
 function generateFruits() {
-
+  console.log(true);
 }
 
 function moveObject() {
