@@ -38,25 +38,36 @@ let yValue = 0;
 
 let startScreenOn = true;
 
-let retroClick;
-let bling;
-let extraBonus;
+let retroClickSound;
+let blingSound;
+let extraBonusSound;
+let collectAppleSound;
+
+let appleImage;
+let appleSize;
+
+let firstApple = true;
+let secondApple = true;
+let thirdApple = true;
 
 function preload() {
   soundFormats('mp3', 'wav', 'ogg');
-  retroClick = loadSound('retro-click.wav');
-  bling = loadSound('bling.wav');
-  extraBonus = loadSound('extra-bonus.wav')
+  retroClickSound = loadSound('retro-click.wav');
+  blingSound = loadSound('bling.wav');
+  extraBonusSound = loadSound('extra-bonus.wav');
+  collectAppleSound = loadSound('collect-apple.wav')
+
+  appleImage = loadImage('apple.png');
 
   myFont = loadFont('gameFont.ttf');
 }
 
-function playRetroClick() {
-  retroClick.play();
+function playRetroClickSound() {
+  retroClickSound.play();
 }
 
-function playBling() {
-  bling.play();
+function playBlingSound() {
+  blingSound.play();
 }
 
 
@@ -66,6 +77,16 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   columns = floor(windowWidth / sizeOfCell);
   rows = floor(windowHeight / sizeOfCell);
+
+  appleOneI = floor(random(0, columns - 1));
+  appleOneJ = floor(random(0, rows - 1));
+
+  appleTwoI = floor(random(0, columns - 1));
+  appleTwoJ = floor(random(0, rows - 1));
+
+  appleThreeI = floor(random(0, columns - 1));
+  appleThreeJ = floor(random(0, rows - 1));
+
   // lowering the frame rate to see the process of generating a maze
   frameRate(ValueForFrameRate);
   chosenColour = listOfColour[floor(random(0, listOfColour.length - 1))];
@@ -120,13 +141,9 @@ function draw() {
     if (stack.length === 0) {
       // console.log(array); //Used for the purpose of debugging/////////////////////////////////////////////////////
   
-      noStroke();
-      // colour of the object
-      fill(chosenColour);
-  
-      // make sure the square drawn is not attached to the walls of the cells
-      rect(xValue * sizeOfCell + 2, yValue * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
+      drawObject();
       generateFruits();
+      collectApple();
     }
   }
 }
@@ -140,7 +157,7 @@ function keyPressed() {
 function mousePressed() {
   if (mouseX >= xValue * sizeOfCell + 2 && mouseX <= (xValue + 1) * sizeOfCell - 2 && 
   mouseY >= yValue * sizeOfCell + 2 && mouseY <= (yValue + 1) * sizeOfCell - 2) {
-    playBling();
+    playBlingSound();
     chosenColour =  listOfColour[floor(random(0, listOfColour.length - 1))];
   }
 }
@@ -175,21 +192,21 @@ function chooseDifficulty() {
   if (mouseX >= (windowWidth - rectWidth) / 2 && mouseX <= (windowWidth - rectWidth) / 2 + rectWidth) {
     if (mouseY >= rectHeight * 5 && mouseY <= rectHeight * 5 + rectHeight) {
       if (mouseIsPressed) {
-        extraBonus.play();
+        extraBonusSound.play();
         sizeOfCell = 80;
         startScreenOn = false;
         setup();
       }
     } else if (mouseY >= rectHeight * 7 && mouseY <= rectHeight * 7 + rectHeight) {
       if (mouseIsPressed) {
-        extraBonus.play();
+        extraBonusSound.play();
         sizeOfCell = 40;
         startScreenOn = false;
         setup();
       }
     } else if (mouseY >= rectHeight * 9 && mouseY <= rectHeight * 9 + rectHeight) {
       if (mouseIsPressed) {
-        extraBonus.play();
+        extraBonusSound.play();
         sizeOfCell = 20;
         startScreenOn = false;
         setup();
@@ -199,7 +216,28 @@ function chooseDifficulty() {
 }
 
 function generateFruits() {
-  console.log(true);
+  appleSize = 2.5 * sizeOfCell;
+
+  if (firstApple) {
+    image(appleImage, appleOneI * sizeOfCell + sizeOfCell / 2.5,   appleOneJ * sizeOfCell + sizeOfCell / 2,   appleSize, appleSize);
+  }
+
+  if (secondApple) {
+    image(appleImage, appleTwoI * sizeOfCell + sizeOfCell / 2.5,   appleTwoJ * sizeOfCell + sizeOfCell / 2,   appleSize, appleSize);
+  }
+  
+  if (thirdApple) {
+    image(appleImage, appleThreeI * sizeOfCell + sizeOfCell / 2.5, appleThreeJ * sizeOfCell + sizeOfCell / 2, appleSize, appleSize);
+  }
+}
+
+function drawObject () {
+  noStroke();
+  // colour of the object
+  fill(chosenColour);
+
+  // make sure the square drawn is not attached to the walls of the cells
+  rect(xValue * sizeOfCell + 2, yValue * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
 }
 
 function moveObject() {
@@ -214,29 +252,52 @@ function moveObject() {
       constant = counter;
 
       if ((keyCode === UP_ARROW || keyCode === 87) && array[constant].walls[0] === false && yValue >= 1) {
-        playRetroClick();
+        playRetroClickSound();
         yValue -= 1;
         return;
       }
     
       if ((keyCode === RIGHT_ARROW || keyCode === 68) && array[constant].walls[1] === false && xValue <= columns - 1) {
-        playRetroClick();
+        playRetroClickSound();
         xValue += 1;
         return;
       }
     
       if ((keyCode === DOWN_ARROW || keyCode === 83) && array[constant].walls[2] === false && yValue <= rows - 1) {
-        playRetroClick();
+        playRetroClickSound();
         yValue += 1;
         return;
       }
     
       if ((keyCode === LEFT_ARROW || keyCode === 65) && array[constant].walls[3] === false && xValue >= 1) {
-        playRetroClick();
+        playRetroClickSound();
         xValue -= 1;
         return;
       }
     }
+  }
+}
+
+function gameOver() {
+  if (firstApple === false && secondApple === false && thirdApple === false) {
+    
+  }
+}
+
+function collectApple() {
+  if (xValue === appleOneI + 1 && yValue === appleOneJ + 1 && firstApple) {
+    collectAppleSound.play();
+    firstApple = false;
+  }
+
+  if (xValue === appleTwoI + 1 && yValue === appleTwoJ + 1 && secondApple) {
+    collectAppleSound.play();
+    secondApple = false;
+  }
+
+  if (xValue === appleThreeI + 1 && yValue === appleThreeJ + 1 && thirdApple) {
+    collectAppleSound.play();
+    thirdApple = false;
   }
 }
 
