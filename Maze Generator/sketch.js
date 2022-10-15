@@ -144,6 +144,7 @@ function draw() {
       drawObject();
       generateFruits();
       collectApple();
+      gameOver();
     }
   }
 }
@@ -280,7 +281,40 @@ function moveObject() {
 
 function gameOver() {
   if (firstApple === false && secondApple === false && thirdApple === false) {
-    
+    background('black')
+    textAlign(CENTER);
+    textFont(myFont);
+    textSize(60);
+    fill("white");
+    text("Game Over", windowWidth / 2, windowHeight / 3);
+
+    text("Your Score was", windowWidth / 2, windowHeight / 2);
+
+    text("Restart", windowWidth / 2, windowHeight / 3 * 2)
+
+    stroke(255);
+    line(windowWidth / 2 - 120, windowHeight / 3 * 2 - 60, windowWidth / 2 + 120, windowHeight / 3 * 2 - 60);
+    line(windowWidth / 2 - 120, windowHeight / 3 * 2 + 30, windowWidth / 2 + 120, windowHeight / 3 * 2 + 30 );
+    line(windowWidth / 2 - 120, windowHeight / 3 * 2 - 60, windowWidth / 2 - 120, windowHeight / 3 * 2 + 30 );
+    line(windowWidth / 2 + 120, windowHeight / 3 * 2 + 30, windowWidth / 2 + 120, windowHeight / 3 * 2 - 60 );
+
+    if (mouseX > windowWidth / 2 - 120 && mouseX < windowWidth / 2 + 120) {
+      if (mouseY > windowHeight / 3 * 2 - 60 && mouseY < windowHeight / 3 * 2 + 30) {
+        if (mouseIsPressed) {
+          startScreenOn = true;
+          firstApple = true;
+          secondApple = true;
+          thirdApple = true;
+
+          stack = [];
+          grid = [];
+          array = [];
+
+          xValue = 0;
+          yValue = 0;
+        }
+      }
+    }
   }
 }
 
