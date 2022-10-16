@@ -1,4 +1,5 @@
-// basic: Randomly generated maze using the methods of class and array. Sound effect is also added in the maze game. 
+// basic: Randomly generated maze using the methods of class and array. Sound effect is also added in the maze game.
+//        Starting page and game over page can be found in the game. 
 //        Player can move the object in the maze (after the maze is completely generated) by using WASD or the arrows.
 //        Player is able to change the colour of the object by clicking the object itself. (Still works after it has been moved)
 //        The size of the maze is depending on the size of the window, which means player can adjust the size of the maze prior to creating it.
@@ -142,6 +143,7 @@ function draw() {
       // console.log(array); //Used for the purpose of debugging/////////////////////////////////////////////////////
   
       drawObject();
+      theTimer();
       generateFruits();
       collectApple();
       gameOver();
@@ -214,6 +216,14 @@ function chooseDifficulty() {
       }
     }
   }
+}
+
+function theTimer() {
+  let time = round(millis() / 1000);
+
+  textAlign(CENTER);
+  fill("gray");
+  text(time, windowWidth / 2, windowHeight / 2);
 }
 
 function generateFruits() {
