@@ -38,6 +38,8 @@ let xValue = 0; // used in the moveObject() function indicates that we start fro
 let yValue = 0;
 
 let startScreenOn = true;
+let time = 0;
+let gameStarted = false;
 
 let retroClickSound;
 let blingSound;
@@ -154,6 +156,7 @@ function draw() {
 
 
 function keyPressed() {
+  gameStarted = true;
   moveObject();
 }
 
@@ -219,11 +222,14 @@ function chooseDifficulty() {
 }
 
 function theTimer() {
-  let time = round(millis() / 1000);
+if (frameCount % 60 === 0) {
+  if (firstApple || secondApple || thirdApple)
+  time ++;
+}
 
-  textAlign(CENTER);
-  fill("gray");
-  text(time, windowWidth / 2, windowHeight / 2);
+fill('gray');
+textSize(100);
+text(time, windowWidth / 2, windowHeight / 2,);
 }
 
 function generateFruits() {
@@ -315,7 +321,7 @@ function gameOver() {
     fill("white");
     text("Game Over", windowWidth / 2, windowHeight / 3);
 
-    text ("Your Score was " , windowWidth / 2, windowHeight / 2);
+    text ("Your Score was " + time , windowWidth / 2, windowHeight / 2);
 
     text("Restart", windowWidth / 2, windowHeight / 3 * 2)
 
@@ -329,16 +335,21 @@ function gameOver() {
       if (mouseY > windowHeight / 3 * 2 - 60 && mouseY < windowHeight / 3 * 2 + 30) {
         if (mouseIsPressed) {
           startScreenOn = true;
-          firstApple = true;
-          secondApple = true;
-          thirdApple = true;
 
-          stack = [];
-          grid = [];
-          array = [];
+          if (startScreenOn) {
+            firstApple = true;
+            secondApple = true;
+            thirdApple = true;
+            time = 0;
+            gameStarted = false;
 
-          xValue = 0;
-          yValue = 0;
+            stack = [];
+            grid = [];
+            array = [];
+
+            xValue = 0;
+            yValue = 0;
+          }
         }
       }
     }
