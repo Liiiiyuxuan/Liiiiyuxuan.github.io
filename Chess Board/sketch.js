@@ -15,14 +15,7 @@ function drawChessboard() {
 
   for (let i = 0; i < index; i++) {
     for (let j = 0; j < index; j++) {
-      const colourState = isWhite === true ? fill("white") : fill("black")
-
-      // if (isWhite === true) {
-      //   fill("white");
-      // }
-      // else {
-      //   fill("black");
-      // }
+      isWhite === true ? fill("white") : fill("black");
 
       noStroke();
       rect(i*cellSideLength, j*cellSideLength, cellSideLength, cellSideLength);
