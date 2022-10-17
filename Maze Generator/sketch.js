@@ -254,7 +254,7 @@ function drawObject () {
   fill(chosenColour);
 
   // make sure the square drawn is not attached to the walls of the cells
-  rect(xValue * sizeOfCell + 2, yValue * sizeOfCell + 2, sizeOfCell - 4, sizeOfCell - 4);
+  rect(xValue * sizeOfCell + 3, yValue * sizeOfCell + 3, sizeOfCell - 6, sizeOfCell - 6);
 }
 
 function moveObject() {
@@ -414,18 +414,22 @@ class Cell{
 
       //draw the top wall of a cell
       if (this.walls[0]) {
+        strokeWeight(4);
         line(x, y, x + sizeOfCell, y);
       }
       // draw the right wall of a cell
       if (this.walls[1]) {
+        strokeWeight(4);
         line(x + sizeOfCell, y, x + sizeOfCell, y + sizeOfCell);
       }
       // draw the bottom wall of a cell
       if (this.walls[2]) {
+        strokeWeight(4);
         line(x + sizeOfCell, y + sizeOfCell, x, y + sizeOfCell);
       }
       // draw the left wall of a cell
       if (this.walls[3]) {
+        strokeWeight(4);
         line(x, y + sizeOfCell, x, y);
       }
 
