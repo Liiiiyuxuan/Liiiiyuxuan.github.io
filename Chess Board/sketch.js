@@ -109,6 +109,7 @@ let blackRook2Y   = canvasSize / 2 - 4 * canvasSize / numberOfCellsEachSide;
 
 
 let blackChecked, whiteChecked;
+let blackOccupied, whiteOccupied;
 let pieceMoveable;
 
 function preload() {
@@ -136,44 +137,7 @@ function setup() {
 function draw() {
   background(220);
   drawChessboard();
-
-  // white pawn
-  whitePawn1 = image(whitePawnImg, whitePawn1X, whitePawn1Y, pawnWidth, pawnHeight);
-  whitePawn2 = image(whitePawnImg, whitePawn2X, whitePawn2Y, pawnWidth, pawnHeight);
-  whitePawn3 = image(whitePawnImg, whitePawn3X, whitePawn3Y, pawnWidth, pawnHeight);
-  whitePawn4 = image(whitePawnImg, whitePawn4X, whitePawn4Y, pawnWidth, pawnHeight);
-  whitePawn5 = image(whitePawnImg, whitePawn5X, whitePawn5Y, pawnWidth, pawnHeight);
-  whitePawn6 = image(whitePawnImg, whitePawn6X, whitePawn6Y, pawnWidth, pawnHeight);
-  whitePawn7 = image(whitePawnImg, whitePawn7X, whitePawn7Y, pawnWidth, pawnHeight);
-  whitePawn8 = image(whitePawnImg, whitePawn8X, whitePawn8Y, pawnWidth, pawnHeight);
-
-  image(whiteRookImg,   whiteRook1X,   whiteRook1Y,   rookWidth,   rookHeight);
-  image(whiteKnightImg, whiteKnight1X, whiteKnight1Y, knightWidth, knightHeight);
-  image(whiteBishopImg, whiteBishop1X, whiteBishop1Y, bishopWidth, bishopHeight);
-  image(whiteQueenImg,  whiteQueenX,   whiteQueenY,   pawnWidth,   pawnHeight);
-  image(whiteKingImg,   whiteKingX,    whiteKingY,    pawnWidth,   pawnHeight);
-  image(whiteBishopImg, whiteBishop2X, whiteBishop2Y, bishopWidth, bishopHeight);
-  image(whiteKnightImg, whiteKnight2X, whiteKnight2Y, knightWidth, knightHeight);
-  image(whiteRookImg,   whiteRook2X,   whiteRook2Y,   rookWidth,   rookHeight);
-
-  // black pawn
-  blackPawn1 = image(blackPawnImg, blackPawn1X, blackPawn1Y, pawnWidth, pawnHeight);
-  blackPawn2 = image(blackPawnImg, blackPawn2X, blackPawn2Y, pawnWidth, pawnHeight);
-  blackPawn3 = image(blackPawnImg, blackPawn3X, blackPawn3Y, pawnWidth, pawnHeight);
-  blackPawn4 = image(blackPawnImg, blackPawn4X, blackPawn4Y, pawnWidth, pawnHeight);
-  blackPawn5 = image(blackPawnImg, blackPawn5X, blackPawn5Y, pawnWidth, pawnHeight);
-  blackPawn6 = image(blackPawnImg, blackPawn6X, blackPawn6Y, pawnWidth, pawnHeight);
-  blackPawn7 = image(blackPawnImg, blackPawn7X, blackPawn7Y, pawnWidth, pawnHeight);
-  blackPawn8 = image(blackPawnImg, blackPawn8X, blackPawn8Y, pawnWidth, pawnHeight);
-
-  image(blackRookImg,   blackRook1X,   blackRook1Y,   rookWidth,   rookHeight);
-  image(blackKnightImg, blackKnight1X, blackKnight1Y, knightWidth, knightHeight);
-  image(blackBishopImg, blackBishop1X, blackBishop1Y, bishopWidth, bishopHeight);
-  image(blackQueenImg,  blackQueenX,   blackQueenY,   pawnWidth,   pawnHeight);
-  image(blackKingImg,   blackKingX,    blackKingY,    pawnWidth,   pawnHeight);
-  image(blackBishopImg, blackBishop2X, blackBishop2Y, bishopWidth, bishopHeight);
-  image(blackKnightImg, blackKnight2X, blackKnight2Y, knightWidth, knightHeight);
-  image(blackRookImg,   blackRook2X,   blackRook2Y,   rookWidth,   rookHeight);
+  setUpPieces();
 }
 
 function drawChessboard() {
@@ -192,6 +156,69 @@ function drawChessboard() {
 
     isWhite = !isWhite;
   }    
+}
+
+function setUpPieces() {
+  // white pawn
+  whitePawn1 = image(whitePawnImg, whitePawn1X, whitePawn1Y, pawnWidth, pawnHeight);
+  whitePawn2 = image(whitePawnImg, whitePawn2X, whitePawn2Y, pawnWidth, pawnHeight);
+  whitePawn3 = image(whitePawnImg, whitePawn3X, whitePawn3Y, pawnWidth, pawnHeight);
+  whitePawn4 = image(whitePawnImg, whitePawn4X, whitePawn4Y, pawnWidth, pawnHeight);
+  whitePawn5 = image(whitePawnImg, whitePawn5X, whitePawn5Y, pawnWidth, pawnHeight);
+  whitePawn6 = image(whitePawnImg, whitePawn6X, whitePawn6Y, pawnWidth, pawnHeight);
+  whitePawn7 = image(whitePawnImg, whitePawn7X, whitePawn7Y, pawnWidth, pawnHeight);
+  whitePawn8 = image(whitePawnImg, whitePawn8X, whitePawn8Y, pawnWidth, pawnHeight);
+  for (let i = 0; i < numberOfCellsEachSide; i++) {
+    theBoard[6][i] = 'whitePawn' + (i + 1);
+  }
+
+  image(whiteRookImg,   whiteRook1X,   whiteRook1Y,   rookWidth,   rookHeight);
+  theBoard[7][0] = 'whiteRook1';
+  image(whiteKnightImg, whiteKnight1X, whiteKnight1Y, knightWidth, knightHeight);
+  theBoard[7][1] = 'whiteKnight1';
+  image(whiteBishopImg, whiteBishop1X, whiteBishop1Y, bishopWidth, bishopHeight);
+  theBoard[7][2] = 'whiteBishop1';
+  image(whiteQueenImg,  whiteQueenX,   whiteQueenY,   pawnWidth,   pawnHeight);
+  theBoard[7][3] = 'whiteQueen';
+  image(whiteKingImg,   whiteKingX,    whiteKingY,    pawnWidth,   pawnHeight);
+  theBoard[7][4] = 'whiteKing';
+  image(whiteBishopImg, whiteBishop2X, whiteBishop2Y, bishopWidth, bishopHeight);
+  theBoard[7][5] = 'whiteBishop2';
+  image(whiteKnightImg, whiteKnight2X, whiteKnight2Y, knightWidth, knightHeight);
+  theBoard[7][6] = 'whiteKnight2';
+  image(whiteRookImg,   whiteRook2X,   whiteRook2Y,   rookWidth,   rookHeight);
+  theBoard[7][7] = 'whiteRook2';
+
+  // black pawn
+  blackPawn1 = image(blackPawnImg, blackPawn1X, blackPawn1Y, pawnWidth, pawnHeight);
+  blackPawn2 = image(blackPawnImg, blackPawn2X, blackPawn2Y, pawnWidth, pawnHeight);
+  blackPawn3 = image(blackPawnImg, blackPawn3X, blackPawn3Y, pawnWidth, pawnHeight);
+  blackPawn4 = image(blackPawnImg, blackPawn4X, blackPawn4Y, pawnWidth, pawnHeight);
+  blackPawn5 = image(blackPawnImg, blackPawn5X, blackPawn5Y, pawnWidth, pawnHeight);
+  blackPawn6 = image(blackPawnImg, blackPawn6X, blackPawn6Y, pawnWidth, pawnHeight);
+  blackPawn7 = image(blackPawnImg, blackPawn7X, blackPawn7Y, pawnWidth, pawnHeight);
+  blackPawn8 = image(blackPawnImg, blackPawn8X, blackPawn8Y, pawnWidth, pawnHeight);
+  for (let i = 0; i < numberOfCellsEachSide; i++) {
+    theBoard[1][i] = 'blackPawn' + (i + 1);
+  }
+
+  image(blackRookImg,   blackRook1X,   blackRook1Y,   rookWidth,   rookHeight);
+  theBoard[0][0] = 'blackRook1';
+  image(blackKnightImg, blackKnight1X, blackKnight1Y, knightWidth, knightHeight);
+  theBoard[0][1] = 'blackKnight1';
+  image(blackBishopImg, blackBishop1X, blackBishop1Y, bishopWidth, bishopHeight);
+  theBoard[0][2] = 'blackBishop1';
+  image(blackQueenImg,  blackQueenX,   blackQueenY,   pawnWidth,   pawnHeight);
+  theBoard[0][3] = 'blackQueen';
+  image(blackKingImg,   blackKingX,    blackKingY,    pawnWidth,   pawnHeight);
+  theBoard[0][4] = 'blackKing';
+  image(blackBishopImg, blackBishop2X, blackBishop2Y, bishopWidth, bishopHeight);
+  theBoard[0][5] = 'blackBishop2';
+  image(blackKnightImg, blackKnight2X, blackKnight2Y, knightWidth, knightHeight);
+  theBoard[0][6] = 'blackKnight2';
+  image(blackRookImg,   blackRook2X,   blackRook2Y,   rookWidth,   rookHeight);
+  theBoard[0][7] = 'blackRook2';
+
 }
 
 function windoResized() {
