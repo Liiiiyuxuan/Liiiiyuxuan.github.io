@@ -6,7 +6,8 @@ let blackPawn, blackRook, blackKnight, blackBishop, blackKing, blackQueen;
 let whitePawn, whiteRook, whiteKnight, whiteBishop, whiteKing, whiteQueen;
 let blackPawnImg, blackRookImg, blackKnightImg, blackBishopImg, blackKingImg, blackQueenImg;
 let whitePawnImg, whiteRookImg, whiteKnightImg, whiteBishopImg, whiteKingImg, whiteQueenImg;
-let piecesSize = 435;
+let pieceWidth = 75;
+let pieceHeight = 100;
 let blackChecked, whiteChecked;
 let pieceMoveable;
 
@@ -17,6 +18,13 @@ function preload() {
   blackBishopImg = loadImage('blackBishop.png');
   blackKingImg = loadImage('blackKing.png');
   blackQueenImg = loadImage('blackQueen.png');
+
+  whitePawnImg = loadImage('whitePawn.png');
+  whiteRookImg = loadImage('whiteRook.png');
+  whiteKnightImg = loadImage('whiteKnight.png');
+  whiteBishopImg = loadImage('whiteBishop.png');
+  whiteKingImg = loadImage('whiteKing.png');
+  whiteQueenImg = loadImage('whiteQueen.png');
 }
 
 
@@ -29,7 +37,23 @@ function draw() {
   background(220);
   drawChessboard();
 
-  image(blackPawnImg, canvasSize - 40, canvasSize, piecesSize, piecesSize);
+  image(whitePawnImg, canvasSize / 8, canvasSize / 2, pieceWidth, pieceHeight);
+  image(whitePawnImg, canvasSize / 2, canvasSize / 2, pieceWidth, pieceHeight);
+  image(whitePawnImg, canvasSize / 2, canvasSize / 2, pieceWidth, pieceHeight);
+  image(whitePawnImg, canvasSize / 2, canvasSize / 2, pieceWidth, pieceHeight);
+  image(whitePawnImg, canvasSize / 2, canvasSize / 2, pieceWidth, pieceHeight);
+  image(whitePawnImg, canvasSize / 2, canvasSize / 2, pieceWidth, pieceHeight);
+  image(whitePawnImg, canvasSize / 2, canvasSize / 2, pieceWidth, pieceHeight);
+  image(whitePawnImg, canvasSize / 2, canvasSize / 2, pieceWidth, pieceHeight);
+
+  image(blackPawnImg, canvasSize / 2, canvasSize / 2, pieceWidth, pieceHeight);
+  image(blackPawnImg, canvasSize / 2, canvasSize / 2, pieceWidth, pieceHeight);
+  image(blackPawnImg, canvasSize / 2, canvasSize / 2, pieceWidth, pieceHeight);
+  image(blackPawnImg, canvasSize / 2, canvasSize / 2, pieceWidth, pieceHeight);
+  image(blackPawnImg, canvasSize / 2, canvasSize / 2, pieceWidth, pieceHeight);
+  image(blackPawnImg, canvasSize / 2, canvasSize / 2, pieceWidth, pieceHeight);
+  image(blackPawnImg, canvasSize / 2, canvasSize / 2, pieceWidth, pieceHeight);
+  image(blackPawnImg, canvasSize / 2, canvasSize / 2, pieceWidth, pieceHeight);
 }
 
 function drawChessboard() {
