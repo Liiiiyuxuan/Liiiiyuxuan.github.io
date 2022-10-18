@@ -259,7 +259,7 @@ function movePawn() {
   if (mouseY > canvasSize / numberOfCellsEachSide * 6 && mouseY < canvasSize / numberOfCellsEachSide * 7) {
     for (let i = 0; i < numberOfCellsEachSide - 1; i++) {
       if (mouseX > canvasSize / numberOfCellsEachSide * i && mouseX < canvasSize / numberOfCellsEachSide * (i+1)) {
-        if (theBoard[6][0] === "whitePawn1" && mouseIsPressed) {
+        if (theBoard[6][i] === 'whitePawn1' && mouseIsPressed) {
           pawn1circle = true;
           pawn1Move = true;
 
