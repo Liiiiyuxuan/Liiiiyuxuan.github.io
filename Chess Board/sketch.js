@@ -1,6 +1,8 @@
 let numberOfCellsEachSide = 8;
-let pawn, rook, knight, bishop, king, queen;
-let pawnImg, rookImg, knightImg, bishopImg, kingImg, queenImg;
+let blackPawn, blackRook, blackKnight, blackBishop, blackKing, blackQueen;
+let whitePawn, whiteRook, whiteKnight, whiteBishop, whiteKing, whiteQueen;
+let blackPawnImg, blackRookImg, blackKnightImg, blackBishopImg, blackKingImg, blackQueenImg;
+let whitePawnImg, whiteRookImg, whiteKnightImg, whiteBishopImg, whiteKingImg, whiteQueenImg;
 let blackChecked, whiteChecked;
 let pieceMoveable;
 
@@ -11,6 +13,10 @@ function setup() {
 function draw() {
   background(220);
   drawChessboard();
+}
+
+function preload() {
+  let blackPawn = loadImage('blackPawn.png');
 }
 
 function drawChessboard() {
