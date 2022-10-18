@@ -89,7 +89,6 @@ let blackPawn6Y = canvasSize / 2 - 3 * canvasSize / numberOfCellsEachSide;
 let blackPawn7Y = canvasSize / 2 - 3 * canvasSize / numberOfCellsEachSide;
 let blackPawn8Y = canvasSize / 2 - 3 * canvasSize / numberOfCellsEachSide;
 
-
 let blackRook1X   = canvasSize / 8 * 0;
 let blackKnight1X = canvasSize / 8 * 1;
 let blackBishop1X = canvasSize / 8 * 2;
@@ -108,6 +107,21 @@ let blackBishop2Y = canvasSize / 2 - 4 * canvasSize / numberOfCellsEachSide;
 let blackKnight2Y = canvasSize / 2 - 4 * canvasSize / numberOfCellsEachSide;
 let blackRook2Y   = canvasSize / 2 - 4 * canvasSize / numberOfCellsEachSide;
 
+let pawn1circle = false; ///////////////////////////////////////////////////
+let pawn1Move;
+let pawn2circle = false; ///////////////////////////////////////////////////
+let pawn2Move;
+let pawn3circle = false; ///////////////////////////////////////////////////
+let pawn3Move;
+let pawn4circle = false; ///////////////////////////////////////////////////
+let pawn4Move;
+let pawn5circle = false; ///////////////////////////////////////////////////
+let pawn5Move;
+let pawn6Move;
+let pawn7circle = false; ///////////////////////////////////////////////////
+let pawn7Move;
+let pawn8circle = false; ///////////////////////////////////////////////////
+let pawn8Move;
 
 
 let blackChecked, whiteChecked;
@@ -226,13 +240,36 @@ function setUpPieces() {
 }
 
 function movePawn() {
-  if (mouseX > canvasSize / numberOfCellsEachSide * 6 && mouseX < canvasSize / numberOfCellsEachSide * 7) {
-    if (mouseY > canvasSize / numberOfCellsEachSide * 0 && mouseY < canvasSize / numberOfCellsEachSide * 1) {
-      if (mouseIsPressed && theBoard[6][0] === `"whitePawn1`) {
-        console.log(true);
-        circle(canvasSize / numberOfCellsEachSide * (6 + 0.5), canvasSize / numberOfCellsEachSide * (0 + 0.5), circleRadius);
+  for (let j = 0; j < numberOfCellsEachSide - 2; j++) {
+    if (mouseY > canvasSize / numberOfCellsEachSide * 6 && mouseY < canvasSize / numberOfCellsEachSide * 7) {
+      if (mouseX > canvasSize / numberOfCellsEachSide * 0 && mouseX < canvasSize / numberOfCellsEachSide * 1) {
+        if (theBoard[6][0] === "whitePawn1" && mouseIsPressed) {
+          pawn1circle = true;
+  
+          if (pawn1circle) {
+            fill('green');
+            circle(canvasSize / numberOfCellsEachSide * (0 + 0.5), canvasSize / numberOfCellsEachSide * (6 - 1 + 0.5), circleRadius);
+          }
+        }
       }
     }
+  }
+
+  if (mouseY > canvasSize / numberOfCellsEachSide * 6 && mouseY < canvasSize / numberOfCellsEachSide * 7) {
+    for (let i = 0; i < numberOfCellsEachSide - 1; i++) {
+      if (mouseX > canvasSize / numberOfCellsEachSide * i && mouseX < canvasSize / numberOfCellsEachSide * (i+1)) {
+        if (theBoard[6][0] === "whitePawn1" && mouseIsPressed) {
+          pawn1circle = true;
+          pawn1Move = true;
+
+          if (pawn1circle && pawn1Move) {
+            fill('green');
+            circle(canvasSize / numberOfCellsEachSide * (0 + 0.5), canvasSize / numberOfCellsEachSide * (6 - 1 + 0.5), circleRadius);
+            circle(canvasSize / numberOfCellsEachSide * (0 + 0.5), canvasSize / numberOfCellsEachSide * (6 - 2 + 0.5), circleRadius);
+          }
+        }
+      }
+    } 
   }
 }
 
