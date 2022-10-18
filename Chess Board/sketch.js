@@ -137,8 +137,10 @@ function setup() {
 function draw() {
   background(220);
   drawChessboard();
-  setUpPieces();
+  setUpPawn();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function drawChessboard() {
   let cellSideLength = canvasSize / numberOfCellsEachSide;
@@ -218,7 +220,15 @@ function setUpPieces() {
   theBoard[0][6] = 'blackKnight2';
   image(blackRookImg,   blackRook2X,   blackRook2Y,   rookWidth,   rookHeight);
   theBoard[0][7] = 'blackRook2';
+}
 
+function movePawn() {
+  for (let i = 0; i < numberOfCellsEachSide - 1; i++) {
+    if (mouseX > canvasSize / numberOfCellsEachSide * i && mouseX < canvasSize / numberOfCellsEachSide * (i + 1)) {
+      for (let j = 0; j < numberOfCellsEachSide - 1; j++) {
+      }
+    }
+  }
 }
 
 function windoResized() {
