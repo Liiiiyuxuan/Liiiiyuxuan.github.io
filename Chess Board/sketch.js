@@ -32,6 +32,8 @@ let knightHeight = 88;
 let bishopWidth = 71;
 let bishopHeight = 81;
 
+let circleRadius = 25;
+
 // the comments below are the coordinates for each pieces
 let whitePawn1X = canvasSize / 8 * 0;
 let whitePawn2X = canvasSize / 8 * 1;
@@ -137,7 +139,8 @@ function setup() {
 function draw() {
   background(220);
   drawChessboard();
-  setUpPawn();
+  setUpPieces();
+  movePawn();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -223,9 +226,11 @@ function setUpPieces() {
 }
 
 function movePawn() {
-  for (let i = 0; i < numberOfCellsEachSide - 1; i++) {
-    if (mouseX > canvasSize / numberOfCellsEachSide * i && mouseX < canvasSize / numberOfCellsEachSide * (i + 1)) {
-      for (let j = 0; j < numberOfCellsEachSide - 1; j++) {
+  if (mouseX > canvasSize / numberOfCellsEachSide * 6 && mouseX < canvasSize / numberOfCellsEachSide * 7) {
+    if (mouseY > canvasSize / numberOfCellsEachSide * 0 && mouseY < canvasSize / numberOfCellsEachSide * 1) {
+      if (mouseIsPressed && theBoard[6][0] === `"whitePawn1`) {
+        console.log(true);
+        circle(canvasSize / numberOfCellsEachSide * (6 + 0.5), canvasSize / numberOfCellsEachSide * (0 + 0.5), circleRadius);
       }
     }
   }
