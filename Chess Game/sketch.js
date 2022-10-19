@@ -18,6 +18,12 @@ let theBoard = [
   ['', '', '', '', '', '', '', '']
 ];
 
+let whitePawnImg, whiteRookImg, whiteKnightImg, whiteBishopImg, whiteQueenImg, whiteKingImg;
+let blackPawnImg, blackRookImg, blackKnightImg, blackBishopImg, blackQueenImg, blackKingImg;
+
+function preload() {
+  whitePawnImg = loadImage('white.pawn.png');
+}
 
 function setup() {
   createCanvas(chessboardSize, chessboardSize);
@@ -26,7 +32,7 @@ function setup() {
 function draw() {
   drawChessboard();
   designateCoordinates();
-  console.log(theBoard);
+  image(whitePawnImg, 400, 400, 100, 100);
 }
 
 function drawChessboard() {
