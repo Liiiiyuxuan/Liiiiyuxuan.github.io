@@ -4,7 +4,7 @@ function keyPressed() {
   let theBall = {
     x:        random(width),
     y:        random(height),
-    diametre: random(50, `00`),
+    diametre: random(50, 100),
     time:     random(5000),
   }
 
