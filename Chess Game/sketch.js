@@ -179,11 +179,11 @@ function moveKing() {
   if (mouseIsPressed) {
     let j = floor(mouseY / (chessboardSize / columns));
     let i = floor(mouseX / (chessboardSize / rows));
-    
+
     if (theBoard[j][i].piece === 'whiteKing') {
       for (let counter1 = j - 1; counter1 <= j + 1; counter1++) {
         for (let counter2 = i - 1; counter2 <= i + 1; counter2++) {
-          if (theBoard[counter1][counter2].piece === 'none') {
+          if (theBoard[counter1][counter2] !== undefined && theBoard[counter1][counter2].piece === 'none') {
             fill(25, 255, 25, 125);
             square(chessboardSize / rows * counter2, chessboardSize / columns * counter1, chessboardSize / rows);
           }
@@ -191,15 +191,16 @@ function moveKing() {
       }
     }
 
-    else if (theBoard[j][i].piece === 'blackKing') {
+    if (theBoard[j][i].piece === 'blackKing') {
       for (let counter1 = j - 1; counter1 <= j + 1; counter1++) {
         for (let counter2 = i - 1; counter2 <= i + 1; counter2++) {
-          if (theBoard[counter1][counter2].piece === 'none') {
+          if (theBoard[counter1][counter2] !== undefined && theBoard[counter1][counter2].piece === 'none') {
             fill(25, 255, 25, 125);
             square(chessboardSize / rows * counter2, chessboardSize / columns * counter1, chessboardSize / rows);
           }
         }
       }
     }
+
   }
 }
