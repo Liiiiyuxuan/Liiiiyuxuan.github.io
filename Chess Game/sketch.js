@@ -52,6 +52,7 @@ function draw() {
 
   movePawn();
   moveKing();
+  moveKnight();
 }
 
 function drawChessboard() {
@@ -77,6 +78,7 @@ function designateCoordinates() {
         x: letterList[j],
         y: numberList[i],
         piece: 'none',
+        status: 'none',
       }
       theBoard[i][j] = property;
     }
@@ -182,25 +184,74 @@ function moveKing() {
 
     if (theBoard[j][i].piece === 'whiteKing') {
       for (let counter1 = j - 1; counter1 <= j + 1; counter1++) {
-        for (let counter2 = i - 1; counter2 <= i + 1; counter2++) {
-          if (theBoard[counter1][counter2] !== undefined && theBoard[counter1][counter2].piece === 'none') {
-            fill(25, 255, 25, 125);
-            square(chessboardSize / rows * counter2, chessboardSize / columns * counter1, chessboardSize / rows);
+        if (counter1 <= 7 && counter1 >= 0) {
+          for (let counter2 = i - 1; counter2 <= i + 1; counter2++) {
+            if (counter2 <= 7 && counter2 >= 0) {
+              if (theBoard[counter1][counter2] !== undefined && theBoard[counter1][counter2].piece === 'none') {
+                fill(25, 255, 25, 125);
+                square(chessboardSize / rows * counter2, chessboardSize / columns * counter1, chessboardSize / rows);
+              }
+            }
           }
         }
-      }
+      } 
     }
 
     if (theBoard[j][i].piece === 'blackKing') {
       for (let counter1 = j - 1; counter1 <= j + 1; counter1++) {
-        for (let counter2 = i - 1; counter2 <= i + 1; counter2++) {
-          if (theBoard[counter1][counter2] !== undefined && theBoard[counter1][counter2].piece === 'none') {
-            fill(25, 255, 25, 125);
-            square(chessboardSize / rows * counter2, chessboardSize / columns * counter1, chessboardSize / rows);
+        if (counter1 <= 7 && counter1 >= 0) {
+          for (let counter2 = i - 1; counter2 <= i + 1; counter2++) {
+            if (counter2 <= 7 && counter2 >= 0) {
+              if (theBoard[counter1][counter2] !== undefined && theBoard[counter1][counter2].piece === 'none') {
+                fill(25, 255, 25, 125);
+                square(chessboardSize / rows * counter2, chessboardSize / columns * counter1, chessboardSize / rows);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+function moveKnight() {
+  let checkList = [
+    [-2, 2],
+    [-1, 1]
+  ];
+
+  if (mouseIsPressed) {
+    let j = floor(mouseY / (chessboardSize / columns));
+    let i = floor(mouseX / (chessboardSize / rows));
+
+    if (theBoard[j][i].piece === 'whiteKnight' ) {
+      for (let counter1 = 0; counter1 < checkList.length; counter1++) {
+        for (let x = 0; x < checkList[counter1 % 2].length; x++) {
+          for (let y = 0; y < checkList[(counter1 + 1) % 2].length; y++) {
+            if (j + checkList[counter1 % 2][x] >= 0 && i + checkList[(counter1 + 1) % 2][y] >= 0 && 
+            j + checkList[counter1 % 2][x] <= rows - 1 && i + checkList[(counter1 + 1) % 2][y] <= columns - 1 && 
+            theBoard[j + checkList[counter1 % 2][x]][i + checkList[(counter1 + 1) % 2][y]].piece === 'none') {
+              fill(25, 255, 25, 150);
+              square(chessboardSize / rows * (i + checkList[(counter1 + 1) % 2][y]), chessboardSize / columns * (j + checkList[counter1 % 2][x]), chessboardSize / rows);
+            }
           }
         }
       }
     }
 
+    if (theBoard[j][i].piece === 'blackKnight') {
+      for (let counter1 = 0; counter1 < checkList.length; counter1++) {
+        for (let x = 0; x < checkList[counter1 % 2].length; x++) {
+          for (let y = 0; y < checkList[(counter1 + 1) % 2].length; y++) {
+            if (j + checkList[counter1 % 2][x] >= 0 && i + checkList[(counter1 + 1) % 2][y] >= 0 && 
+            j + checkList[counter1 % 2][x] <= rows - 1 && i + checkList[(counter1 + 1) % 2][y] <= columns - 1 && 
+            theBoard[j + checkList[counter1 % 2][x]][i + checkList[(counter1 + 1) % 2][y]].piece === 'none') {
+              fill(25, 255, 25, 150);
+              square(chessboardSize / rows * (i + checkList[(counter1 + 1) % 2][y]), chessboardSize / columns * (j + checkList[counter1 % 2][x]), chessboardSize / rows);
+            }
+          }
+        }
+      }
+    }
   }
 }
