@@ -272,7 +272,9 @@ function moveBishop() {
           fill(25, 255, 25, 150);
           square(chessboardSize / rows * (i + checkList[counter1]), chessboardSize / columns * (j + checkList[counter1]), chessboardSize / rows);
         }
+      }
 
+      for (let counter1 = 0; counter1 < checkList.length; counter1++) {
         if (j + checkList[counter1] >= 0 && j + checkList[counter1] <= rows - 1 &&
         i + checkList[(checkList.length - counter1 - 1)] >= 0 && i + checkList[(checkList.length - counter1 - 1)] <= columns - 1 &&
         theBoard[j + checkList[counter1]][i + checkList[(checkList.length - counter1 - 1)]].piece === 'none') {

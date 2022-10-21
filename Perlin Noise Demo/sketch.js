@@ -26,7 +26,6 @@ function draw() {
     
     // iincrease time along noise
     listOfBalls[i].time += 0.01;
-    console.log(listOfBalls[i].colour);
     fill(listOfBalls[i].colour);
     circle(listOfBalls[i].x, listOfBalls[i].y, listOfBalls[i].diametre);
   }
