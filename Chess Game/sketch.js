@@ -53,6 +53,7 @@ function draw() {
   movePawn();
   moveKing();
   moveKnight();
+  moveBishop();
 }
 
 function drawChessboard() {
@@ -252,6 +253,33 @@ function moveKnight() {
           }
         }
       }
+    }
+  }
+}
+
+function moveBishop() {
+  let checkList = [-7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7]
+
+  if (mouseIsPressed) {
+    let j = floor(mouseY / (chessboardSize / columns));
+    let i = floor(mouseX / (chessboardSize / rows));
+
+    if (theBoard[j][i].piece === 'whiteBishop') {
+      for (let counter1 = 0; counter1 < checkList.length; counter1++) {
+        if (j + checkList[counter1] >= 0 && j + checkList[counter1] <= rows - 1 &&
+        i + checkList[counter1] >= 0 && i + checkList[counter1] <= columns - 1 &&
+        theBoard[j + checkList[counter1]][i + checkList[counter1]].piece === 'none') {
+          fill(25, 255, 25, 150);
+          square(chessboardSize / rows * (i + checkList[counter1]), chessboardSize / columns * (j + checkList[counter1]), chessboardSize / rows);
+        }
+
+        if (j + checkList[counter1] >= 0 && j + checkList[counter1] <= rows - 1 &&
+        i + checkList[(checkList.length - counter1 - 1)] >= 0 && i + checkList[(checkList.length - counter1 - 1)] <= columns - 1 &&
+        theBoard[j + checkList[counter1]][i + checkList[(checkList.length - counter1 - 1)]].piece === 'none') {
+          fill(25, 255, 25, 150);
+          square(chessboardSize / rows * (i + checkList[(checkList.length - counter1 - 1)]), chessboardSize / columns * (j + checkList[counter1]), chessboardSize / rows);
+        }
+      } 
     }
   }
 }
