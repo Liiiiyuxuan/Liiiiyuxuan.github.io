@@ -1,6 +1,8 @@
 let rows = 8;
 let columns = 8;
 let boardSize = 720;
+let buttonWidth = 80;
+let buttonHeight = 20;
 
 let theBoard = [
   [],
@@ -53,7 +55,7 @@ function preload() {
 
 function setup() {
   fill(0)
-  createCanvas(boardSize, boardSize);
+  createCanvas(boardSize + buttonWidth, boardSize);
   boardSetUp();
 }
 
@@ -78,6 +80,8 @@ function draw() {
   moveRook();
   moveQueen();
   moveKing();
+
+  takeBack();
   checkWinner();
 }
 
@@ -131,6 +135,8 @@ function boardSetUp() {
   for (let j = 0; j < columns; j++) {
     theBoard[6][j].piece = 'pawn';
   }
+
+  theBoardList.push(theBoard);
 }
 
 function selectPiece() {
@@ -149,13 +155,13 @@ function selectPiece() {
     }
 
     // the cell can only be selected if there is a piece on it
-    if (theBoard[j][i].piece !== 'none' && !theBoard[j][i].available) {
+    if (j < rows && i < columns && theBoard[j][i].piece !== 'none' && !theBoard[j][i].available) {
       theBoard[j][i].selected = true;
     } 
     
     // even after we click an empty cell, all the cell will be set to unselected and unavailable, 
     // so the piece we have selected before won't be able to move
-    else if (theBoard[j][i].piece === 'none') {
+    else if (j < rows && i < columns && theBoard[j][i].piece === 'none') {
       for (let x = 0; x < rows; x++) {
         for (let y = 0; y < columns; y++) {
           if (y !== j || x !== i) {
@@ -185,7 +191,7 @@ function movePiece() {
     let j = floor(mouseY / (boardSize / columns));
     let i = floor(mouseX / (boardSize / rows));
 
-    if (theBoard[j][i].available) {
+    if (j < rows && i < columns && theBoard[j][i].available) {
       // this array is used to in the checkWinner() for the purpose of checking the last element passed in
       // If the last element passed in was a king, so one of the players wins the game
       pieceTaken.push( [theBoard[j][i].colour, theBoard[j][i].piece] );
@@ -201,12 +207,22 @@ function movePiece() {
       theBoard[j][i].piece = pieceType;
       theBoard[j][i].available = false;
 
+      theBoardList.push(theBoard);
     }
   }
 }
 
 function takeBack() {
-  
+  fill('yellow');
+  rect(boardSize, (boardSize - buttonHeight) / 2, buttonWidth, buttonHeight);
+
+  if (mouseX >= boardSize && mouseX <= boardSize + buttonWidth) {
+    if (mouseY >= (boardSize - buttonHeight) / 2 && mouseY <= (boardSize - buttonHeight) / 2 + buttonHeight) {
+      if (mouseIsPressed) {
+        theBoard = theBoardList[theBoardList.length - 2];
+      }
+    }
+  }
 }
 
 function checkWinner() {
@@ -486,10 +502,10 @@ function moveBishop() {
   selectPiece();
 
   let checkList = [
-    [-1, -1],
-    [-1, +1],
-    [+1, +1],
-    [+1, -1],
+    [-1, -1], // stands for the diagonal line at the bottom left
+    [-1, +1], // stands for the diagonal line at the top    left
+    [+1, +1], // stands for the diagonal line at the top    right
+    [+1, -1], // stands for the diagonal line at the bottom right
   ];
   let colourList = ['black', 'white'];
 
@@ -513,6 +529,7 @@ function moveBishop() {
                 a ++;
             }
 
+            // if the while stops at some spot, we will check if the spot is taken by any opponent pieces
             if (y + checkList[i][0]*a >= 0 && y + checkList[i][0]*a < rows &&
               x + checkList[i][1]*a >= 0 && x + checkList[i][1]*a < columns &&
               theBoard[y + checkList[i][0]*a][x + checkList[i][1]*a].colour === opponentColour) {
@@ -544,6 +561,7 @@ function moveRook() {
         if (theBoard[y][x].piece === 'rook' && theBoard[y][x].selected && theBoard[y][x].colour === selectedColour) {
           initializingAvailability();
 
+          // check the horizontal line
           for (let i = 0; i < checkList.length; i ++) {
             let a = 1;
 
@@ -561,6 +579,7 @@ function moveRook() {
             }
           }
 
+          // check the vertical line
           for (let i = 0; i < checkList.length; i ++) {
             let b = 1;
 
