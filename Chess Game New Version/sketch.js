@@ -28,11 +28,6 @@ let pieceTaken = [
 let whitePawnImg, whiteRookImg, whiteKnightImg, whiteBishopImg, whiteQueenImg, whiteKingImg;
 let blackPawnImg, blackRookImg, blackKnightImg, blackBishopImg, blackQueenImg, blackKingImg;
 
-// both boolean are true indicate that the two kings are on the board
-// checked by the checkWinner() consistently
-let whiteKing = true;
-let blackking = true;
-
 function preload() {
   whitePawnImg = loadImage('white.pawn.png');
   whiteRookImg = loadImage('white.rook.png');
@@ -56,7 +51,6 @@ function preload() {
 function setup() {
   fill(0)
   createCanvas(boardSize, boardSize);
-
   boardSetUp();
 }
 
@@ -65,7 +59,12 @@ function draw() {
 
   for (let i = 0; i < theBoard.length; i++) {
     for (let j = 0; j < theBoard[i].length; j++) {
+
+      // show each cell, either white or black based on their positions
       theBoard[i][j].showCell();
+
+      // show the pieces based on the piece info we assigned to wach cell
+      // therefore, we can change the pices on the board by simply change the info of each element (cell) in theBoard array
       theBoard[i][j].showPiece();
     }
   };
@@ -90,6 +89,7 @@ function boardSetUp() {
     }
   };
 
+  // the first two rows are all black pieces
   for (let i = 0; i < 2; i++) {
     for (let j = 0; j < columns; j++){
       theBoard[i][j].colour = 'black';
@@ -109,6 +109,7 @@ function boardSetUp() {
     theBoard[1][j].piece = 'pawn';
   }
 
+  // the last two rows are all white pieces
   for (let i = 6; i < rows; i++) {
     for (let j = 0; j < columns; j++){
       theBoard[i][j].colour = 'white';
@@ -130,11 +131,12 @@ function boardSetUp() {
 }
 
 function selectPiece() {
-  
   if (mouseIsPressed) {
+    // detect in which cell is our mouse clicked
     let j = floor(mouseY / (boardSize / columns));
     let i = floor(mouseX / (boardSize / rows));
 
+    // set all the cell to be unselected to avoid any errors
     for (let x = 0; x < rows; x++) {
       for (let y = 0; y < columns; y++) {
         if (y !== j || x !== i) {
@@ -143,9 +145,13 @@ function selectPiece() {
       }
     }
 
+    // the cell can only be selected if there is a piece on it
     if (theBoard[j][i].piece !== 'none' && !theBoard[j][i].available) {
       theBoard[j][i].selected = true;
     } 
+    
+    // even after we click an empty cell, all the cell will be set to unselected and unavailable, 
+    // so the piece we have selected before won't be able to move
     else if (theBoard[j][i].piece === 'none') {
       for (let x = 0; x < rows; x++) {
         for (let y = 0; y < columns; y++) {
@@ -162,10 +168,10 @@ function selectPiece() {
 function movePiece() {
   let pieceColour, pieceType;
 
+  // we first push the position of the piece that was most recently selected
   for (let counter = 0; counter < theBoard.length; counter++) {
     for (let secondCounter = 0; secondCounter < theBoard[counter].length; secondCounter++) {
       if (theBoard[counter][secondCounter].selected) {
-        if (pos[pos.length - 1][0] !== theBoard[counter][secondCounter].i || pos[pos.length - 1][1] !== theBoard[counter][secondCounter].j)
         pos.push([counter, secondCounter]);
       }
     }
@@ -181,11 +187,13 @@ function movePiece() {
       // If the last element passed in was a king, so one of the players wins the game
       pieceTaken.push( [theBoard[j][i].colour, theBoard[j][i].piece] );
 
+      // the cell our selected pieve has left from is empty now
       pieceColour = theBoard[pos[pos.length - 1][0]][pos[pos.length - 1][1]].colour;
       pieceType = theBoard[pos[pos.length - 1][0]][pos[pos.length - 1][1]].piece;
       theBoard[pos[pos.length - 1][0]][pos[pos.length - 1][1]].colour = 'none';
       theBoard[pos[pos.length - 1][0]][pos[pos.length - 1][1]].piece = 'none';
 
+      // then we can replace the available cell with the piece we have selected by pass in the piece information we just saved
       theBoard[j][i].colour = pieceColour;
       theBoard[j][i].piece = pieceType;
       theBoard[j][i].available = false;
@@ -197,7 +205,7 @@ function movePiece() {
 function checkWinner() {
   let winnerColour;
 
-  // checking the last element pushed into the array
+  // checking the pieces that has been taken and pushed them into the array, if it was a king, on of the player has lost
   if (pieceTaken[pieceTaken.length - 1][1] === 'king') {
     if (pieceTaken[pieceTaken.length - 1][0] === 'white') {
       winnerColour = 'BLACK';
@@ -216,17 +224,41 @@ function gameOver(object) {
   textFont(myFont);
   textSize(60);
   fill("white");
-  text("Game Over", windowWidth / 2, windowHeight / 3);
+  text("Game Over", boardSize / 2, boardSize / 3);
 
-  text ("The Winner Was " + object , windowWidth / 2, windowHeight / 2);
+  text ("The Winner Was " + object + "!", boardSize / 2, boardSize / 2);
 
-  text("Restart", windowWidth / 2, windowHeight / 3 * 2)
+  text("Restart", boardSize / 2, boardSize / 3 * 2)
 
   stroke(255);
-  line(windowWidth / 2 - 120, windowHeight / 3 * 2 - 60, windowWidth / 2 + 120, windowHeight / 3 * 2 - 60);
-  line(windowWidth / 2 - 120, windowHeight / 3 * 2 + 30, windowWidth / 2 + 120, windowHeight / 3 * 2 + 30 );
-  line(windowWidth / 2 - 120, windowHeight / 3 * 2 - 60, windowWidth / 2 - 120, windowHeight / 3 * 2 + 30 );
-  line(windowWidth / 2 + 120, windowHeight / 3 * 2 + 30, windowWidth / 2 + 120, windowHeight / 3 * 2 - 60 );
+  line(boardSize / 2 - 120, boardSize / 3 * 2 - 60, boardSize / 2 + 120, boardSize / 3 * 2 - 60);
+  line(boardSize / 2 - 120, boardSize / 3 * 2 + 30, boardSize / 2 + 120, boardSize / 3 * 2 + 30 );
+  line(boardSize / 2 - 120, boardSize / 3 * 2 - 60, boardSize / 2 - 120, boardSize / 3 * 2 + 30 );
+  line(boardSize / 2 + 120, boardSize / 3 * 2 + 30, boardSize / 2 + 120, boardSize / 3 * 2 - 60 );
+  
+  if (mouseX > boardSize / 2 - 120 && mouseX < boardSize / 2 + 120) {
+    if (mouseY > boardSize / 3 * 2 - 60 && mouseY < boardSize / 3 * 2 + 30) {
+      if (mouseIsPressed) {
+        theBoard = [
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ];
+
+        // it is important to reset the array used for checking the winner
+        pieceTaken = [
+          ['none', 'none']
+        ];
+
+        setup();
+      }
+    }
+  }
 }
 
 function initializingAvailability() {
@@ -246,6 +278,7 @@ function movePawn() {
 
   for (let x = 0; x < rows; x++) {
     for (let y = 0; y < columns; y++) {
+      // white pawn
       if (y === 6 && theBoard[y][x].colour === 'white' && theBoard[y][x].piece === 'pawn' && theBoard[y][x].selected) {
         initializingAvailability();
         fill(25, 255, 25, 125);
@@ -287,6 +320,7 @@ function movePawn() {
         }
       }
 
+      // black pawn
       if (y === 1 && theBoard[y][x].colour === 'black' && theBoard[y][x].piece === 'pawn' && theBoard[y][x].selected) {
         initializingAvailability();
         fill(25, 255, 25, 125);
@@ -343,6 +377,7 @@ function moveKnight() {
       for (let counter = 0; counter < colourList.length; counter++) {
         let selectedColour = colourList[counter % 2];
         let opponentColour = colourList[(counter + 1) % 2];
+
         if (theBoard[y][x].piece === 'knight' && theBoard[y][x].selected && theBoard[y][x].colour === selectedColour) {
           initializingAvailability();
           if (y - 1 >= 0 && x + 2 < columns && theBoard[y - 1][x + 2].piece === 'none') {
@@ -461,103 +496,21 @@ function moveBishop() {
           initializingAvailability();
 
           for (let i = 0; i < checkList.length; i++) {
-            if (y + checkList[i][0]*1 >= 0 && y + checkList[i][0]*1 < rows &&
-            x + checkList[i][1]*1 >= 0 && x + checkList[i][1]*1 < columns &&
-            theBoard[y + checkList[i][0]*1][x + checkList[i][1]*1].piece === 'none') {
-              fill(25, 255, 25, 125);
-              rect((x + checkList[i][1]*1) * (boardSize / columns), (y + checkList[i][0]*1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-              if (y + checkList[i][0]*2 >= 0 && y + checkList[i][0]*2 < rows &&
-              x + checkList[i][1]*2 >= 0 && x + checkList[i][1]*2 < columns &&
-              theBoard[y + checkList[i][0]*2][x + checkList[i][1]*2].piece === 'none') {
+            let a = 1;
+            while (y + checkList[i][0]*a >= 0 && y + checkList[i][0]*a < rows &&
+              x + checkList[i][1]*a >= 0 && x + checkList[i][1]*a < columns &&
+              theBoard[y + checkList[i][0]*a][x + checkList[i][1]*a].piece === 'none') {
                 fill(25, 255, 25, 125);
-                rect((x + checkList[i][1]*2) * (boardSize / columns), (y + checkList[i][0]*2) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                if (y + checkList[i][0]*3 >= 0 && y + checkList[i][0]*3 < rows &&
-                x + checkList[i][1]*3 >= 0 && x + checkList[i][1]*3 < columns &&
-                theBoard[y + checkList[i][0]*3][x + checkList[i][1]*3].piece === 'none') {
-                  fill(25, 255, 25, 125);
-                  rect((x + checkList[i][1]*3) * (boardSize / columns), (y + checkList[i][0]*3) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                  if (y + checkList[i][0]*4 >= 0 && y + checkList[i][0]*4 < rows &&
-                  x + checkList[i][1]*4 >= 0 && x + checkList[i][1]*4 < columns &&
-                  theBoard[y + checkList[i][0]*4][x + checkList[i][1]*4].piece === 'none') {
-                    fill(25, 255, 25, 125);
-                    rect((x + checkList[i][1]*4) * (boardSize / columns), (y + checkList[i][0]*4) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                    if (y + checkList[i][0]*5 >= 0 && y + checkList[i][0]*5 < rows &&
-                    x + checkList[i][1]*5 >= 0 && x + checkList[i][1]*5 < columns &&
-                    theBoard[y + checkList[i][0]*5][x + checkList[i][1]*5].piece === 'none') {
-                      fill(25, 255, 25, 125);
-                      rect((x + checkList[i][1]*5) * (boardSize / columns), (y + checkList[i][0]*5) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                      if (y + checkList[i][0]*6 >= 0 && y + checkList[i][0]*6 < rows &&
-                      x + checkList[i][1]*6 >= 0 && x + checkList[i][1]*6 < columns &&
-                      theBoard[y + checkList[i][0]*6][x + checkList[i][1]*6].piece === 'none') {
-                        fill(25, 255, 25, 125);
-                        rect((x + checkList[i][1]*6) * (boardSize / columns), (y + checkList[i][0]*6) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                        if (y + checkList[i][0]*7 >= 0 && y + checkList[i][0]*7 < rows &&
-                        x + checkList[i][1]*7 >= 0 && x + checkList[i][1]*7 < columns &&
-                        theBoard[y + checkList[i][0]*7][x + checkList[i][1]*7].piece === 'none') {
-                          fill(25, 255, 25, 125);
-                          rect((x + checkList[i][1]*7) * (boardSize / columns), (y + checkList[i][0]*7) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                          theBoard[y + checkList[i][0]*7][x + checkList[i][1]*7].available = true;
-                        }
-                        if (y + checkList[i][0]*7 >= 0 && y + checkList[i][0]*7 < rows &&
-                          x + checkList[i][1]*7 >= 0 && x + checkList[i][1]*7 < columns &&
-                          theBoard[y + checkList[i][0]*7][x + checkList[i][1]*7].colour === opponentColour) {
-                          fill(255, 25, 25, 125);
-                          rect((x + checkList[i][1]*7) * (boardSize / columns), (y + checkList[i][0]*7) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                          theBoard[y + checkList[i][0]*7][x + checkList[i][1]*7].available = true;
-                        }
-                        theBoard[y + checkList[i][0]*6][x + checkList[i][1]*6].available = true;
-                      }
-                      if (y + checkList[i][0]*6 >= 0 && y + checkList[i][0]*6 < rows &&
-                        x + checkList[i][1]*6 >= 0 && x + checkList[i][1]*6 < columns &&
-                        theBoard[y + checkList[i][0]*6][x + checkList[i][1]*6].colour === opponentColour) {
-                        fill(255, 25, 25, 125);
-                        rect((x + checkList[i][1]*6) * (boardSize / columns), (y + checkList[i][0]*6) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                        theBoard[y + checkList[i][0]*6][x + checkList[i][1]*6].available = true;
-                      }
-                      theBoard[y + checkList[i][0]*5][x + checkList[i][1]*5].available = true;
-                    }
-                    if (y + checkList[i][0]*5 >= 0 && y + checkList[i][0]*5 < rows &&
-                      x + checkList[i][1]*5 >= 0 && x + checkList[i][1]*5 < columns &&
-                      theBoard[y + checkList[i][0]*5][x + checkList[i][1]*5].colour === opponentColour) {
-                      fill(255, 25, 25, 125);
-                      rect((x + checkList[i][1]*5) * (boardSize / columns), (y + checkList[i][0]*5) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                      theBoard[y + checkList[i][0]*5][x + checkList[i][1]*5].available = true;
-                    }
-                    theBoard[y + checkList[i][0]*4][x + checkList[i][1]*4].available = true;
-                  }
-                  if (y + checkList[i][0]*4 >= 0 && y + checkList[i][0]*4 < rows &&
-                    x + checkList[i][1]*4 >= 0 && x + checkList[i][1]*4 < columns &&
-                    theBoard[y + checkList[i][0]*4][x + checkList[i][1]*4].colour === opponentColour) {
-                    fill(255, 25, 25, 125);
-                    rect((x + checkList[i][1]*4) * (boardSize / columns), (y + checkList[i][0]*4) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                    theBoard[y + checkList[i][0]*4][x + checkList[i][1]*4].available = true;
-                  }
-                  theBoard[y + checkList[i][0]*3][x + checkList[i][1]*3].available = true;
-                }
-                if (y + checkList[i][0]*3 >= 0 && y + checkList[i][0]*3 < rows &&
-                  x + checkList[i][1]*3 >= 0 && x + checkList[i][1]*3 < columns &&
-                  theBoard[y + checkList[i][0]*3][x + checkList[i][1]*3].colour === opponentColour) {
-                  fill(255, 25, 25, 125);
-                  rect((x + checkList[i][1]*3) * (boardSize / columns), (y + checkList[i][0]*3) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                  theBoard[y + checkList[i][0]*3][x + checkList[i][1]*3].available = true;
-                }
-                theBoard[y + checkList[i][0]*2][x + checkList[i][1]*2].available = true;
-              }
-              if (y + checkList[i][0]*2 >= 0 && y + checkList[i][0]*2 < rows &&
-                x + checkList[i][1]*2 >= 0 && x + checkList[i][1]*2 < columns &&
-                theBoard[y + checkList[i][0]*2][x + checkList[i][1]*2].colour === opponentColour) {
-                fill(255, 25, 25, 125);
-                rect((x + checkList[i][1]*2) * (boardSize / columns), (y + checkList[i][0]*2) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                theBoard[y + checkList[i][0]*2][x + checkList[i][1]*2].available = true;
-              }
-              theBoard[y + checkList[i][0]*1][x + checkList[i][1]*1].available = true;
+                rect((x + checkList[i][1]*a) * (boardSize / columns), (y + checkList[i][0]*a) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+                theBoard[y + checkList[i][0]*a][x + checkList[i][1]*a].available = true;
+                a ++;
             }
-            if (y + checkList[i][0]*1 >= 0 && y + checkList[i][0]*1 < rows &&
-              x + checkList[i][1]*1 >= 0 && x + checkList[i][1]*1 < columns &&
-              theBoard[y + checkList[i][0]*1][x + checkList[i][1]*1].colour === opponentColour) {
-              fill(255, 25, 25, 125);
-              rect((x + checkList[i][1]*1) * (boardSize / columns), (y + checkList[i][0]*1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-              theBoard[y + checkList[i][0]*1][x + checkList[i][1]*1].available = true;
+
+            if (y + checkList[i][0]*a >= 0 && y + checkList[i][0]*a < rows &&
+              x + checkList[i][1]*a >= 0 && x + checkList[i][1]*a < columns &&
+              theBoard[y + checkList[i][0]*a][x + checkList[i][1]*a].colour === opponentColour) {
+                fill(255, 25, 25, 125);
+                rect((x + checkList[i][1]*a) * (boardSize / columns), (y + checkList[i][0]*a) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
             }
           }
         }
@@ -584,148 +537,36 @@ function moveRook() {
           initializingAvailability();
 
           for (let i = 0; i < checkList.length; i ++) {
-            if (x + checkList[i]*1 >= 0 && x + checkList[i]*1 < columns && theBoard[y][x + checkList[i]*1].piece === 'none') {
+            let a = 1;
+
+            while (x + checkList[i]*a >= 0 && x + checkList[i]*a < columns && theBoard[y][x + checkList[i]*a].piece === 'none') {
               fill(25, 255, 25, 125);
-              rect((x + checkList[i]*1) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-              if (x + checkList[i]*2 >= 0 && x + checkList[i]*2 < columns && theBoard[y][x + checkList[i]*2].piece === 'none') {
-                fill(25, 255, 25, 125);
-                rect((x + checkList[i]*2) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                if (x + checkList[i]*3 >= 0 && x + checkList[i]*3 < columns && theBoard[y][x + checkList[i]*3].piece === 'none') {
-                  fill(25, 255, 25, 125);
-                  rect((x + checkList[i]*3) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                  if (x + checkList[i]*4 >= 0 && x + checkList[i]*4 < columns && theBoard[y][x + checkList[i]*4].piece === 'none') {
-                    fill(25, 255, 25, 125);
-                    rect((x + checkList[i]*4) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                    if (x + checkList[i]*5 >= 0 && x + checkList[i]*5 < columns && theBoard[y][x + checkList[i]*5].piece === 'none') {
-                      fill(25, 255, 25, 125);
-                      rect((x + checkList[i]*5) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                      if (x + checkList[i]*6 >= 0 && x + checkList[i]*6 < columns && theBoard[y][x + checkList[i]*6].piece === 'none') {
-                        fill(25, 255, 25, 125);
-                        rect((x + checkList[i]*6) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                        if (x + checkList[i]*7 >= 0 && x + checkList[i]*7 < columns && theBoard[y][x + checkList[i]*7].piece === 'none') {
-                          fill(25, 255, 25, 125);
-                          rect((x + checkList[i]*7) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                          theBoard[y][x + checkList[i]*7].available = true;
-                        }
-                        if (x + checkList[i]*7 >= 0 && x + checkList[i]*7 < columns && theBoard[y][x + checkList[i]*7].colour === opponentColour) {
-                          fill(255, 25, 25, 125);
-                          rect((x + checkList[i]*7) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                          theBoard[y][x + checkList[i]*7].available = true;
-                        }
-                        theBoard[y][x + checkList[i]*6].available = true;
-                      }
-                      if (x + checkList[i]*6 >= 0 && x + checkList[i]*6 < columns && theBoard[y][x + checkList[i]*6].colour === opponentColour) {
-                        fill(255, 25, 25, 125);
-                        rect((x + checkList[i]*6) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                        theBoard[y][x + checkList[i]*6].available = true;
-                      }
-                      theBoard[y][x + checkList[i]*5].available = true;
-                    }
-                    if (x + checkList[i]*5 >= 0 && x + checkList[i]*5 < columns && theBoard[y][x + checkList[i]*5].colour === opponentColour) {
-                      fill(255, 25, 25, 125);
-                      rect((x + checkList[i]*5) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                      theBoard[y][x + checkList[i]*5].available = true;
-                    }
-                    theBoard[y][x + checkList[i]*4].available = true;
-                  }
-                  if (x + checkList[i]*4 >= 0 && x + checkList[i]*4 < columns && theBoard[y][x + checkList[i]*4].colour === opponentColour) {
-                    fill(255, 25, 25, 125);
-                    rect((x + checkList[i]*4) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                    theBoard[y][x + checkList[i]*4].available = true;
-                  }
-                  theBoard[y][x + checkList[i]*3].available = true;
-                }
-                if (x + checkList[i]*3 >= 0 && x + checkList[i]*3 < columns && theBoard[y][x + checkList[i]*3].colour === opponentColour) {
-                  fill(255, 25, 25, 125);
-                  rect((x + checkList[i]*3) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                  theBoard[y][x + checkList[i]*3].available = true;
-                }
-                theBoard[y][x + checkList[i]*2].available = true;
-              }
-              if (x + checkList[i]*2 >= 0 && x + checkList[i]*2 < columns && theBoard[y][x + checkList[i]*2].colour === opponentColour) {
-                fill(255, 25, 25, 125);
-                rect((x + checkList[i]*2) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                theBoard[y][x + checkList[i]*2].available = true;
-              }
-              theBoard[y][x + checkList[i]*1].available = true;
+              rect((x + checkList[i]*a) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+              theBoard[y][x + checkList[i]*a].available = true;
+              a ++;
             }
-            if (x + checkList[i]*1 >= 0 && x + checkList[i]*1 < columns && theBoard[y][x + checkList[i]*1].colour === opponentColour) {
+
+            if (x + checkList[i]*a >= 0 && x + checkList[i]*a < columns && theBoard[y][x + checkList[i]*a].colour === opponentColour) {
               fill(255, 25, 25, 125);
-              rect((x + checkList[i]*1) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-              theBoard[y][x + checkList[i]*1].available = true;
+              rect((x + checkList[i]*a) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+              theBoard[y][x + checkList[i]*a].available = true;
             }
           }
 
           for (let i = 0; i < checkList.length; i ++) {
-            if (y + checkList[i]*1 >= 0 && y + checkList[i]*1 < rows && theBoard[y + checkList[i]*1][x].piece === 'none') {
+            let b = 1;
+
+            while (y + checkList[i]*b >= 0 && y + checkList[i]*b < rows && theBoard[y + checkList[i]*b][x].piece === 'none') {
               fill(25, 255, 25, 125);
-              rect(x * (boardSize / rows), (y + checkList[i]*1) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-              if (y + checkList[i]*2 >= 0 && y + checkList[i]*2 < rows && theBoard[y + checkList[i]*2][x].piece === 'none') {
-                fill(25, 255, 25, 125);
-                rect(x * (boardSize / rows), (y + checkList[i]*2) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                if (y + checkList[i]*3 >= 0 && y + checkList[i]*3 < rows && theBoard[y + checkList[i]*3][x].piece === 'none') {
-                  fill(25, 255, 25, 125);
-                  rect(x * (boardSize / rows), (y + checkList[i]*3) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                  if (y + checkList[i]*4 >= 0 && y + checkList[i]*4 < rows && theBoard[y + checkList[i]*4][x].piece === 'none') {
-                    fill(25, 255, 25, 125);
-                    rect(x * (boardSize / rows), (y + checkList[i]*4) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                    if (y + checkList[i]*5 >= 0 && y + checkList[i]*5 < rows && theBoard[y + checkList[i]*5][x].piece === 'none') {
-                      fill(25, 255, 25, 125);
-                      rect(x * (boardSize / rows), (y + checkList[i]*5) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                      if (y + checkList[i]*6 >= 0 && y + checkList[i]*6 < rows && theBoard[y + checkList[i]*6][x].piece === 'none') {
-                        fill(25, 255, 25, 125);
-                        rect(x * (boardSize / rows), (y + checkList[i]*6) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                        if (y + checkList[i]*7 >= 0 && y + checkList[i]*7 < rows && theBoard[y + checkList[i]*7][x].piece === 'none') {
-                          fill(25, 255, 25, 125);
-                          rect(x * (boardSize / rows), (y + checkList[i]*7) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                          theBoard[y + checkList[i]*7][x].available = true;
-                        }
-                        if (y + checkList[i]*7 >= 0 && y + checkList[i]*7 < rows && theBoard[y + checkList[i]*7][x].colour === opponentColour) {
-                          fill(255, 25, 25, 125);
-                          rect(x * (boardSize / rows), (y + checkList[i]*7) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                          theBoard[y + checkList[i]*7][x].available = true;
-                        }
-                        theBoard[y + checkList[i]*6][x].available = true;
-                      }
-                      if (y + checkList[i]*6 >= 0 && y + checkList[i]*6 < rows && theBoard[y + checkList[i]*6][x].colour === opponentColour) {
-                        fill(255, 25, 25, 125);
-                        rect(x * (boardSize / rows), (y + checkList[i]*6) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                        theBoard[y + checkList[i]*6][x].available = true;
-                      }
-                      theBoard[y + checkList[i]*5][x].available = true;
-                    }
-                    if (y + checkList[i]*5 >= 0 && y + checkList[i]*5 < rows && theBoard[y + checkList[i]*5][x].colour === opponentColour) {
-                      fill(255, 25, 25, 125);
-                      rect(x * (boardSize / rows), (y + checkList[i]*5) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                      theBoard[y + checkList[i]*5][x].available = true;
-                    }
-                    theBoard[y + checkList[i]*4][x].available = true;
-                  }
-                  if (y + checkList[i]*4 >= 0 && y + checkList[i]*4 < rows && theBoard[y + checkList[i]*4][x].colour === opponentColour) {
-                    fill(255, 25, 25, 125);
-                    rect(x * (boardSize / rows), (y + checkList[i]*4) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                    theBoard[y + checkList[i]*4][x].available = true;
-                  }
-                  theBoard[y + checkList[i]*3][x].available = true;
-                }
-                if (y + checkList[i]*3 >= 0 && y + checkList[i]*3 < rows && theBoard[y + checkList[i]*3][x].colour === opponentColour) {
-                  fill(255, 25, 25, 125);
-                  rect(x * (boardSize / rows), (y + checkList[i]*3) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                  theBoard[y + checkList[i]*3][x].available = true;
-                }
-                theBoard[y + checkList[i]*2][x].available = true;
-              }
-              if (y + checkList[i]*2 >= 0 && y + checkList[i]*2 < rows && theBoard[y + checkList[i]*2][x].colour === opponentColour) {
-                fill(255, 25, 25, 125);
-                rect(x * (boardSize / rows), (y + checkList[i]*2) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                theBoard[y + checkList[i]*2][x].available = true;
-              }
-              theBoard[y + checkList[i]*1][x].available = true;
+              rect(x * (boardSize / rows), (y + checkList[i]*b) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
+              theBoard[y + checkList[i]*b][x].available = true;
+              b ++;
             }
-            if (y + checkList[i]*1 >= 0 && y + checkList[i]*1 < rows && theBoard[y + checkList[i]*1][x].colour === opponentColour) {
+            
+            if (y + checkList[i]*b >= 0 && y + checkList[i]*b < rows && theBoard[y + checkList[i]*b][x].colour === opponentColour) {
               fill(255, 25, 25, 125);
-              rect(x * (boardSize / rows), (y + checkList[i]*1) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-              theBoard[y + checkList[i]*1][x].available = true;
+              rect((x) * (boardSize / columns), (y + checkList[i]*b) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+              theBoard[y + checkList[i]*b][x].available = true;
             }
           }
         }
@@ -747,6 +588,7 @@ function moveQueen() {
   ];
 
   let checkList2 = [-1, 1];
+
   let colourList = ['black', 'white'];
 
   for (let x = 0; x < rows; x++) {
@@ -759,249 +601,56 @@ function moveQueen() {
           initializingAvailability();
 
           for (let i = 0; i < checkList1.length; i++) {
-            if (y + checkList1[i][0]*1 >= 0 && y + checkList1[i][0]*1 < rows &&
-            x + checkList1[i][1]*1 >= 0 && x + checkList1[i][1]*1 < columns &&
-            theBoard[y + checkList1[i][0]*1][x + checkList1[i][1]*1].piece === 'none') {
-              fill(25, 255, 25, 125);
-              rect((x + checkList1[i][1]*1) * (boardSize / columns), (y + checkList1[i][0]*1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-              if (y + checkList1[i][0]*2 >= 0 && y + checkList1[i][0]*2 < rows &&
-              x + checkList1[i][1]*2 >= 0 && x + checkList1[i][1]*2 < columns &&
-              theBoard[y + checkList1[i][0]*2][x + checkList1[i][1]*2].piece === 'none') {
+            let a = 1;
+            while (y + checkList1[i][0]*a >= 0 && y + checkList1[i][0]*a < rows &&
+              x + checkList1[i][1]*a >= 0 && x + checkList1[i][1]*a < columns &&
+              theBoard[y + checkList1[i][0]*a][x + checkList1[i][1]*a].piece === 'none') {
                 fill(25, 255, 25, 125);
-                rect((x + checkList1[i][1]*2) * (boardSize / columns), (y + checkList1[i][0]*2) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                if (y + checkList1[i][0]*3 >= 0 && y + checkList1[i][0]*3 < rows &&
-                x + checkList1[i][1]*3 >= 0 && x + checkList1[i][1]*3 < columns &&
-                theBoard[y + checkList1[i][0]*3][x + checkList1[i][1]*3].piece === 'none') {
-                  fill(25, 255, 25, 125);
-                  rect((x + checkList1[i][1]*3) * (boardSize / columns), (y + checkList1[i][0]*3) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                  if (y + checkList1[i][0]*4 >= 0 && y + checkList1[i][0]*4 < rows &&
-                  x + checkList1[i][1]*4 >= 0 && x + checkList1[i][1]*4 < columns &&
-                  theBoard[y + checkList1[i][0]*4][x + checkList1[i][1]*4].piece === 'none') {
-                    fill(25, 255, 25, 125);
-                    rect((x + checkList1[i][1]*4) * (boardSize / columns), (y + checkList1[i][0]*4) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                    if (y + checkList1[i][0]*5 >= 0 && y + checkList1[i][0]*5 < rows &&
-                    x + checkList1[i][1]*5 >= 0 && x + checkList1[i][1]*5 < columns &&
-                    theBoard[y + checkList1[i][0]*5][x + checkList1[i][1]*5].piece === 'none') {
-                      fill(25, 255, 25, 125);
-                      rect((x + checkList1[i][1]*5) * (boardSize / columns), (y + checkList1[i][0]*5) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                      if (y + checkList1[i][0]*6 >= 0 && y + checkList1[i][0]*6 < rows &&
-                      x + checkList1[i][1]*6 >= 0 && x + checkList1[i][1]*6 < columns &&
-                      theBoard[y + checkList1[i][0]*6][x + checkList1[i][1]*6].piece === 'none') {
-                        fill(25, 255, 25, 125);
-                        rect((x + checkList1[i][1]*6) * (boardSize / columns), (y + checkList1[i][0]*6) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                        if (y + checkList1[i][0]*7 >= 0 && y + checkList1[i][0]*7 < rows &&
-                        x + checkList1[i][1]*7 >= 0 && x + checkList1[i][1]*7 < columns &&
-                        theBoard[y + checkList1[i][0]*7][x + checkList1[i][1]*7].piece === 'none') {
-                          fill(25, 255, 25, 125);
-                          rect((x + checkList1[i][1]*7) * (boardSize / columns), (y + checkList1[i][0]*7) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                          theBoard[y + checkList1[i][0]*7][x + checkList1[i][1]*7].available = true;
-                        }
-                        if (y + checkList1[i][0]*7 >= 0 && y + checkList1[i][0]*7 < rows &&
-                          x + checkList1[i][1]*7 >= 0 && x + checkList1[i][1]*7 < columns &&
-                          theBoard[y + checkList1[i][0]*7][x + checkList1[i][1]*7].colour === opponentColour) {
-                          fill(255, 25, 25, 125);
-                          rect((x + checkList1[i][1]*7) * (boardSize / columns), (y + checkList1[i][0]*7) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                          theBoard[y + checkList1[i][0]*7][x + checkList1[i][1]*7].available = true;
-                        }
-                        theBoard[y + checkList1[i][0]*6][x + checkList1[i][1]*6].available = true;
-                      }
-                      if (y + checkList1[i][0]*6 >= 0 && y + checkList1[i][0]*6 < rows &&
-                        x + checkList1[i][1]*6 >= 0 && x + checkList1[i][1]*6 < columns &&
-                        theBoard[y + checkList1[i][0]*6][x + checkList1[i][1]*6].colour === opponentColour) {
-                        fill(255, 25, 25, 125);
-                        rect((x + checkList1[i][1]*6) * (boardSize / columns), (y + checkList1[i][0]*6) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                        theBoard[y + checkList1[i][0]*6][x + checkList1[i][1]*6].available = true;
-                      }
-                      theBoard[y + checkList1[i][0]*5][x + checkList1[i][1]*5].available = true;
-                    }
-                    if (y + checkList1[i][0]*5 >= 0 && y + checkList1[i][0]*5 < rows &&
-                      x + checkList1[i][1]*5 >= 0 && x + checkList1[i][1]*5 < columns &&
-                      theBoard[y + checkList1[i][0]*5][x + checkList1[i][1]*5].colour === opponentColour) {
-                      fill(255, 25, 25, 125);
-                      rect((x + checkList1[i][1]*5) * (boardSize / columns), (y + checkList1[i][0]*5) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                      theBoard[y + checkList1[i][0]*5][x + checkList1[i][1]*5].available = true;
-                    }
-                    theBoard[y + checkList1[i][0]*4][x + checkList1[i][1]*4].available = true;
-                  }
-                  if (y + checkList1[i][0]*4 >= 0 && y + checkList1[i][0]*4 < rows &&
-                    x + checkList1[i][1]*4 >= 0 && x + checkList1[i][1]*4 < columns &&
-                    theBoard[y + checkList1[i][0]*4][x + checkList1[i][1]*4].colour === opponentColour) {
-                    fill(255, 25, 25, 125);
-                    rect((x + checkList1[i][1]*4) * (boardSize / columns), (y + checkList1[i][0]*4) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                    theBoard[y + checkList1[i][0]*4][x + checkList1[i][1]*4].available = true;
-                  }
-                  theBoard[y + checkList1[i][0]*3][x + checkList1[i][1]*3].available = true;
-                }
-                if (y + checkList1[i][0]*3 >= 0 && y + checkList1[i][0]*3 < rows &&
-                  x + checkList1[i][1]*3 >= 0 && x + checkList1[i][1]*3 < columns &&
-                  theBoard[y + checkList1[i][0]*3][x + checkList1[i][1]*3].colour === opponentColour) {
-                  fill(255, 25, 25, 125);
-                  rect((x + checkList1[i][1]*3) * (boardSize / columns), (y + checkList1[i][0]*3) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                  theBoard[y + checkList1[i][0]*3][x + checkList1[i][1]*3].available = true;
-                }
-                theBoard[y + checkList1[i][0]*2][x + checkList1[i][1]*2].available = true;
-              }
-              if (y + checkList1[i][0]*2 >= 0 && y + checkList1[i][0]*2 < rows &&
-                x + checkList1[i][1]*2 >= 0 && x + checkList1[i][1]*2 < columns &&
-                theBoard[y + checkList1[i][0]*2][x + checkList1[i][1]*2].colour === opponentColour) {
-                fill(255, 25, 25, 125);
-                rect((x + checkList1[i][1]*2) * (boardSize / columns), (y + checkList1[i][0]*2) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                theBoard[y + checkList1[i][0]*2][x + checkList1[i][1]*2].available = true;
-              }
-              theBoard[y + checkList1[i][0]*1][x + checkList1[i][1]*1].available = true;
+                rect((x + checkList1[i][1]*a) * (boardSize / columns), (y + checkList1[i][0]*a) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+                theBoard[y + checkList1[i][0]*a][x + checkList1[i][1]*a].available = true;
+                a ++;
             }
-            if (y + checkList1[i][0]*1 >= 0 && y + checkList1[i][0]*1 < rows &&
-              x + checkList1[i][1]*1 >= 0 && x + checkList1[i][1]*1 < columns &&
-              theBoard[y + checkList1[i][0]*1][x + checkList1[i][1]*1].colour === opponentColour) {
-              fill(255, 25, 25, 125);
-              rect((x + checkList1[i][1]*1) * (boardSize / columns), (y + checkList1[i][0]*1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-              theBoard[y + checkList1[i][0]*1][x + checkList1[i][1]*1].available = true;
+            
+            if (y + checkList1[i][0]*a >= 0 && y + checkList1[i][0]*a < rows &&
+              x + checkList1[i][1]*a >= 0 && x + checkList1[i][1]*a < columns &&
+              theBoard[y + checkList1[i][0]*a][x + checkList1[i][1]*a].colour === opponentColour) {
+                fill(255, 25, 25, 125);
+                rect((x + checkList1[i][1]*a) * (boardSize / columns), (y + checkList1[i][0]*a) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+                theBoard[y + checkList1[i][0]*a][x + checkList1[i][1]*a].available = true;
             }
           }
 
           for (let i = 0; i < checkList2.length; i ++) {
-            if (x + checkList2[i]*1 >= 0 && x + checkList2[i]*1 < columns && theBoard[y][x + checkList2[i]*1].piece === 'none') {
+            let a = 1;
+
+            while (x + checkList2[i]*a >= 0 && x + checkList2[i]*a < columns && theBoard[y][x + checkList2[i]*a].piece === 'none') {
               fill(25, 255, 25, 125);
-              rect((x + checkList2[i]*1) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-              if (x + checkList2[i]*2 >= 0 && x + checkList2[i]*2 < columns && theBoard[y][x + checkList2[i]*2].piece === 'none') {
-                fill(25, 255, 25, 125);
-                rect((x + checkList2[i]*2) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                if (x + checkList2[i]*3 >= 0 && x + checkList2[i]*3 < columns && theBoard[y][x + checkList2[i]*3].piece === 'none') {
-                  fill(25, 255, 25, 125);
-                  rect((x + checkList2[i]*3) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                  if (x + checkList2[i]*4 >= 0 && x + checkList2[i]*4 < columns && theBoard[y][x + checkList2[i]*4].piece === 'none') {
-                    fill(25, 255, 25, 125);
-                    rect((x + checkList2[i]*4) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                    if (x + checkList2[i]*5 >= 0 && x + checkList2[i]*5 < columns && theBoard[y][x + checkList2[i]*5].piece === 'none') {
-                      fill(25, 255, 25, 125);
-                      rect((x + checkList2[i]*5) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                      if (x + checkList2[i]*6 >= 0 && x + checkList2[i]*6 < columns && theBoard[y][x + checkList2[i]*6].piece === 'none') {
-                        fill(25, 255, 25, 125);
-                        rect((x + checkList2[i]*6) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                        if (x + checkList2[i]*7 >= 0 && x + checkList2[i]*7 < columns && theBoard[y][x + checkList2[i]*7].piece === 'none') {
-                          fill(25, 255, 25, 125);
-                          rect((x + checkList2[i]*7) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                          theBoard[y][x + checkList2[i]*7].available = true;
-                        }
-                        if (x + checkList2[i]*7 >= 0 && x + checkList2[i]*7 < columns && theBoard[y][x + checkList2[i]*7].colour === opponentColour) {
-                          fill(255, 25, 25, 125);
-                          rect((x + checkList2[i]*7) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                          theBoard[y][x + checkList2[i]*7].available = true;
-                        }
-                        theBoard[y][x + checkList2[i]*6].available = true;
-                      }
-                      if (x + checkList2[i]*6 >= 0 && x + checkList2[i]*6 < columns && theBoard[y][x + checkList2[i]*6].colour === opponentColour) {
-                        fill(255, 25, 25, 125);
-                        rect((x + checkList2[i]*6) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                        theBoard[y][x + checkList2[i]*6].available = true;
-                      }
-                      theBoard[y][x + checkList2[i]*5].available = true;
-                    }
-                    if (x + checkList2[i]*5 >= 0 && x + checkList2[i]*5 < columns && theBoard[y][x + checkList2[i]*5].colour === opponentColour) {
-                      fill(255, 25, 25, 125);
-                      rect((x + checkList2[i]*5) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                      theBoard[y][x + checkList2[i]*5].available = true;
-                    }
-                    theBoard[y][x + checkList2[i]*4].available = true;
-                  }
-                  if (x + checkList2[i]*4 >= 0 && x + checkList2[i]*4 < columns && theBoard[y][x + checkList2[i]*4].colour === opponentColour) {
-                    fill(255, 25, 25, 125);
-                    rect((x + checkList2[i]*4) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                    theBoard[y][x + checkList2[i]*4].available = true;
-                  }
-                  theBoard[y][x + checkList2[i]*3].available = true;
-                }
-                if (x + checkList2[i]*3 >= 0 && x + checkList2[i]*3 < columns && theBoard[y][x + checkList2[i]*3].colour === opponentColour) {
-                  fill(255, 25, 25, 125);
-                  rect((x + checkList2[i]*3) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                  theBoard[y][x + checkList2[i]*3].available = true;
-                }
-                theBoard[y][x + checkList2[i]*2].available = true;
-              }
-              if (x + checkList2[i]*2 >= 0 && x + checkList2[i]*2 < columns && theBoard[y][x + checkList2[i]*2].colour === opponentColour) {
-                fill(255, 25, 25, 125);
-                rect((x + checkList2[i]*2) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                theBoard[y][x + checkList2[i]*2].available = true;
-              }
-              theBoard[y][x + checkList2[i]*1].available = true;
+              rect((x + checkList2[i]*a) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+              theBoard[y][x + checkList2[i]*a].available = true;
+              a ++;
             }
-            if (x + checkList2[i]*1 >= 0 && x + checkList2[i]*1 < columns && theBoard[y][x + checkList2[i]*1].colour === opponentColour) {
+
+            if (x + checkList2[i]*a >= 0 && x + checkList2[i]*a < columns && theBoard[y][x + checkList2[i]*a].colour === opponentColour) {
               fill(255, 25, 25, 125);
-              rect((x + checkList2[i]*1) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-              theBoard[y][x + checkList2[i]*1].available = true;
+              rect((x + checkList2[i]*a) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+              theBoard[y][x + checkList2[i]*a].available = true;
             }
           }
 
           for (let i = 0; i < checkList2.length; i ++) {
-            if (y + checkList2[i]*1 >= 0 && y + checkList2[i]*1 < rows && theBoard[y + checkList2[i]*1][x].piece === 'none') {
+            let b = 1;
+
+            while (y + checkList2[i]*b >= 0 && y + checkList2[i]*b < rows && theBoard[y + checkList2[i]*b][x].piece === 'none') {
               fill(25, 255, 25, 125);
-              rect(x * (boardSize / rows), (y + checkList2[i]*1) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-              if (y + checkList2[i]*2 >= 0 && y + checkList2[i]*2 < rows && theBoard[y + checkList2[i]*2][x].piece === 'none') {
-                fill(25, 255, 25, 125);
-                rect(x * (boardSize / rows), (y + checkList2[i]*2) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                if (y + checkList2[i]*3 >= 0 && y + checkList2[i]*3 < rows && theBoard[y + checkList2[i]*3][x].piece === 'none') {
-                  fill(25, 255, 25, 125);
-                  rect(x * (boardSize / rows), (y + checkList2[i]*3) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                  if (y + checkList2[i]*4 >= 0 && y + checkList2[i]*4 < rows && theBoard[y + checkList2[i]*4][x].piece === 'none') {
-                    fill(25, 255, 25, 125);
-                    rect(x * (boardSize / rows), (y + checkList2[i]*4) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                    if (y + checkList2[i]*5 >= 0 && y + checkList2[i]*5 < rows && theBoard[y + checkList2[i]*5][x].piece === 'none') {
-                      fill(25, 255, 25, 125);
-                      rect(x * (boardSize / rows), (y + checkList2[i]*5) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                      if (y + checkList2[i]*6 >= 0 && y + checkList2[i]*6 < rows && theBoard[y + checkList2[i]*6][x].piece === 'none') {
-                        fill(25, 255, 25, 125);
-                        rect(x * (boardSize / rows), (y + checkList2[i]*6) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                        if (y + checkList2[i]*7 >= 0 && y + checkList2[i]*7 < rows && theBoard[y + checkList2[i]*7][x].piece === 'none') {
-                          fill(25, 255, 25, 125);
-                          rect(x * (boardSize / rows), (y + checkList2[i]*7) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                          theBoard[y + checkList2[i]*7][x].available = true;
-                        }
-                        if (y + checkList2[i]*7 >= 0 && y + checkList2[i]*7 < rows && theBoard[y + checkList2[i]*7][x].colour === opponentColour) {
-                          fill(255, 25, 25, 125);
-                          rect(x * (boardSize / rows), (y + checkList2[i]*7) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                          theBoard[y + checkList2[i]*7][x].available = true;
-                        }
-                        theBoard[y + checkList2[i]*6][x].available = true;
-                      }
-                      if (y + checkList2[i]*6 >= 0 && y + checkList2[i]*6 < rows && theBoard[y + checkList2[i]*6][x].colour === opponentColour) {
-                        fill(255, 25, 25, 125);
-                        rect(x * (boardSize / rows), (y + checkList2[i]*6) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                        theBoard[y + checkList2[i]*6][x].available = true;
-                      }
-                      theBoard[y + checkList2[i]*5][x].available = true;
-                    }
-                    if (y + checkList2[i]*5 >= 0 && y + checkList2[i]*5 < rows && theBoard[y + checkList2[i]*5][x].colour === opponentColour) {
-                      fill(255, 25, 25, 125);
-                      rect(x * (boardSize / rows), (y + checkList2[i]*5) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                      theBoard[y + checkList2[i]*5][x].available = true;
-                    }
-                    theBoard[y + checkList2[i]*4][x].available = true;
-                  }
-                  if (y + checkList2[i]*4 >= 0 && y + checkList2[i]*4 < rows && theBoard[y + checkList2[i]*4][x].colour === opponentColour) {
-                    fill(255, 25, 25, 125);
-                    rect(x * (boardSize / rows), (y + checkList2[i]*4) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                    theBoard[y + checkList2[i]*4][x].available = true;
-                  }
-                  theBoard[y + checkList2[i]*3][x].available = true;
-                }
-                if (y + checkList2[i]*3 >= 0 && y + checkList2[i]*3 < rows && theBoard[y + checkList2[i]*3][x].colour === opponentColour) {
-                  fill(255, 25, 25, 125);
-                  rect(x * (boardSize / rows), (y + checkList2[i]*3) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                  theBoard[y + checkList2[i]*3][x].available = true;
-                }
-                theBoard[y + checkList2[i]*2][x].available = true;
-              }
-              if (y + checkList2[i]*2 >= 0 && y + checkList2[i]*2 < rows && theBoard[y + checkList2[i]*2][x].colour === opponentColour) {
-                fill(255, 25, 25, 125);
-                rect(x * (boardSize / rows), (y + checkList2[i]*2) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-                theBoard[y + checkList2[i]*2][x].available = true;
-              }
-              theBoard[y + checkList2[i]*1][x].available = true;
+              rect(x * (boardSize / rows), (y + checkList2[i]*b) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
+              theBoard[y + checkList2[i]*b][x].available = true;
+              b ++;
             }
-            if (y + checkList2[i]*1 >= 0 && y + checkList2[i]*1 < rows && theBoard[y + checkList2[i]*1][x].colour === opponentColour) {
+            
+            if (y + checkList2[i]*b >= 0 && y + checkList2[i]*b < rows && theBoard[y + checkList2[i]*b][x].colour === opponentColour) {
               fill(255, 25, 25, 125);
-              rect(x * (boardSize / rows), (y + checkList2[i]*1) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
-              theBoard[y + checkList2[i]*1][x].available = true;
+              rect((x) * (boardSize / columns), (y + checkList2[i]*b) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+              theBoard[y + checkList2[i]*b][x].available = true;
             }
           }
         }
