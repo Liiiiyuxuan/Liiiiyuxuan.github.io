@@ -13,6 +13,9 @@ let theBoard = [
   []
 ];
 
+// list that stores the board for taking back (undo)
+let theBoardList = [];
+
 // array used to store all the pieces selected, push the piece that has been most recently selected
 // therefore, if we want to move any of the pieces, we could use the last element pushed into the cell
 // and assign the designated spot with the slected piece's information we have stored
@@ -200,6 +203,10 @@ function movePiece() {
 
     }
   }
+}
+
+function takeBack() {
+  
 }
 
 function checkWinner() {
@@ -511,6 +518,7 @@ function moveBishop() {
               theBoard[y + checkList[i][0]*a][x + checkList[i][1]*a].colour === opponentColour) {
                 fill(255, 25, 25, 125);
                 rect((x + checkList[i][1]*a) * (boardSize / columns), (y + checkList[i][0]*a) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+                theBoard[y + checkList[i][0]*a][x + checkList[i][1]*a].available = true;
             }
           }
         }
