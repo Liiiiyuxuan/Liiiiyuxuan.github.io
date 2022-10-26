@@ -47,6 +47,8 @@ function preload() {
   blackBishopImg = loadImage('black.Bishop.png');
   blackQueenImg = loadImage('black.Queen.png');
   blackKingImg = loadImage('black.King.png');
+
+  myFont = loadFont('gameFont.ttf');
 }
 
 
