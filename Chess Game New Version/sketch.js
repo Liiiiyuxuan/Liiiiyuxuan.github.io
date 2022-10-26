@@ -13,12 +13,25 @@ let theBoard = [
   []
 ];
 
+// array used to store all the pieces selected, push the piece that has been most recently selected
+// therefore, if we want to move any of the pieces, we could use the last element pushed into the cell
+// and assign the designated spot with the slected piece's information we have stored
 let pos = [
   ['none', 'none'],
 ];
 
+// the array used to store all the pieces or cells that has been taken 
+let pieceTaken = [
+  ['none', 'none']
+];
+
 let whitePawnImg, whiteRookImg, whiteKnightImg, whiteBishopImg, whiteQueenImg, whiteKingImg;
 let blackPawnImg, blackRookImg, blackKnightImg, blackBishopImg, blackQueenImg, blackKingImg;
+
+// both boolean are true indicate that the two kings are on the board
+// checked by the checkWinner() consistently
+let whiteKing = true;
+let blackking = true;
 
 function preload() {
   whitePawnImg = loadImage('white.pawn.png');
@@ -61,11 +74,13 @@ function draw() {
   moveRook();
   moveQueen();
   moveKing();
+  checkWinner();
 }
 
 
 
 function boardSetUp() {
+  // first of all, assign all the cells with the same value to create the board
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < columns; j++) {
       let cell = new Cell(i, j, 'none', 'none', false, false);
@@ -160,6 +175,10 @@ function movePiece() {
     let i = floor(mouseX / (boardSize / rows));
 
     if (theBoard[j][i].available) {
+      // this array is used to in the checkWinner() for the purpose of checking the last element passed in
+      // If the last element passed in was a king, so one of the players wins the game
+      pieceTaken.push( [theBoard[j][i].colour, theBoard[j][i].piece] );
+
       pieceColour = theBoard[pos[pos.length - 1][0]][pos[pos.length - 1][1]].colour;
       pieceType = theBoard[pos[pos.length - 1][0]][pos[pos.length - 1][1]].piece;
       theBoard[pos[pos.length - 1][0]][pos[pos.length - 1][1]].colour = 'none';
@@ -173,7 +192,44 @@ function movePiece() {
   }
 }
 
+function checkWinner() {
+  let winnerColour;
+
+  // checking the last element pushed into the array
+  if (pieceTaken[pieceTaken.length - 1][1] === 'king') {
+    if (pieceTaken[pieceTaken.length - 1][0] === 'white') {
+      winnerColour = 'black'
+      gameOver(winnerColour);
+    }
+    if (pieceTaken[pieceTaken.length - 1][0] === 'black') {
+      winnerColour = 'white'
+      gameOver(winnerColour);
+    }
+  }
+}
+
+function gameOver(object) {
+  background('black')
+  textAlign(CENTER);
+  textFont(myFont);
+  textSize(60);
+  fill("white");
+  text("Game Over", windowWidth / 2, windowHeight / 3);
+
+  text ("The Winner Was" + object , windowWidth / 2, windowHeight / 2);
+
+  text("Restart", windowWidth / 2, windowHeight / 3 * 2)
+
+  stroke(255);
+  line(windowWidth / 2 - 120, windowHeight / 3 * 2 - 60, windowWidth / 2 + 120, windowHeight / 3 * 2 - 60);
+  line(windowWidth / 2 - 120, windowHeight / 3 * 2 + 30, windowWidth / 2 + 120, windowHeight / 3 * 2 + 30 );
+  line(windowWidth / 2 - 120, windowHeight / 3 * 2 - 60, windowWidth / 2 - 120, windowHeight / 3 * 2 + 30 );
+  line(windowWidth / 2 + 120, windowHeight / 3 * 2 + 30, windowWidth / 2 + 120, windowHeight / 3 * 2 - 60 );
+}
+
 function initializingAvailability() {
+  // function being called everytime a cell has been selected
+  // to avoid error happen as a not selected piece move to another spot
   for (let x = 0; x < rows; x++) {
     for (let y = 0; y < columns; y++) {
       theBoard[y][x].available = false;
@@ -957,86 +1013,103 @@ function moveQueen() {
 function moveKing() {
   selectPiece();
 
+  let colourList = ['black', 'white'];
+
   for (let x = 0; x < rows; x++) {
     for (let y = 0; y < columns; y++) {
-      if (theBoard[y][x].piece === 'king' && theBoard[y][x].selected && theBoard[y][x].colour === 'white') {
-        initializingAvailability();
-        if (y - 1 >= 0 && x - 1 >= 0 && theBoard[y - 1][x - 1].piece === 'none') {
-          fill(25, 255, 25, 125);
-          rect((x - 1) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          theBoard[y - 1][x - 1].available = true;
-        }
-        if (y - 1 >= 0 && x - 1 >= 0 && theBoard[y - 1][x - 1].colour === 'black') {
-          fill(255, 25, 25, 125);
-          rect((x - 1) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          theBoard[y - 1][x - 1].available = true;
-        }
+      for (let counter = 0; counter < colourList.length; counter++) {
+        let selectedColour = colourList[counter % 2];
+        let opponentColour = colourList[(counter + 1) % 2];
 
-        if (y - 1 >= 0 && theBoard[y - 1][x].piece === 'none') {
-          fill(25, 255, 25, 125);
-          rect((x) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          theBoard[y - 1][x].available = true;
-        }
-        if (y - 1 >= 0 && theBoard[y - 1][x].colour === 'black') {
-          fill(255, 25, 25, 125);
-          rect((x) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          theBoard[y - 1][x].available = true;
-        }
+        if (theBoard[y][x].piece === 'king' && theBoard[y][x].selected && theBoard[y][x].colour === selectedColour) {
+          initializingAvailability();
+          if (y - 1 >= 0 && x - 1 >= 0 && theBoard[y - 1][x - 1].piece === 'none') {
+            fill(25, 255, 25, 125);
+            rect((x - 1) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+            theBoard[y - 1][x - 1].available = true;
+          }
+          if (y - 1 >= 0 && x - 1 >= 0 && theBoard[y - 1][x - 1].colour === opponentColour) {
+            fill(255, 25, 25, 125);
+            rect((x - 1) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+            theBoard[y - 1][x - 1].available = true;
+          }
 
-        if (y - 1 >= 0 && x + 1 < columns && theBoard[y - 1][x + 1].piece === 'none') {
-          fill(25, 255, 25, 125);
-          rect((x + 1) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          theBoard[y - 1][x + 1].available = true;
-        }
-        if (y - 1 >= 0 && x + 1 < columns && theBoard[y - 1][x + 1].colour === 'black') {
-          fill(255, 25, 25, 125);
-          rect((x + 1) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          theBoard[y - 1][x + 1].available = true;
-        }
+          if (y - 1 >= 0 && theBoard[y - 1][x].piece === 'none') {
+            fill(25, 255, 25, 125);
+            rect((x) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+            theBoard[y - 1][x].available = true;
+          }
+          if (y - 1 >= 0 && theBoard[y - 1][x].colour === opponentColour) {
+            fill(255, 25, 25, 125);
+            rect((x) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+            theBoard[y - 1][x].available = true;
+          }
 
-        if (x + 1 < columns && theBoard[y][x + 1].piece === 'none') {
-          fill(25, 255, 25, 125);
-          rect((x + 1) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          theBoard[y][x + 1].available = true;
-        }
-        if (x + 1 < columns && theBoard[y][x + 1].colour === 'black') {
-          fill(255, 25, 25, 125);
-          rect((x + 1) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          theBoard[y][x + 1].available = true;
-        }
+          if (y - 1 >= 0 && x + 1 < columns && theBoard[y - 1][x + 1].piece === 'none') {
+            fill(25, 255, 25, 125);
+            rect((x + 1) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+            theBoard[y - 1][x + 1].available = true;
+          }
+          if (y - 1 >= 0 && x + 1 < columns && theBoard[y - 1][x + 1].colour === opponentColour) {
+            fill(255, 25, 25, 125);
+            rect((x + 1) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+            theBoard[y - 1][x + 1].available = true;
+          }
 
-        if (y + 1 < rows && x + 1 < columns && theBoard[y + 1][x + 1].piece === 'none') {
-          fill(25, 255, 25, 125);
-          rect((x + 1) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          theBoard[y + 1][x + 1].available = true;
-        }
-        if (y + 1 < rows && x + 1 < columns && theBoard[y + 1][x + 1].colour === 'black') {
-          fill(255, 25, 25, 125);
-          rect((x + 1) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          theBoard[y + 1][x + 1].available = true;
-        }
+          if (x + 1 < columns && theBoard[y][x + 1].piece === 'none') {
+            fill(25, 255, 25, 125);
+            rect((x + 1) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+            theBoard[y][x + 1].available = true;
+          }
+          if (x + 1 < columns && theBoard[y][x + 1].colour === opponentColour) {
+            fill(255, 25, 25, 125);
+            rect((x + 1) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+            theBoard[y][x + 1].available = true;
+          }
 
-        if (y + 1 < rows && theBoard[y + 1][x].piece === 'none') {
-          fill(25, 255, 25, 125);
-          rect((x) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          theBoard[y + 1][x].available = true;
-        }
-        if (y + 1 < rows && theBoard[y + 1][x].colour === 'black') {
-          fill(255, 25, 25, 125);
-          rect((x) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          theBoard[y + 1][x].available = true;
-        }
+          if (y + 1 < rows && x + 1 < columns && theBoard[y + 1][x + 1].piece === 'none') {
+            fill(25, 255, 25, 125);
+            rect((x + 1) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+            theBoard[y + 1][x + 1].available = true;
+          }
+          if (y + 1 < rows && x + 1 < columns && theBoard[y + 1][x + 1].colour === opponentColour) {
+            fill(255, 25, 25, 125);
+            rect((x + 1) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+            theBoard[y + 1][x + 1].available = true;
+          }
 
-        if (y + 1 < rows && x - 1 >= 0 && theBoard[y + 1][x - 1].piece === 'none') {
-          fill(25, 255, 25, 125);
-          rect((x - 1) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          theBoard[y + 1][x - 1].available = true;
-        }
+          if (y + 1 < rows && theBoard[y + 1][x].piece === 'none') {
+            fill(25, 255, 25, 125);
+            rect((x) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+            theBoard[y + 1][x].available = true;
+          }
+          if (y + 1 < rows && theBoard[y + 1][x].colour === opponentColour) {
+            fill(255, 25, 25, 125);
+            rect((x) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+            theBoard[y + 1][x].available = true;
+          }
 
-        if (x - 1 >= 0 && theBoard[y][x - 1].piece === 'none') {
-          fill(25, 255, 25, 125);
-          rect((x - 1) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          theBoard[y][x - 1].available = true;
+          if (y + 1 < rows && x - 1 >= 0 && theBoard[y + 1][x - 1].piece === 'none') {
+            fill(25, 255, 25, 125);
+            rect((x - 1) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+            theBoard[y + 1][x - 1].available = true;
+          }
+          if (y + 1 < rows && x - 1 >= 0 && theBoard[y + 1][x - 1].colour === opponentColour) {
+            fill(255, 25, 25, 125);
+            rect((x - 1) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+            theBoard[y + 1][x - 1].available = true;
+          }
+
+          if (x - 1 >= 0 && theBoard[y][x - 1].piece === 'none') {
+            fill(25, 255, 25, 125);
+            rect((x - 1) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+            theBoard[y][x - 1].available = true;
+          }
+          if (x - 1 >= 0 && theBoard[y][x - 1].colour === opponentColour) {
+            fill(255, 25, 25, 125);
+            rect((x - 1) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+            theBoard[y][x - 1].available = true;
+          }
         }
       }
     }
