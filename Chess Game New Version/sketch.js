@@ -200,11 +200,11 @@ function checkWinner() {
   // checking the last element pushed into the array
   if (pieceTaken[pieceTaken.length - 1][1] === 'king') {
     if (pieceTaken[pieceTaken.length - 1][0] === 'white') {
-      winnerColour = 'black'
+      winnerColour = 'BLACK';
       gameOver(winnerColour);
     }
     if (pieceTaken[pieceTaken.length - 1][0] === 'black') {
-      winnerColour = 'white'
+      winnerColour = 'WHITE';
       gameOver(winnerColour);
     }
   }
@@ -218,7 +218,7 @@ function gameOver(object) {
   fill("white");
   text("Game Over", windowWidth / 2, windowHeight / 3);
 
-  text ("The Winner Was" + object , windowWidth / 2, windowHeight / 2);
+  text ("The Winner Was " + object , windowWidth / 2, windowHeight / 2);
 
   text("Restart", windowWidth / 2, windowHeight / 3 * 2)
 
