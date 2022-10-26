@@ -2,7 +2,7 @@ let rows = 8;
 let columns = 8;
 let boardSize = 720;
 let buttonWidth = 80;
-let buttonHeight = 20;
+let buttonHeight = 80;
 
 let theBoard = [
   [],
@@ -54,13 +54,13 @@ function preload() {
 
 
 function setup() {
-  fill(0)
+  fill(0);
   createCanvas(boardSize + buttonWidth, boardSize);
   boardSetUp();
 }
 
 function draw() {
-  background('black');
+  background('white');
 
   for (let i = 0; i < theBoard.length; i++) {
     for (let j = 0; j < theBoard[i].length; j++) {
@@ -136,7 +136,7 @@ function boardSetUp() {
     theBoard[6][j].piece = 'pawn';
   }
 
-  theBoardList.push(theBoard);
+  addToBoardList();
 }
 
 function selectPiece() {
@@ -207,18 +207,25 @@ function movePiece() {
       theBoard[j][i].piece = pieceType;
       theBoard[j][i].available = false;
 
-      theBoardList.push(theBoard);
+      addToBoardList();
     }
   }
 }
 
+function addToBoardList() {
+  theBoardList.push( [] );
+  for (let i = 0; i < theBoard.length; i ++) {
+    theBoardList[theBoardList.length - 1].push([...theBoard[i]]);
+  }
+}
+ 
 function takeBack() {
-  fill('yellow');
+  fill('gray');
   rect(boardSize, (boardSize - buttonHeight) / 2, buttonWidth, buttonHeight);
 
   if (mouseX >= boardSize && mouseX <= boardSize + buttonWidth) {
     if (mouseY >= (boardSize - buttonHeight) / 2 && mouseY <= (boardSize - buttonHeight) / 2 + buttonHeight) {
-      if (mouseIsPressed) {
+      if (mouseIsPressed && theBoardList.length - 2 >= 0) {
         theBoard = theBoardList[theBoardList.length - 2];
       }
     }
