@@ -4,6 +4,8 @@ let boardSize = 720;
 let buttonWidth = 80;
 let buttonHeight = 80;
 
+let whoseTurn = 'white';
+
 let theBoard = [
   [],
   [],
@@ -155,7 +157,7 @@ function selectPiece() {
     }
 
     // the cell can only be selected if there is a piece on it
-    if (j < rows && i < columns && theBoard[j][i].piece !== 'none' && !theBoard[j][i].available) {
+    if (j < rows && i < columns && theBoard[j][i].colour === whoseTurn && !theBoard[j][i].available) {
       theBoard[j][i].selected = true;
     } 
     
@@ -206,6 +208,8 @@ function movePiece() {
       theBoard[j][i].colour = pieceColour;
       theBoard[j][i].piece = pieceType;
       theBoard[j][i].available = false;
+
+      whoseTurn = whoseTurn === 'white' ? 'black' : 'white';
 
       addToBoardList();
     }
@@ -297,6 +301,129 @@ function initializingAvailability() {
   for (let x = 0; x < rows; x++) {
     for (let y = 0; y < columns; y++) {
       theBoard[y][x].available = false;
+    }
+  }
+}
+
+
+
+class Cell{
+  constructor(i, j, colour, piece, selected, available) {
+    this.i = i;
+    this.j = j;
+    this.colour = colour;
+    this.piece = piece;
+    this.selected = selected;
+    this.available = available;
+
+
+
+    this.showCell = function() {
+      let x = this.j * (boardSize / rows);
+      let y = this.i * (boardSize / columns);
+
+      fill((i + j) % 2 === 0 ? 'white' : 'black');
+      rect(x, y, boardSize / columns, boardSize / rows);
+    }
+
+    this.showPiece = function() {
+      let x = this.j * (boardSize / rows);
+      let y = this.i * (boardSize / columns);
+
+      switch (this.colour) {
+        case 'black':
+          switch (this.piece) {
+            case 'rook':
+              if (this.selected) {
+                fill('yellow');
+                rect(x, y, boardSize / columns, boardSize / rows);
+              }
+              image(blackRookImg, x, y, boardSize / columns, boardSize / rows);
+              break;
+            case 'knight':
+              if (this.selected) {
+                fill('yellow');
+                rect(x, y, boardSize / columns, boardSize / rows);
+              }
+              image(blackKnightImg, x, y, boardSize / columns, boardSize / rows);
+              break;
+            case 'bishop':
+              if (this.selected) {
+                fill('yellow');
+                rect(x, y, boardSize / columns, boardSize / rows);
+              }
+              image(blackBishopImg, x, y, boardSize / columns, boardSize / rows);
+              break;
+            case 'queen':
+              if (this.selected) {
+                fill('yellow');
+                rect(x, y, boardSize / columns, boardSize / rows);
+              }
+              image(blackQueenImg, x, y, boardSize / columns, boardSize / rows);
+              break;
+            case 'king':
+              if (this.selected) {
+                fill('yellow');
+                rect(x, y, boardSize / columns, boardSize / rows);
+              }
+              image(blackKingImg, x, y, boardSize / columns, boardSize / rows);
+              break;
+            case 'pawn':
+              if (this.selected) {
+                fill('yellow');
+                rect(x, y, boardSize / columns, boardSize / rows);
+              }
+              image(blackPawnImg, x, y, boardSize / columns, boardSize / rows);
+              break;
+            }
+          break;
+        case 'white':
+          switch (this.piece) {
+            case 'rook':
+              if (this.selected) {
+                fill('yellow');
+                rect(x, y, boardSize / columns, boardSize / rows);
+              }
+              image(whiteRookImg, x, y, boardSize / columns, boardSize / rows);
+              break;
+            case 'knight':
+              if (this.selected) {
+                fill('yellow');
+                rect(x, y, boardSize / columns, boardSize / rows);
+              }
+              image(whiteKnightImg, x, y, boardSize / columns, boardSize / rows);
+              break;
+            case 'bishop':
+              if (this.selected) {
+                fill('yellow');
+                rect(x, y, boardSize / columns, boardSize / rows);
+              }
+              image(whiteBishopImg, x, y, boardSize / columns, boardSize / rows);
+              break;
+            case 'queen':
+              if (this.selected) {
+                fill('yellow');
+                rect(x, y, boardSize / columns, boardSize / rows);
+              }
+              image(whiteQueenImg, x, y, boardSize / columns, boardSize / rows);
+              break;
+            case 'king':
+              if (this.selected) {
+                fill('yellow');
+                rect(x, y, boardSize / columns, boardSize / rows);
+              }
+              image(whiteKingImg, x, y, boardSize / columns, boardSize / rows);
+              break;
+            case 'pawn':
+              if (this.selected) {
+                fill('yellow');
+                rect(x, y, boardSize / columns, boardSize / rows);
+              }
+              image(whitePawnImg, x, y, boardSize / columns, boardSize / rows);
+              break;
+            }
+          break;
+      }
     }
   }
 }
@@ -801,127 +928,4 @@ function moveKing() {
   }
 
   movePiece();
-}
-
-
-
-class Cell{
-  constructor(i, j, colour, piece, selected, available) {
-    this.i = i;
-    this.j = j;
-    this.colour = colour;
-    this.piece = piece;
-    this.selected = selected;
-    this.available = available;
-
-
-
-    this.showCell = function() {
-      let x = this.j * (boardSize / rows);
-      let y = this.i * (boardSize / columns);
-
-      fill((i + j) % 2 === 0 ? 'white' : 'black');
-      rect(x, y, boardSize / columns, boardSize / rows);
-    }
-
-    this.showPiece = function() {
-      let x = this.j * (boardSize / rows);
-      let y = this.i * (boardSize / columns);
-
-      switch (this.colour) {
-        case 'black':
-          switch (this.piece) {
-            case 'rook':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(blackRookImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'knight':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(blackKnightImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'bishop':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(blackBishopImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'queen':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(blackQueenImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'king':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(blackKingImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'pawn':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(blackPawnImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            }
-          break;
-        case 'white':
-          switch (this.piece) {
-            case 'rook':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(whiteRookImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'knight':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(whiteKnightImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'bishop':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(whiteBishopImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'queen':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(whiteQueenImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'king':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(whiteKingImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'pawn':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(whitePawnImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            }
-          break;
-      }
-    }
-  }
 }
