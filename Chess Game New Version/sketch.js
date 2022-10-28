@@ -32,6 +32,11 @@ let pieceTaken = [
   ['none', 'none']
 ];
 
+let whiteCastleKingSide = true;
+let whiteCastleQueenSide = true;
+let blackCastleKingSide = true;
+let blackCastleQueenSide = true;
+
 let whitePawnImg, whiteRookImg, whiteKnightImg, whiteBishopImg, whiteQueenImg, whiteKingImg;
 let blackPawnImg, blackRookImg, blackKnightImg, blackBishopImg, blackQueenImg, blackKingImg;
 
@@ -201,6 +206,33 @@ function movePiece() {
       // the cell our selected pieve has left from is empty now
       pieceColour = theBoard[pos[pos.length - 1][0]][pos[pos.length - 1][1]].colour;
       pieceType = theBoard[pos[pos.length - 1][0]][pos[pos.length - 1][1]].piece;
+
+      // if a rook or a king has been moved, castle status should be changed
+      if (pieceType === 'king') {
+        if (pieceColour === 'white') {
+          whiteCastleKingSide = false;
+          whiteCastleQueenSide = false;
+        }
+        else if (pieceColour === 'black') {
+          blackCastleKingSide = false;
+          blackCastleQueenSide = false;
+        }
+      }
+      if (pieceType === 'rook') {
+        if (pieceColour === 'white' && pos[pos.length - 1][0] === 7 && pos[pos.length - 1][1] === 0) {
+          whiteCastleQueenSide = false;
+        }
+        if (pieceColour === 'white' && pos[pos.length - 1][0] === 7 && pos[pos.length - 1][1] === 7) {
+          whiteCastleKingSide = false;
+        }
+        if (pieceColour === 'black' && pos[pos.length - 1][0] === 0 && pos[pos.length - 1][1] === 0) {
+          blackCastleQueenSide = false;
+        }
+        if (pieceColour === 'black' && pos[pos.length - 1][0] === 0 && pos[pos.length - 1][1] === 7) {
+          blackCastleKingSide = false;
+        }
+      }
+
       theBoard[pos[pos.length - 1][0]][pos[pos.length - 1][1]].colour = 'none';
       theBoard[pos[pos.length - 1][0]][pos[pos.length - 1][1]].piece = 'none';
 
@@ -208,6 +240,10 @@ function movePiece() {
       theBoard[j][i].colour = pieceColour;
       theBoard[j][i].piece = pieceType;
       theBoard[j][i].available = false;
+
+      if (j === 0 || j === 7) {
+        pawnPromotion(j, i);
+      }
 
       whoseTurn = whoseTurn === 'white' ? 'black' : 'white';
 
@@ -218,12 +254,15 @@ function movePiece() {
 
 function addToBoardList() {
   theBoardList.push( [] );
-  for (let i = 0; i < theBoard.length; i ++) {
-    theBoardList[theBoardList.length - 1].push( [] );
-      for (let j = 0; j < theBoard[i].length; j ++) {
-        theBoardList[theBoardList.length - 1][i].push(theBoard[i][j]);
-      }
-  }
+
+  // for (let i = 0; i < theBoard.length; i ++) {
+  //   theBoardList[theBoardList.length - 1].push( [] );
+  //     for (let j = 0; j < theBoard[i].length; j ++) {
+  //       theBoardList[theBoardList.length - 1][i].push(theBoard[i][j]);
+  //     }
+  // }
+
+
 }
  
 function takeBack() {
@@ -306,6 +345,10 @@ function initializingAvailability() {
       theBoard[y][x].available = false;
     }
   }
+}
+
+function pawnPromotion(j, i) {
+  theBoard[j][i].piece = 'queen';
 }
 
 
@@ -853,6 +896,8 @@ function moveKing() {
               }
             }
           }
+
+          // if king is selected, we should detect whether it can castle
         }
       }
     }
