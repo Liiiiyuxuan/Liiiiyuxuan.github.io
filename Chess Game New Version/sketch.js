@@ -219,7 +219,10 @@ function movePiece() {
 function addToBoardList() {
   theBoardList.push( [] );
   for (let i = 0; i < theBoard.length; i ++) {
-    theBoardList[theBoardList.length - 1].push([...theBoard[i]]);
+    theBoardList[theBoardList.length - 1].push( [] );
+      for (let j = 0; j < theBoard[i].length; j ++) {
+        theBoardList[theBoardList.length - 1][i].push(theBoard[i][j]);
+      }
   }
 }
  
@@ -850,94 +853,6 @@ function moveKing() {
               }
             }
           }
-
-          // if (y - 1 >= 0 && x - 1 >= 0 && theBoard[y - 1][x - 1].piece === 'none') {
-          //   fill(25, 255, 25, 125);
-          //   rect((x - 1) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          //   theBoard[y - 1][x - 1].available = true;
-          // }
-          // if (y - 1 >= 0 && x - 1 >= 0 && theBoard[y - 1][x - 1].colour === opponentColour) {
-          //   fill(255, 25, 25, 125);
-          //   rect((x - 1) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          //   theBoard[y - 1][x - 1].available = true;
-          // }
-
-          // if (y - 1 >= 0 && theBoard[y - 1][x].piece === 'none') {
-          //   fill(25, 255, 25, 125);
-          //   rect((x) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          //   theBoard[y - 1][x].available = true;
-          // }
-          // if (y - 1 >= 0 && theBoard[y - 1][x].colour === opponentColour) {
-          //   fill(255, 25, 25, 125);
-          //   rect((x) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          //   theBoard[y - 1][x].available = true;
-          // }
-
-          // if (y - 1 >= 0 && x + 1 < columns && theBoard[y - 1][x + 1].piece === 'none') {
-          //   fill(25, 255, 25, 125);
-          //   rect((x + 1) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          //   theBoard[y - 1][x + 1].available = true;
-          // }
-          // if (y - 1 >= 0 && x + 1 < columns && theBoard[y - 1][x + 1].colour === opponentColour) {
-          //   fill(255, 25, 25, 125);
-          //   rect((x + 1) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          //   theBoard[y - 1][x + 1].available = true;
-          // }
-
-          // if (x + 1 < columns && theBoard[y][x + 1].piece === 'none') {
-          //   fill(25, 255, 25, 125);
-          //   rect((x + 1) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          //   theBoard[y][x + 1].available = true;
-          // }
-          // if (x + 1 < columns && theBoard[y][x + 1].colour === opponentColour) {
-          //   fill(255, 25, 25, 125);
-          //   rect((x + 1) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          //   theBoard[y][x + 1].available = true;
-          // }
-
-          // if (y + 1 < rows && x + 1 < columns && theBoard[y + 1][x + 1].piece === 'none') {
-          //   fill(25, 255, 25, 125);
-          //   rect((x + 1) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          //   theBoard[y + 1][x + 1].available = true;
-          // }
-          // if (y + 1 < rows && x + 1 < columns && theBoard[y + 1][x + 1].colour === opponentColour) {
-          //   fill(255, 25, 25, 125);
-          //   rect((x + 1) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          //   theBoard[y + 1][x + 1].available = true;
-          // }
-
-          // if (y + 1 < rows && theBoard[y + 1][x].piece === 'none') {
-          //   fill(25, 255, 25, 125);
-          //   rect((x) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          //   theBoard[y + 1][x].available = true;
-          // }
-          // if (y + 1 < rows && theBoard[y + 1][x].colour === opponentColour) {
-          //   fill(255, 25, 25, 125);
-          //   rect((x) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          //   theBoard[y + 1][x].available = true;
-          // }
-
-          // if (y + 1 < rows && x - 1 >= 0 && theBoard[y + 1][x - 1].piece === 'none') {
-          //   fill(25, 255, 25, 125);
-          //   rect((x - 1) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          //   theBoard[y + 1][x - 1].available = true;
-          // }
-          // if (y + 1 < rows && x - 1 >= 0 && theBoard[y + 1][x - 1].colour === opponentColour) {
-          //   fill(255, 25, 25, 125);
-          //   rect((x - 1) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          //   theBoard[y + 1][x - 1].available = true;
-          // }
-
-          // if (x - 1 >= 0 && theBoard[y][x - 1].piece === 'none') {
-          //   fill(25, 255, 25, 125);
-          //   rect((x - 1) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          //   theBoard[y][x - 1].available = true;
-          // }
-          // if (x - 1 >= 0 && theBoard[y][x - 1].colour === opponentColour) {
-          //   fill(255, 25, 25, 125);
-          //   rect((x - 1) * (boardSize / columns), (y) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-          //   theBoard[y][x - 1].available = true;
-          // }
         }
       }
     }
