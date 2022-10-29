@@ -62,7 +62,8 @@ function preload() {
 
 function setup() {
   fill(0);
-  createCanvas(windowWidth, windowHeight);
+  let cnv = createCanvas(windowWidth, windowHeight);
+  cnv.position((windowWidth - boardSize - buttonWidth * 2) / 2, (windowHeight - boardSize) / 2)
   boardSetUp();
 }
 
@@ -302,7 +303,7 @@ function takeBack() {
   fill("white");
   text("Take Back", boardSize + buttonWidth * 1.5, boardSize / 2);
 
-  if (mouseX >= boardSize && mouseX <= boardSize + buttonWidth) {
+  if (mouseX >= boardSize + buttonWidth && mouseX <= boardSize + buttonWidth + buttonWidth) {
     if (mouseY >= (boardSize - buttonHeight) / 2 && mouseY <= (boardSize - buttonHeight) / 2 + buttonHeight) {
       if (mouseIsPressed && theBoardList.length - 2 >= 0) {
         theBoard = theBoardList[theBoardList.length - 2];
