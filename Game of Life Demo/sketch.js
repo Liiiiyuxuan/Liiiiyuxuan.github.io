@@ -1,5 +1,5 @@
-const ROWS = 40;
-const COLS = 40;
+const ROWS = 60;
+const COLS = 60;
 let grid;
 let cellWidth;
 let cellHeight;
