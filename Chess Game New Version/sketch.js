@@ -1,7 +1,7 @@
 let rows = 8;
 let columns = 8;
 let boardSize = 720;
-let buttonWidth = 80;
+let buttonWidth = 100;
 let buttonHeight = 80;
 
 let whoseTurn = 'white';
@@ -62,7 +62,7 @@ function preload() {
 
 function setup() {
   fill(0);
-  createCanvas(boardSize + buttonWidth, boardSize);
+  createCanvas(windowWidth, windowHeight);
   boardSetUp();
 }
 
@@ -169,8 +169,8 @@ function selectPiece() {
     // even after we click an empty cell, all the cell will be set to unselected and unavailable, 
     // so the piece we have selected before won't be able to move
     else if (j < rows && i < columns && theBoard[j][i].piece === 'none') {
-      for (let x = 0; x < rows; x++) {
-        for (let y = 0; y < columns; y++) {
+      for (let x = 0; x < rows; x ++) {
+        for (let y = 0; y < columns; y ++) {
           if (y !== j || x !== i) {
             theBoard[y][x].selected = false;
             theBoard[y][x].available = false;
@@ -185,7 +185,7 @@ function movePiece() {
   let pieceColour, pieceType;
 
   // we first push the position of the piece that was most recently selected
-  for (let counter = 0; counter < theBoard.length; counter++) {
+  for (let counter = 0; counter < theBoard.length; counter ++) {
     for (let secondCounter = 0; secondCounter < theBoard[counter].length; secondCounter++) {
       if (theBoard[counter][secondCounter].selected) {
         pos.push([counter, secondCounter]);
@@ -241,8 +241,29 @@ function movePiece() {
       theBoard[j][i].piece = pieceType;
       theBoard[j][i].available = false;
 
-      if (j === 0 || j === 7) {
+      // pawn promotion, happens when the pawn is at the last line
+      if (pieceType === 'pawn' && j === 0 || pieceType === 'pawn' && j === 7) {
         pawnPromotion(j, i);
+      }
+      
+      // castle on the king side
+      if (pieceType === 'king' && i === pos[pos.length - 1][1] + 2) {
+        theBoard[pos[pos.length - 1][0]][7].colour = 'none';
+        theBoard[pos[pos.length - 1][0]][7].piece = 'none';
+
+        theBoard[j][5].colour = pieceColour;
+        theBoard[j][5].piece = 'rook';
+        theBoard[j][5].available = false;
+      }
+
+      // castle on the queen side
+      if (pieceType === 'king' && i === pos[pos.length - 1][1] - 2) {
+        theBoard[pos[pos.length - 1][0]][0].colour = 'none';
+        theBoard[pos[pos.length - 1][0]][0].piece = 'none';
+
+        theBoard[j][3].colour = pieceColour;
+        theBoard[j][3].piece = 'rook';
+        theBoard[j][3].available = false;
       }
 
       whoseTurn = whoseTurn === 'white' ? 'black' : 'white';
@@ -253,26 +274,39 @@ function movePiece() {
 }
 
 function addToBoardList() {
+  // board
   theBoardList.push( [] );
 
-  // for (let i = 0; i < theBoard.length; i ++) {
-  //   theBoardList[theBoardList.length - 1].push( [] );
-  //     for (let j = 0; j < theBoard[i].length; j ++) {
-  //       theBoardList[theBoardList.length - 1][i].push(theBoard[i][j]);
-  //     }
-  // }
+  // row
+  for (let i = 0; i < rows; i ++) {
+    theBoardList[theBoardList.length - 1].push( [] );
 
+    // cell
+    for (let j = 0; j < columns; j ++) {
+      theBoardList[theBoardList.length - 1][i].push( [] );
 
+      // property
+      let theCell = theBoard[i][j];
+      theBoardList[theBoardList.length - 1][i][j] = new Cell(theCell.i, theCell.j, theCell.colour, theCell.piece, theCell.selected, theCell.available);
+    }
+  }
 }
  
 function takeBack() {
-  fill('gray');
-  rect(boardSize, (boardSize - buttonHeight) / 2, buttonWidth, buttonHeight);
+  fill("black");
+  rect(boardSize + buttonWidth, (boardSize - buttonHeight) / 2, buttonWidth, buttonHeight)
+
+  textAlign(CENTER);
+  textFont(myFont);
+  textSize(20);
+  fill("white");
+  text("Take Back", boardSize + buttonWidth * 1.5, boardSize / 2);
 
   if (mouseX >= boardSize && mouseX <= boardSize + buttonWidth) {
     if (mouseY >= (boardSize - buttonHeight) / 2 && mouseY <= (boardSize - buttonHeight) / 2 + buttonHeight) {
       if (mouseIsPressed && theBoardList.length - 2 >= 0) {
         theBoard = theBoardList[theBoardList.length - 2];
+        whoseTurn = whoseTurn === 'white' ? 'black' : 'white';
       }
     }
   }
@@ -898,6 +932,26 @@ function moveKing() {
           }
 
           // if king is selected, we should detect whether it can castle
+          if (theBoard[y][x].colour === 'white' && whiteCastleKingSide && theBoard[y][x + 1].colour === 'none' && theBoard[y][x + 2].colour === 'none') {
+            fill(25, 255, 25, 125);
+            circle((x + 2.5) * (boardSize / columns), (y + 0.5) * (boardSize / rows), 25, 25);
+            theBoard[y][x + 2].available = true;
+          }
+          if (theBoard[y][x].colour === 'white' && whiteCastleQueenSide && theBoard[y][x - 1].colour === 'none' && theBoard[y][x - 2].colour === 'none' && theBoard[y][x - 3].colour === 'none') {
+            fill(25, 255, 25, 125);
+            circle((x - 1.5) * (boardSize / columns), (y + 0.5) * (boardSize / rows), 25, 25);
+            theBoard[y][x - 2].available = true;
+          }
+          if (theBoard[y][x].colour === 'black' && blackCastleKingSide && theBoard[y][x + 1].colour === 'none' && theBoard[y][x + 2].colour === 'none') {
+            fill(25, 255, 25, 125);
+            circle((x + 2.5) * (boardSize / columns), (y + 0.5) * (boardSize / rows), 25, 25);
+            theBoard[y][x + 2].available = true;
+          }
+          if (theBoard[y][x].colour === 'black' && blackCastleQueenSide && theBoard[y][x - 1].colour === 'none' && theBoard[y][x - 2].colour === 'none' && theBoard[y][x - 3].colour === 'none') {
+            fill(25, 255, 25, 125);
+            circle((x - 1.5) * (boardSize / columns), (y + 0.5) * (boardSize / rows), 25, 25);
+            theBoard[y][x - 2].available = true;
+          }
         }
       }
     }
