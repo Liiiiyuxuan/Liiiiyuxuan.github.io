@@ -4,6 +4,6 @@ driverPath = 'chromedriver.exe'
 
 driver = webdriver.Chrome(driverPath)
 
-driver.get('http://www.google.com')
+driver.get('http://www.google.ca')
 
 print(driver.page_source)
