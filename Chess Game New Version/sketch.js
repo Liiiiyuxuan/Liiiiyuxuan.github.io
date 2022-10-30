@@ -3,6 +3,14 @@ let columns = 8;
 let boardSize = 720;
 let buttonWidth = 100;
 let buttonHeight = 80;
+let takenPieceSize = 40;
+
+let whiteSecondTimer = 0;
+let whiteMinuteTimer = 0;
+let whiteTimer = 0;
+let blackSecondTimer = 0;
+let blackMinuteTimer = 0;
+let blackTimer = 0;
 
 let whoseTurn = 'white';
 
@@ -62,8 +70,7 @@ function preload() {
 
 function setup() {
   fill(0);
-  let cnv = createCanvas(windowWidth, windowHeight);
-  cnv.position((windowWidth - boardSize - buttonWidth * 2) / 2, (windowHeight - boardSize) / 2)
+  createCanvas(windowWidth, windowHeight);
   boardSetUp();
 }
 
@@ -90,6 +97,8 @@ function draw() {
   moveKing();
 
   takeBack();
+  timer();
+  displayTakenPiece();
   checkWinner();
 }
 
@@ -202,8 +211,10 @@ function movePiece() {
     if (j < rows && i < columns && theBoard[j][i].available) {
       // this array is used to in the checkWinner() for the purpose of checking the last element passed in
       // If the last element passed in was a king, so one of the players wins the game
-      pieceTaken.push( [theBoard[j][i].colour, theBoard[j][i].piece] );
-
+      if (theBoard[j][i].colour !== 'none'){
+        pieceTaken.push( [theBoard[j][i].colour, theBoard[j][i].piece] );
+      }
+      
       // the cell our selected pieve has left from is empty now
       pieceColour = theBoard[pos[pos.length - 1][0]][pos[pos.length - 1][1]].colour;
       pieceType = theBoard[pos[pos.length - 1][0]][pos[pos.length - 1][1]].piece;
@@ -269,6 +280,7 @@ function movePiece() {
 
       whoseTurn = whoseTurn === 'white' ? 'black' : 'white';
 
+      initializingAvailability();
       addToBoardList();
     }
   }
@@ -313,10 +325,31 @@ function takeBack() {
   }
 }
 
+function timer() {
+  blackSecondTimer = blackTimer % 60;
+  blackMinuteTimer = floor(blackTimer / 60);
+  whiteSecondTimer = whiteTimer % 60;
+  whiteMinuteTimer = floor(whiteTimer / 60);
+
+  textAlign(CENTER);
+  textFont(myFont);
+  textSize(40);
+  fill("black");
+  text(blackMinuteTimer + ' : ' + blackSecondTimer, boardSize + buttonWidth * 1.5, boardSize / rows * 3  );
+  text(whiteMinuteTimer + ' : ' + whiteSecondTimer, boardSize + buttonWidth * 1.5, boardSize / rows * 5.5);
+  
+  if (whoseTurn === 'black' && frameCount % 60 === 0) {
+    blackTimer ++;
+  }
+  if (whoseTurn === 'white' && frameCount % 60 === 0) {
+    whiteTimer ++;
+  }
+}
+
 function checkWinner() {
+  // checking the pieces that has been taken and pushed them into the array, if it was a king, on of the player has lost
   let winnerColour;
 
-  // checking the pieces that has been taken and pushed them into the array, if it was a king, on of the player has lost
   if (pieceTaken[pieceTaken.length - 1][1] === 'king') {
     if (pieceTaken[pieceTaken.length - 1][0] === 'white') {
       winnerColour = 'BLACK';
@@ -329,26 +362,96 @@ function checkWinner() {
   }
 }
 
+function displayTakenPiece() {
+  let whiteTaken = [];
+  let blackTaken = [];
+
+  // used to sort the taken pieces
+  for (let i = 0; i < pieceTaken.length; i ++) {
+    // check the colour of the taken piece
+    if (pieceTaken[i][0] === 'white') {
+      whiteTaken.push(pieceTaken[i]);
+    }
+    else if (pieceTaken[i][0] === 'black') {
+      blackTaken.push(pieceTaken[i]);
+    }
+  }
+
+  let whitePawnCount = 0;
+  let whiteOtherCount = 0;
+  for (let i = 0; i < whiteTaken.length; i ++) {
+    // check the type of the taken piece
+    if (whiteTaken[i][1] === 'pawn') {
+      image(whitePawnImg, boardSize + takenPieceSize * whitePawnCount + 20, takenPieceSize, takenPieceSize, takenPieceSize);
+      whitePawnCount ++;
+    }
+
+    if (whiteTaken[i][1] === 'knight') {
+      image(whiteKnightImg, boardSize + takenPieceSize * whiteOtherCount + 20, takenPieceSize + boardSize / rows, takenPieceSize, takenPieceSize);
+      whiteOtherCount ++;
+    }
+    if (whiteTaken[i][1] === 'bishop') {
+      image(whiteBishopImg, boardSize + takenPieceSize * whiteOtherCount + 20, takenPieceSize + boardSize / rows, takenPieceSize, takenPieceSize);
+      whiteOtherCount ++;
+    }
+    if (whiteTaken[i][1] === 'rook') {
+      image(whiteRookImg, boardSize + takenPieceSize * whiteOtherCount + 20, takenPieceSize + boardSize / rows, takenPieceSize, takenPieceSize);
+      whiteOtherCount ++;
+    }
+    if (whiteTaken[i][1] === 'queen') {
+      image(whiteQueenImg, boardSize + takenPieceSize * whiteOtherCount + 20, takenPieceSize + boardSize / rows, takenPieceSize, takenPieceSize);
+      whiteOtherCount ++;
+    }
+  }
+    
+  let blackPawnCount = 0;
+  let blackOtherCount = 0;
+  for (let i = 0; i < blackTaken.length; i ++) {
+    // check the type of the taken piece
+    if (blackTaken[i][1] === 'pawn') {
+      image(blackPawnImg, boardSize + takenPieceSize * blackPawnCount + 20, takenPieceSize + boardSize / rows * 6, takenPieceSize, takenPieceSize);
+      blackPawnCount ++;
+    }
+
+    if (blackTaken[i][1] === 'knight') {
+      image(blackKnightImg, boardSize + takenPieceSize * blackOtherCount + 20, takenPieceSize + boardSize / rows * 7, takenPieceSize, takenPieceSize);
+      blackOtherCount ++;
+    }
+    if (blackTaken[i][1] === 'bishop') {
+      image(blackBishopImg, boardSize + takenPieceSize * blackOtherCount + 20, takenPieceSize + boardSize / rows * 7, takenPieceSize, takenPieceSize);
+      blackOtherCount ++;
+    }
+    if (blackTaken[i][1] === 'rook') {
+      image(blackRookImg, boardSize + takenPieceSize * blackOtherCount + 20, takenPieceSize + boardSize / rows * 7, takenPieceSize, takenPieceSize);
+      blackOtherCount ++;
+    }
+    if (blackTaken[i][1] === 'queen') {
+      image(blackQueenImg, boardSize + takenPieceSize * blackOtherCount + 20, takenPieceSize + boardSize / rows * 7, takenPieceSize, takenPieceSize);
+      blackOtherCount ++;
+    }
+  }
+}
+
 function gameOver(object) {
   background('black')
   textAlign(CENTER);
   textFont(myFont);
   textSize(60);
   fill("white");
-  text("Game Over", boardSize / 2, boardSize / 3);
+  text("Game Over", windowWidth / 2, windowHeight / 3);
 
-  text ("The Winner Was " + object + "!", boardSize / 2, boardSize / 2);
+  text ("The Winner Was " + object + "!", windowWidth / 2, windowHeight / 2);
 
-  text("Restart", boardSize / 2, boardSize / 3 * 2)
+  text("Restart", windowWidth / 2, windowHeight / 3 * 2)
 
   stroke(255);
-  line(boardSize / 2 - 120, boardSize / 3 * 2 - 60, boardSize / 2 + 120, boardSize / 3 * 2 - 60);
-  line(boardSize / 2 - 120, boardSize / 3 * 2 + 30, boardSize / 2 + 120, boardSize / 3 * 2 + 30 );
-  line(boardSize / 2 - 120, boardSize / 3 * 2 - 60, boardSize / 2 - 120, boardSize / 3 * 2 + 30 );
-  line(boardSize / 2 + 120, boardSize / 3 * 2 + 30, boardSize / 2 + 120, boardSize / 3 * 2 - 60 );
+  line(windowWidth / 2 - 120, windowHeight / 3 * 2 - 60, windowWidth / 2 + 120, windowHeight / 3 * 2 - 60);
+  line(windowWidth / 2 - 120, windowHeight / 3 * 2 + 30, windowWidth / 2 + 120, windowHeight / 3 * 2 + 30 );
+  line(windowWidth / 2 - 120, windowHeight / 3 * 2 - 60, windowWidth / 2 - 120, windowHeight / 3 * 2 + 30 );
+  line(windowWidth / 2 + 120, windowHeight / 3 * 2 + 30, windowWidth / 2 + 120, windowHeight / 3 * 2 - 60 );
   
-  if (mouseX > boardSize / 2 - 120 && mouseX < boardSize / 2 + 120) {
-    if (mouseY > boardSize / 3 * 2 - 60 && mouseY < boardSize / 3 * 2 + 30) {
+  if (mouseX > windowWidth / 2 - 120 && mouseX < windowWidth / 2 + 120) {
+    if (mouseY > windowHeight / 3 * 2 - 60 && mouseY < windowHeight / 3 * 2 + 30) {
       if (mouseIsPressed) {
         theBoard = [
           [],
@@ -365,6 +468,8 @@ function gameOver(object) {
         pieceTaken = [
           ['none', 'none']
         ];
+
+        theBoardList = [];
 
         setup();
       }
@@ -933,22 +1038,22 @@ function moveKing() {
           }
 
           // if king is selected, we should detect whether it can castle
-          if (theBoard[y][x].colour === 'white' && whiteCastleKingSide && theBoard[y][x + 1].colour === 'none' && theBoard[y][x + 2].colour === 'none') {
+          if (theBoard[y][x].colour === 'white' && whiteCastleKingSide && theBoard[y][x + 1].colour === 'none' && theBoard[y][x + 2].colour === 'none' && theBoard[y][x + 3].colour === 'white') {
             fill(25, 255, 25, 125);
             circle((x + 2.5) * (boardSize / columns), (y + 0.5) * (boardSize / rows), 25, 25);
             theBoard[y][x + 2].available = true;
           }
-          if (theBoard[y][x].colour === 'white' && whiteCastleQueenSide && theBoard[y][x - 1].colour === 'none' && theBoard[y][x - 2].colour === 'none' && theBoard[y][x - 3].colour === 'none') {
+          if (theBoard[y][x].colour === 'white' && whiteCastleQueenSide && theBoard[y][x - 1].colour === 'none' && theBoard[y][x - 2].colour === 'none' && theBoard[y][x - 3].colour === 'none' && theBoard[y][x - 4].colour === 'white') {
             fill(25, 255, 25, 125);
             circle((x - 1.5) * (boardSize / columns), (y + 0.5) * (boardSize / rows), 25, 25);
             theBoard[y][x - 2].available = true;
           }
-          if (theBoard[y][x].colour === 'black' && blackCastleKingSide && theBoard[y][x + 1].colour === 'none' && theBoard[y][x + 2].colour === 'none') {
+          if (theBoard[y][x].colour === 'black' && blackCastleKingSide && theBoard[y][x + 1].colour === 'none' && theBoard[y][x + 2].colour === 'none' && theBoard[y][x + 3].colour === 'black') {
             fill(25, 255, 25, 125);
             circle((x + 2.5) * (boardSize / columns), (y + 0.5) * (boardSize / rows), 25, 25);
             theBoard[y][x + 2].available = true;
           }
-          if (theBoard[y][x].colour === 'black' && blackCastleQueenSide && theBoard[y][x - 1].colour === 'none' && theBoard[y][x - 2].colour === 'none' && theBoard[y][x - 3].colour === 'none') {
+          if (theBoard[y][x].colour === 'black' && blackCastleQueenSide && theBoard[y][x - 1].colour === 'none' && theBoard[y][x - 2].colour === 'none' && theBoard[y][x - 3].colour === 'none' && theBoard[y][x - 4].colour === 'black') {
             fill(25, 255, 25, 125);
             circle((x - 1.5) * (boardSize / columns), (y + 0.5) * (boardSize / rows), 25, 25);
             theBoard[y][x - 2].available = true;
