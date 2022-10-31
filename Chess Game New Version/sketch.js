@@ -286,6 +286,7 @@ function movePiece() {
   }
 }
 
+// add the current board to the boardList for takeBack()
 function addToBoardList() {
   // board
   theBoardList.push( [] );
@@ -319,6 +320,7 @@ function takeBack() {
     if (mouseY >= (boardSize - buttonHeight) / 2 && mouseY <= (boardSize - buttonHeight) / 2 + buttonHeight) {
       if (mouseIsPressed && theBoardList.length - 2 >= 0) {
         theBoard = theBoardList[theBoardList.length - 2];
+        // after the take back, the turn should also be given back to the previous player
         whoseTurn = whoseTurn === 'white' ? 'black' : 'white';
       }
     }
@@ -326,8 +328,9 @@ function takeBack() {
 }
 
 function timer() {
-  blackSecondTimer = blackTimer % 60;
-  blackMinuteTimer = floor(blackTimer / 60);
+  blackSecondTimer = blackTimer % 60; // counts how many seconds
+  blackMinuteTimer = floor(blackTimer / 60); // counts how many minutes
+
   whiteSecondTimer = whiteTimer % 60;
   whiteMinuteTimer = floor(whiteTimer / 60);
 
