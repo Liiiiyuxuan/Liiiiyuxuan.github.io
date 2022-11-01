@@ -219,7 +219,7 @@ function movePiece() {
       pieceColour = theBoard[pos[pos.length - 1][0]][pos[pos.length - 1][1]].colour;
       pieceType = theBoard[pos[pos.length - 1][0]][pos[pos.length - 1][1]].piece;
 
-      // if a rook or a king has been moved, castle status should be changed
+      // if a rook or a king has been moved, castle status should be changed to false
       if (pieceType === 'king') {
         if (pieceColour === 'white') {
           whiteCastleKingSide = false;
@@ -327,6 +327,7 @@ function takeBack() {
   }
 }
 
+// function used to display the time used by each player
 function timer() {
   blackSecondTimer = blackTimer % 60; // counts how many seconds
   blackMinuteTimer = floor(blackTimer / 60); // counts how many minutes
@@ -628,6 +629,7 @@ function movePawn() {
       if (y === 6 && theBoard[y][x].colour === 'white' && theBoard[y][x].piece === 'pawn' && theBoard[y][x].selected) {
         initializingAvailability();
         fill(25, 255, 25, 125);
+        // going forward
         if (y - 1 >= 0 && theBoard[y-1][x].piece === 'none') {
           rect(x * (boardSize / columns), (y-1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
           if (y-2 > 0 && theBoard[y-2][x].piece === 'none') {
@@ -636,6 +638,8 @@ function movePawn() {
           }
           theBoard[y-1][x].available = true;
         }
+
+        // taking piece diagonally
         if (y - 1 >= 0 && x - 1 >= 0 && theBoard[y-1][x-1].colour === 'black') {
           fill(255, 25, 25, 125);
           rect((x-1) * (boardSize / columns), (y-1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
@@ -647,13 +651,17 @@ function movePawn() {
           theBoard[y-1][x+1].available = true;
         }
       }
+
       if (y !== 6 && theBoard[y][x].colour === 'white' && theBoard[y][x].piece === 'pawn' && theBoard[y][x].selected) {
         initializingAvailability();
         fill(25, 255, 25, 125);
+        // going forward
         if (y - 1 >= 0 && theBoard[y-1][x].piece === 'none') {
           rect(x * (boardSize / columns), (y-1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
           theBoard[y-1][x].available = true;
         }
+
+        // taking pieces diagonally
         if (y - 1 >= 0 && x - 1 >= 0 && theBoard[y-1][x-1].colour === 'black') {
           fill(255, 25, 25, 125);
           rect((x-1) * (boardSize / columns), (y-1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
@@ -718,6 +726,9 @@ function moveKnight() {
 
   let colourList = ['black', 'white'];
 
+  let checkList1 = [-1, -1, 1,  1, -2, -2, 2,  2];
+  let checkList2 = [ 2, -2, 2, -2,  1, -1, 1, -1];
+
   for (let x = 0; x < rows; x++) {
     for (let y = 0; y < columns; y++) {
       for (let counter = 0; counter < colourList.length; counter++) {
@@ -726,92 +737,20 @@ function moveKnight() {
 
         if (theBoard[y][x].piece === 'knight' && theBoard[y][x].selected && theBoard[y][x].colour === selectedColour) {
           initializingAvailability();
-          if (y - 1 >= 0 && x + 2 < columns && theBoard[y - 1][x + 2].piece === 'none') {
-            fill(25, 255, 25, 125);
-            rect((x + 2) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-            theBoard[y - 1][x + 2].available = true;
-          }
-          if (y - 1 >= 0 && x + 2 < columns && theBoard[y - 1][x + 2].colour === opponentColour) {
-            fill(255, 25, 25, 125);
-            rect((x + 2) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-            theBoard[y - 1][x + 2].available = true;
-          }
 
-          if (y - 1 >= 0 && x - 2 >= 0 && theBoard[y - 1][x - 2].piece === 'none') {
-            fill(25, 255, 25, 125);
-            rect((x - 2) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-            theBoard[y - 1][x - 2].available = true;
-          }
-          if (y - 1 >= 0 && x - 2 >= 0 && theBoard[y - 1][x - 2].colour === opponentColour) {
-            fill(255, 25, 25, 125);
-            rect((x - 2) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-            theBoard[y - 1][x - 2].available = true;
-          }
-
-          if (y + 1 < rows && x + 2 < columns && theBoard[y + 1][x + 2].piece === 'none') {
-            fill(25, 255, 25, 125);
-            rect((x + 2) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-            theBoard[y + 1][x + 2].available = true;
-          }
-          if (y + 1 < rows && x + 2 < columns && theBoard[y + 1][x + 2].colour === opponentColour) {
-            fill(255, 25, 25, 125);
-            rect((x + 2) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-            theBoard[y + 1][x + 2].available = true;
-          }
-
-          if (y + 1 < rows && x - 2 >= 0 && theBoard[y + 1][x - 2].piece === 'none') {
-            fill(25, 255, 25, 125);
-            rect((x - 2) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-            theBoard[y + 1][x - 2].available = true;
-          }
-          if (y + 1 < rows && x - 2 >= 0 && theBoard[y + 1][x - 2].colour === opponentColour) {
-            fill(255, 25, 25, 125);
-            rect((x - 2) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-            theBoard[y + 1][x - 2].available = true;
-          }
-
-          if (y - 2 >= 0 && x + 1 < columns && theBoard[y - 2][x + 1].piece === 'none') {
-            fill(25, 255, 25, 125);
-            rect((x + 1) * (boardSize / columns), (y - 2) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-            theBoard[y - 2][x + 1].available = true;
-          }
-          if (y - 2 >= 0 && x + 1 < columns && theBoard[y - 2][x + 1].colour === opponentColour) {
-            fill(255, 25, 25, 125);
-            rect((x + 1) * (boardSize / columns), (y - 2) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-            theBoard[y - 2][x + 1].available = true;
-          }
-
-          if (y - 2 >= 0 && x - 1 >= 0 && theBoard[y - 2][x - 1].piece === 'none') {
-            fill(25, 255, 25, 125);
-            rect((x - 1) * (boardSize / columns), (y - 2) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-            theBoard[y - 2][x - 1].available = true;
-          }
-          if (y - 2 >= 0 && x - 1 >= 0 && theBoard[y - 2][x - 1].colour === opponentColour) {
-            fill(255, 25, 25, 125);
-            rect((x - 1) * (boardSize / columns), (y - 2) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-            theBoard[y - 2][x - 1].available = true;
-          }
-
-          if (y + 2 < rows && x + 1 < columns && theBoard[y + 2][x + 1].piece === 'none') {
-            fill(25, 255, 25, 125);
-            rect((x + 1) * (boardSize / columns), (y + 2) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-            theBoard[y + 2][x + 1].available = true;
-          }
-          if (y + 2 < rows && x + 1 < columns && theBoard[y + 2][x + 1].colour === opponentColour) {
-            fill(255, 25, 25, 125);
-            rect((x + 1) * (boardSize / columns), (y + 2) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-            theBoard[y + 2][x + 1].available = true;
-          }
-
-          if (y + 2 < rows && x - 1 >= 0 && theBoard[y + 2][x - 1].piece === 'none') {
-            fill(25, 255, 25, 125);
-            rect((x - 1) * (boardSize / columns), (y + 2) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-            theBoard[y + 2][x - 1].available = true;
-          }
-          if (y + 2 < rows && x - 1 >= 0 && theBoard[y + 2][x - 1].colour === opponentColour) {
-            fill(255, 25, 25, 125);
-            rect((x - 1) * (boardSize / columns), (y + 2) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-            theBoard[y + 2][x - 1].available = true;
+          for (let counter = 1; counter < checkList1.length; counter ++) {
+            if (y + checkList1[counter] >= 0 && y + checkList1[counter] < rows && x + checkList2[counter] >= 0 && x + checkList2[counter] < columns 
+              && theBoard[y + checkList1[counter]][x + checkList2[counter]].piece === 'none') {
+              fill(25, 255, 25, 125);
+              rect((x + checkList2[counter]) * (boardSize / columns), (y + checkList1[counter]) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+              theBoard[y + checkList1[counter]][x + checkList2[counter]].available = true;
+            }
+            if (y + checkList1[counter] >= 0 && y + checkList1[counter] < rows && x + checkList2[counter] >= 0 && x + checkList2[counter] < columns 
+              && theBoard[y + checkList1[counter]][x + checkList2[counter]].colour === opponentColour) {
+              fill(255, 25, 25, 125);
+              rect((x + checkList2[counter]) * (boardSize / columns), (y + checkList1[counter]) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
+              theBoard[y + checkList1[counter]][x + checkList2[counter]].available = true;
+            }
           }
         }
       }
@@ -930,6 +869,7 @@ function moveRook() {
 function moveQueen() {
   selectPiece();
 
+  // Queen is the combination of  bishop and rook, so we use the checkLists used in both bishop and rook
   let checkList1 = [
     [-1, -1],
     [-1, +1],
