@@ -6,6 +6,14 @@ let cellHeight;
 let playerX = 0;
 let playerY = 0;
 
+let grassImg, rockImg, horseImg;
+
+function preload() {
+  grassImg = loadImage('grass.png');
+  rockImg = loadImage('rock.png');
+  horseImg = loadImage('horse.png')
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   cellWidth = width/COLS;
@@ -90,15 +98,15 @@ function displayGrid(grid) {
   for (let y=0; y<ROWS; y++) {
     for (let x=0; x<COLS; x++) {
       if (grid[y][x] === 0) {
-        fill("white");
+        image(rockImg, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
       }
       else if (grid[y][x] === 1) {
-        fill("black");
+        image(grassImg, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
       }
       else if (grid[y][x] === 9) {
-        fill("red");
+        image(rockImg, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
+        image(horseImg, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
       }
-      rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight);
     }
   }
 }
