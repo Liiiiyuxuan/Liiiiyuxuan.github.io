@@ -526,7 +526,7 @@ function pawnPromotion(j, i) {
     image(blackKnightImg, boardSize / rows * 4, boardSize / columns * 4, boardSize / rows, boardSize / columns);
   }
 
-  if (mousePressed) {
+  if (mouseIsPressed) {
     if (mouseX >= boardSize / rows * 3 && mouseX < boardSize / rows * 4) {
       if (mouseY >= boardSize / columns * 3 && mouseY < boardSize / rows * 4) {
         theBoard[j][i].piece = 'queen';

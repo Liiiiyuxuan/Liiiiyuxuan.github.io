@@ -3,5 +3,5 @@
     "*.js",
     "libraries/*.js",
     "c:\\Users\\5604987\\.vscode\\extensions\\wmcicompsci.cs30-p5-1.5.0\\p5types\\global.d.ts"
-, "move-pieces/bishop.js", "move-pieces/knight.js", "move-pieces/pawn.js"  ]
+  ]
 }
