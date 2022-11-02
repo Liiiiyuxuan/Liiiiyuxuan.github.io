@@ -511,41 +511,41 @@ function initializingAvailability() {
 }
 
 function pawnPromotion(j, i) {
-  // fill('black');
-  // rect(boardSize / rows * 3, boardSize / columns * 3, boardSize / rows * 2, boardSize / columns * 2);
-  // if (j === 0) {
-  //   image(whiteQueenImg,  boardSize / rows * 3, boardSize / columns * 3, boardSize / rows, boardSize / columns);
-  //   image(whiteBishopImg, boardSize / rows * 4, boardSize / columns * 3, boardSize / rows, boardSize / columns);
-  //   image(whiteRookImg,   boardSize / rows * 3, boardSize / columns * 4, boardSize / rows, boardSize / columns);
-  //   image(whiteKnightImg, boardSize / rows * 4, boardSize / columns * 4, boardSize / rows, boardSize / columns);
-  // }
-  // else if (j === 7) {
-  //   image(blackQueenImg,  boardSize / rows * 3, boardSize / columns * 3, boardSize / rows, boardSize / columns);
-  //   image(blackBishopImg, boardSize / rows * 4, boardSize / columns * 3, boardSize / rows, boardSize / columns);
-  //   image(blackRookImg,   boardSize / rows * 3, boardSize / columns * 4, boardSize / rows, boardSize / columns);
-  //   image(blackKnightImg, boardSize / rows * 4, boardSize / columns * 4, boardSize / rows, boardSize / columns);
-  // }
+  fill('black');
+  rect(boardSize / rows * 3, boardSize / columns * 3, boardSize / rows * 2, boardSize / columns * 2);
+  if (j === 0) {
+    image(whiteQueenImg,  boardSize / rows * 3, boardSize / columns * 3, boardSize / rows, boardSize / columns);
+    image(whiteBishopImg, boardSize / rows * 4, boardSize / columns * 3, boardSize / rows, boardSize / columns);
+    image(whiteRookImg,   boardSize / rows * 3, boardSize / columns * 4, boardSize / rows, boardSize / columns);
+    image(whiteKnightImg, boardSize / rows * 4, boardSize / columns * 4, boardSize / rows, boardSize / columns);
+  }
+  else if (j === 7) {
+    image(blackQueenImg,  boardSize / rows * 3, boardSize / columns * 3, boardSize / rows, boardSize / columns);
+    image(blackBishopImg, boardSize / rows * 4, boardSize / columns * 3, boardSize / rows, boardSize / columns);
+    image(blackRookImg,   boardSize / rows * 3, boardSize / columns * 4, boardSize / rows, boardSize / columns);
+    image(blackKnightImg, boardSize / rows * 4, boardSize / columns * 4, boardSize / rows, boardSize / columns);
+  }
 
-  // if (mouseIsPressed) {
-  //   if (mouseX >= boardSize / rows * 3 && mouseX < boardSize / rows * 4) {
-  //     if (mouseY >= boardSize / columns * 3 && mouseY < boardSize / rows * 4) {
-  //       theBoard[j][i].piece = 'queen';
-  //     }
-  //     if (mouseY >= boardSize / columns * 4 && mouseY < boardSize / rows * 5) {
-  //       theBoard[j][i].piece = 'rook';
-  //     }
-  //   }
-  //   if (mouseX >= boardSize / rows * 4 && mouseX < boardSize / rows * 5) {
-  //     if (mouseY >= boardSize / columns * 3 && mouseY < boardSize / rows * 4) {
-  //       theBoard[j][i].piece = 'bishop';
-  //     }
-  //     if (mouseY >= boardSize / columns * 4 && mouseY < boardSize / rows * 5) {
-  //       theBoard[j][i].piece = 'knight';
-  //     }
-  //   }
-  // }
+  if (mousePressed) {
+    if (mouseX >= boardSize / rows * 3 && mouseX < boardSize / rows * 4) {
+      if (mouseY >= boardSize / columns * 3 && mouseY < boardSize / rows * 4) {
+        theBoard[j][i].piece = 'queen';
+      }
+      if (mouseY >= boardSize / columns * 4 && mouseY < boardSize / rows * 5) {
+        theBoard[j][i].piece = 'rook';
+      }
+    }
+    if (mouseX >= boardSize / rows * 4 && mouseX < boardSize / rows * 5) {
+      if (mouseY >= boardSize / columns * 3 && mouseY < boardSize / rows * 4) {
+        theBoard[j][i].piece = 'bishop';
+      }
+      if (mouseY >= boardSize / columns * 4 && mouseY < boardSize / rows * 5) {
+        theBoard[j][i].piece = 'knight';
+      }
+    }
+  }
 
-  theBoard[j][i].piece = 'queen';
+  // theBoard[j][i].piece = 'queen';
 }
 
 
