@@ -510,8 +510,6 @@ function initializingAvailability() {
 }
 
 function pawnPromotion(j, i) {
-  // ask the user for a input and set the pawn to be the choice of the user
-  let piece = prompt('queen, rook, bishop, or knight');
   theBoard[j][i].piece = `${piece}`;
   return;
 }
