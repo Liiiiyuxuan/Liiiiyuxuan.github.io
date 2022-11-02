@@ -1,6 +1,6 @@
 from selenium import webdriver
 
-driverPath = 'chromedriver.exe'
+driverPath = 'chromedrivermac'
 
 driver = webdriver.Chrome(driverPath)
 

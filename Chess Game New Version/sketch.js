@@ -511,7 +511,41 @@ function initializingAvailability() {
 }
 
 function pawnPromotion(j, i) {
-  theBoard[j][i].piece = 'queen';z12
+  // fill('black');
+  // rect(boardSize / rows * 3, boardSize / columns * 3, boardSize / rows * 2, boardSize / columns * 2);
+  // if (j === 0) {
+  //   image(whiteQueenImg,  boardSize / rows * 3, boardSize / columns * 3, boardSize / rows, boardSize / columns);
+  //   image(whiteBishopImg, boardSize / rows * 4, boardSize / columns * 3, boardSize / rows, boardSize / columns);
+  //   image(whiteRookImg,   boardSize / rows * 3, boardSize / columns * 4, boardSize / rows, boardSize / columns);
+  //   image(whiteKnightImg, boardSize / rows * 4, boardSize / columns * 4, boardSize / rows, boardSize / columns);
+  // }
+  // else if (j === 7) {
+  //   image(blackQueenImg,  boardSize / rows * 3, boardSize / columns * 3, boardSize / rows, boardSize / columns);
+  //   image(blackBishopImg, boardSize / rows * 4, boardSize / columns * 3, boardSize / rows, boardSize / columns);
+  //   image(blackRookImg,   boardSize / rows * 3, boardSize / columns * 4, boardSize / rows, boardSize / columns);
+  //   image(blackKnightImg, boardSize / rows * 4, boardSize / columns * 4, boardSize / rows, boardSize / columns);
+  // }
+
+  // if (mouseIsPressed) {
+  //   if (mouseX >= boardSize / rows * 3 && mouseX < boardSize / rows * 4) {
+  //     if (mouseY >= boardSize / columns * 3 && mouseY < boardSize / rows * 4) {
+  //       theBoard[j][i].piece = 'queen';
+  //     }
+  //     if (mouseY >= boardSize / columns * 4 && mouseY < boardSize / rows * 5) {
+  //       theBoard[j][i].piece = 'rook';
+  //     }
+  //   }
+  //   if (mouseX >= boardSize / rows * 4 && mouseX < boardSize / rows * 5) {
+  //     if (mouseY >= boardSize / columns * 3 && mouseY < boardSize / rows * 4) {
+  //       theBoard[j][i].piece = 'bishop';
+  //     }
+  //     if (mouseY >= boardSize / columns * 4 && mouseY < boardSize / rows * 5) {
+  //       theBoard[j][i].piece = 'knight';
+  //     }
+  //   }
+  // }
+
+  theBoard[j][i].piece = 'queen';
 }
 
 
@@ -732,93 +766,6 @@ function movePawn() {
           fill(255, 25, 25, 125);
           rect((x+1) * (boardSize / columns), (y+1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
           theBoard[y+1][x+1].available = true;
-        }
-      }
-    }
-  }
-
-  movePiece();
-}
-
-function moveKnight() {
-  selectPiece();
-
-  let colourList = ['black', 'white'];
-
-  let checkList1 = [-1, -1, 1,  1, -2, -2, 2,  2];
-  let checkList2 = [ 2, -2, 2, -2,  1, -1, 1, -1];
-
-  for (let x = 0; x < rows; x++) {
-    for (let y = 0; y < columns; y++) {
-      for (let counter = 0; counter < colourList.length; counter++) {
-        let selectedColour = colourList[counter % 2];
-        let opponentColour = colourList[(counter + 1) % 2];
-
-        if (theBoard[y][x].piece === 'knight' && theBoard[y][x].selected && theBoard[y][x].colour === selectedColour) {
-          initializingAvailability();
-
-          for (let counter = 0; counter < checkList1.length; counter ++) {
-            if (y + checkList1[counter] >= 0 && y + checkList1[counter] < rows && x + checkList2[counter] >= 0 && x + checkList2[counter] < columns 
-              && theBoard[y + checkList1[counter]][x + checkList2[counter]].piece === 'none') {
-              fill(25, 255, 25, 125);
-              rect((x + checkList2[counter]) * (boardSize / columns), (y + checkList1[counter]) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-              theBoard[y + checkList1[counter]][x + checkList2[counter]].available = true;
-            }
-            if (y + checkList1[counter] >= 0 && y + checkList1[counter] < rows && x + checkList2[counter] >= 0 && x + checkList2[counter] < columns 
-              && theBoard[y + checkList1[counter]][x + checkList2[counter]].colour === opponentColour) {
-              fill(255, 25, 25, 125);
-              rect((x + checkList2[counter]) * (boardSize / columns), (y + checkList1[counter]) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-              theBoard[y + checkList1[counter]][x + checkList2[counter]].available = true;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  movePiece();
-}
-
-function moveBishop() {
-  selectPiece();
-
-  let checkList = [
-    [-1, -1], // stands for the diagonal line at the bottom left
-    [-1, +1], // stands for the diagonal line at the top    left
-    [+1, +1], // stands for the diagonal line at the top    right
-    [+1, -1], // stands for the diagonal line at the bottom right
-  ];
-  let colourList = ['black', 'white'];
-
-  for (let x = 0; x < rows; x++) {
-    for (let y = 0; y < columns; y++) {
-      for (let counter = 0; counter < colourList.length; counter++) {
-        let selectedColour = colourList[counter % 2];
-        let opponentColour = colourList[(counter + 1) % 2];
-
-        if (theBoard[y][x].piece === 'bishop' && theBoard[y][x].selected && theBoard[y][x].colour === selectedColour) {
-          initializingAvailability();
-
-          for (let i = 0; i < checkList.length; i++) {
-            let a = 1;
-            while (y + checkList[i][0]*a >= 0 && y + checkList[i][0]*a < rows &&
-              x + checkList[i][1]*a >= 0 && x + checkList[i][1]*a < columns &&
-              theBoard[y + checkList[i][0]*a][x + checkList[i][1]*a].piece === 'none') {
-                fill(25, 255, 25, 125);
-                rect((x + checkList[i][1]*a) * (boardSize / columns), (y + checkList[i][0]*a) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                theBoard[y + checkList[i][0]*a][x + checkList[i][1]*a].available = true;
-                a ++;
-            }
-
-            // if the while stops at some spot, we will check if the spot is taken by any opponent pieces
-            if (y + checkList[i][0]*a >= 0 && y + checkList[i][0]*a < rows &&
-              x + checkList[i][1]*a >= 0 && x + checkList[i][1]*a < columns &&
-              theBoard[y + checkList[i][0]*a][x + checkList[i][1]*a].colour === opponentColour) {
-                fill(255, 25, 25, 125);
-                rect((x + checkList[i][1]*a) * (boardSize / columns), (y + checkList[i][0]*a) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
-                theBoard[y + checkList[i][0]*a][x + checkList[i][1]*a].available = true;
-            }
-          }
         }
       }
     }
