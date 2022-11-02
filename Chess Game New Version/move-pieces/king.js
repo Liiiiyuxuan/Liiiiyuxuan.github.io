@@ -6,12 +6,14 @@ function moveKing() {
     for (let x = 0; x < rows; x++) {
       for (let y = 0; y < columns; y++) {
         for (let counter = 0; counter < colourList.length; counter++) {
+          // iterate through: white piece taking black piece and black piece taking white piece
           let selectedColour = colourList[counter % 2];
           let opponentColour = colourList[(counter + 1) % 2];
   
           if (theBoard[y][x].piece === 'king' && theBoard[y][x].selected && theBoard[y][x].colour === selectedColour) {
             initializingAvailability();
   
+            // iterate through all the cells around the king
             for (let i = -1; i <= 1; i ++) {
               for (let j = -1; j <= 1; j ++) {
                 if (rows > y + i && y + i >= 0 && columns > x + j && x + j >= 0 && theBoard[y + i][x + j].piece === 'none') {
