@@ -44,6 +44,7 @@ let whiteCastleKingSide = true;
 let whiteCastleQueenSide = true;
 let blackCastleKingSide = true;
 let blackCastleQueenSide = true;
+let gameOverSound = true;
 
 let whitePawnImg, whiteRookImg, whiteKnightImg, whiteBishopImg, whiteQueenImg, whiteKingImg;
 let blackPawnImg, blackRookImg, blackKnightImg, blackBishopImg, blackQueenImg, blackKingImg;
@@ -62,6 +63,10 @@ function preload() {
   blackBishopImg = loadImage('black.Bishop.png');
   blackQueenImg = loadImage('black.Queen.png');
   blackKingImg = loadImage('black.King.png');
+
+  gameOverSound = loadSound('gameEnd.wav');
+  moveSound = loadSound('move.wav');
+  takeSound = loadSound('take.wav');
 
   myFont = loadFont('gameFont.ttf');
 }
@@ -212,7 +217,11 @@ function movePiece() {
       // this array is used to in the checkWinner() for the purpose of checking the last element passed in
       // If the last element passed in was a king, so one of the players wins the game
       if (theBoard[j][i].colour !== 'none'){
+        takeSound.play();
         pieceTaken.push( [theBoard[j][i].colour, theBoard[j][i].piece] );
+      }
+      else {
+        moveSound.play();
       }
       
       // the cell our selected pieve has left from is empty now
@@ -437,6 +446,10 @@ function displayTakenPiece() {
 }
 
 function gameOver(object) {
+  if (gameOverSound) {
+    gameOverSound.play();
+    gameOverSound = false;
+  }
   background('black')
   textAlign(CENTER);
   textFont(myFont);
@@ -475,6 +488,12 @@ function gameOver(object) {
 
         theBoardList = [];
 
+        whiteCastleKingSide = true;
+        whiteCastleQueenSide = true;
+        blackCastleKingSide = true;
+        blackCastleQueenSide = true;
+        gameOverSound = true;
+
         setup();
       }
     }
@@ -492,7 +511,7 @@ function initializingAvailability() {
 }
 
 function pawnPromotion(j, i) {
-  theBoard[j][i].piece = 'queen';
+  theBoard[j][i].piece = 'queen';z12
 }
 
 
@@ -738,7 +757,7 @@ function moveKnight() {
         if (theBoard[y][x].piece === 'knight' && theBoard[y][x].selected && theBoard[y][x].colour === selectedColour) {
           initializingAvailability();
 
-          for (let counter = 1; counter < checkList1.length; counter ++) {
+          for (let counter = 0; counter < checkList1.length; counter ++) {
             if (y + checkList1[counter] >= 0 && y + checkList1[counter] < rows && x + checkList2[counter] >= 0 && x + checkList2[counter] < columns 
               && theBoard[y + checkList1[counter]][x + checkList2[counter]].piece === 'none') {
               fill(25, 255, 25, 125);
