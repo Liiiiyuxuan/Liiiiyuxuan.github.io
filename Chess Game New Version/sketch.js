@@ -510,7 +510,7 @@ function initializingAvailability() {
 }
 
 function pawnPromotion(j, i) {
-  theBoard[j][i].piece = `${piece}`;
+  theBoard[j][i].piece = 'queen';
   return;
 }
 
