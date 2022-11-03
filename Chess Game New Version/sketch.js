@@ -493,6 +493,13 @@ function gameOver(object) {
         blackCastleQueenSide = true;
         gameOverSound = true;
 
+        whiteSecondTimer = 0;
+        whiteMinuteTimer = 0;
+        whiteTimer = 0;
+        blackSecondTimer = 0;
+        blackMinuteTimer = 0;
+        blackTimer = 0;
+
         setup();
       }
     }
