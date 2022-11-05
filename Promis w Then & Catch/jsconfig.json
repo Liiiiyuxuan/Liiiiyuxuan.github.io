@@ -2,6 +2,10 @@
   "include": [
     "*.js",
     "libraries/*.js",
+<<<<<<< HEAD
     "/Users/yuxuanli/.vscode/extensions/wmcicompsci.cs30-p5-1.5.0/p5types/global.d.ts"
+=======
+    "c:\\Users\\5604987\\.vscode\\extensions\\wmcicompsci.cs30-p5-1.5.0\\p5types\\global.d.ts"
+>>>>>>> 76bfdd7b5ce25abe1ccf501b7420aee88c2d1fda
   ]
 }
