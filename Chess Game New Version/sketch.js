@@ -50,23 +50,23 @@ let whitePawnImg, whiteRookImg, whiteKnightImg, whiteBishopImg, whiteQueenImg, w
 let blackPawnImg, blackRookImg, blackKnightImg, blackBishopImg, blackQueenImg, blackKingImg;
 
 function preload() {
-  whitePawnImg = loadImage('white.pawn.png');
-  whiteRookImg = loadImage('white.rook.png');
-  whiteKnightImg = loadImage('white.knight.png');
-  whiteBishopImg = loadImage('white.Bishop.png');
-  whiteQueenImg = loadImage('white.Queen.png');
-  whiteKingImg = loadImage('white.King.png');
+  whitePawnImg   = loadImage('images/white.pawn.png');
+  whiteRookImg   = loadImage('images/white.rook.png');
+  whiteKnightImg = loadImage('images/white.knight.png');
+  whiteBishopImg = loadImage('images/white.Bishop.png');
+  whiteQueenImg  = loadImage('images/white.Queen.png');
+  whiteKingImg   = loadImage('images/white.King.png');
 
-  blackPawnImg = loadImage('black.pawn.png');
-  blackRookImg = loadImage('black.rook.png');
-  blackKnightImg = loadImage('black.knight.png');
-  blackBishopImg = loadImage('black.Bishop.png');
-  blackQueenImg = loadImage('black.Queen.png');
-  blackKingImg = loadImage('black.King.png');
+  blackPawnImg   = loadImage('images/black.pawn.png');
+  blackRookImg   = loadImage('images/black.rook.png');
+  blackKnightImg = loadImage('images/black.knight.png');
+  blackBishopImg = loadImage('images/black.Bishop.png');
+  blackQueenImg  = loadImage('images/black.Queen.png');
+  blackKingImg   = loadImage('images/black.King.png');
 
-  gameOverSound = loadSound('gameEnd.wav');
-  moveSound = loadSound('move.wav');
-  takeSound = loadSound('take.wav');
+  gameOverSound = loadSound('sounds/gameEnd.wav');
+  moveSound     = loadSound('sounds/move.wav');
+  takeSound     = loadSound('sounds/take.wav');
 
   myFont = loadFont('gameFont.ttf');
 }
