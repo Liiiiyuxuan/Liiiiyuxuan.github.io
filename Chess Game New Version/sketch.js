@@ -14,15 +14,15 @@ let blackTimer = 0;
 
 let whoseTurn = 'white';
 
-let theBoard = [
-  [],
-  [],
-  [],
-  [],
-  [],
-  [],
-  [],
-  []
+let theBoard = [ // use Array() just for fun
+  Array(),
+  Array(),
+  Array(),
+  Array(),
+  Array(),
+  Array(),
+  Array(),
+  Array()
 ];
 
 // list that stores the board for taking back (undo)
@@ -109,6 +109,7 @@ function draw() {
 
 
 
+// you can change the board set up in the way you like by editing the code in this function
 function boardSetUp() {
   // first of all, assign all the cells with the same value to create the board
   for (let i = 0; i < rows; i++) {
@@ -461,6 +462,7 @@ function gameOver(object) {
   text("Restart", windowWidth / 2, windowHeight / 3 * 2)
 
   stroke(255);
+  // the lines surround the restart button in the game over page
   line(windowWidth / 2 - 120, windowHeight / 3 * 2 - 60, windowWidth / 2 + 120, windowHeight / 3 * 2 - 60);
   line(windowWidth / 2 - 120, windowHeight / 3 * 2 + 30, windowWidth / 2 + 120, windowHeight / 3 * 2 + 30 );
   line(windowWidth / 2 - 120, windowHeight / 3 * 2 - 60, windowWidth / 2 - 120, windowHeight / 3 * 2 + 30 );
@@ -487,9 +489,9 @@ function gameOver(object) {
 
         theBoardList = [];
 
-        whiteCastleKingSide = true;
+        whiteCastleKingSide  = true;
         whiteCastleQueenSide = true;
-        blackCastleKingSide = true;
+        blackCastleKingSide  = true;
         blackCastleQueenSide = true;
         gameOverSound = true;
 
