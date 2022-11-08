@@ -24,9 +24,9 @@ class Button{
         this.buttonClicked = function() {
             if (mouseX >= this.i && mouseX <= this.i + this.width) {
                 if (mouseY >= this.j && mouseY <= this.j + this.height) {
-                  if (mouseIsPressed && theBoardList.length - 2 >= 0) {
-                    return true;
-                  }
+                    if (mouseIsPressed && theBoardList.length - 2 >= 0) {
+                        return true;
+                    }
                 }
               }
         }
