@@ -339,8 +339,9 @@ function addToBoardList() {
 }
  
 function takeBack() {
-  fill("black");
-  rect(boardSize + buttonWidth, boardSize / 2 - buttonHeight, buttonWidth, buttonHeight)
+  let takeBackBtn = new Button(boardSize + buttonWidth, boardSize / 2 - buttonHeight, buttonWidth, buttonHeight, 'black', 'Take Back', 'white');
+  takeBackBtn.showButton();
+  // takeBackBtn.showText();
 
   textAlign(CENTER);
   textFont(myFont);
