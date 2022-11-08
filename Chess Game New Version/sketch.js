@@ -1,9 +1,11 @@
 /*
 Class √
 
-Switch √
+Switch & Case √
 
 Date Get √ 
+
+Arrow Function
 
 */
 
@@ -36,7 +38,7 @@ let theBoard = [ // use Array() just for fun
   Array(),
   Array(),
   Array(),
-  Array()
+  Array(),
 ];
 
 // list that stores the board for taking back (undo)
@@ -172,6 +174,13 @@ function boardSetUp() {
   for (let j = 0; j < columns; j++) {
     theBoard[6][j].piece = 'pawn';
   }
+
+  // try { 
+  //   
+  // } 
+  // catch (e) {   
+  //    
+  // } 
 
   addToBoardList();
 }
@@ -381,7 +390,7 @@ function timer() {
   }
 }
 
-function checkWinner() {
+let checkWinner = () => {
   // checking the pieces that has been taken and pushed them into the array, if it was a king, on of the player has lost
   let winnerColour;
 
@@ -547,126 +556,6 @@ function pawnPromotion(j, i) {
 
 
 
-class Cell{
-  constructor(i, j, colour, piece, selected, available) {
-    this.i = i;
-    this.j = j;
-    this.colour = colour;
-    this.piece = piece;
-    this.selected = selected;
-    this.available = available;
-
-
-
-    this.showCell = function() {
-      let x = this.j * (boardSize / rows);
-      let y = this.i * (boardSize / columns);
-
-      fill((i + j) % 2 === 0 ? 'white' : 'black');
-      rect(x, y, boardSize / columns, boardSize / rows);
-    }
-
-    this.showPiece = function() {
-      let x = this.j * (boardSize / rows);
-      let y = this.i * (boardSize / columns);
-
-      switch (this.colour) {
-        case 'black':
-          switch (this.piece) {
-            case 'rook':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(blackRookImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'knight':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(blackKnightImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'bishop':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(blackBishopImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'queen':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(blackQueenImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'king':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(blackKingImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'pawn':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(blackPawnImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            }
-          break;
-        case 'white':
-          switch (this.piece) {
-            case 'rook':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(whiteRookImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'knight':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(whiteKnightImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'bishop':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(whiteBishopImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'queen':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(whiteQueenImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'king':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(whiteKingImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            case 'pawn':
-              if (this.selected) {
-                fill('yellow');
-                rect(x, y, boardSize / columns, boardSize / rows);
-              }
-              image(whitePawnImg, x, y, boardSize / columns, boardSize / rows);
-              break;
-            }
-          break;
-      }
-    }
-  }
-}
 
 
 
