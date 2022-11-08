@@ -1,8 +1,17 @@
+/*
+Class √
+
+Switch √
+
+Date Get √ 
+
+*/
+
 let rows = 8;
 let columns = 8;
 let boardSize = 720;
 let buttonWidth = 100;
-let buttonHeight = 80;
+let buttonHeight = 60;
 let takenPieceSize = 40;
 
 let whiteSecondTimer = 0;
@@ -13,6 +22,11 @@ let blackMinuteTimer = 0;
 let blackTimer = 0;
 
 let whoseTurn = 'white';
+
+const DATE = new Date();
+const YEAR = DATE.getFullYear();
+const MONTH = DATE.getMonth() + 1;
+const DAY = DATE.getDate();
 
 let theBoard = [ // use Array() just for fun
   Array(),
@@ -317,16 +331,16 @@ function addToBoardList() {
  
 function takeBack() {
   fill("black");
-  rect(boardSize + buttonWidth, (boardSize - buttonHeight) / 2, buttonWidth, buttonHeight)
+  rect(boardSize + buttonWidth, boardSize / 2 - buttonHeight, buttonWidth, buttonHeight)
 
   textAlign(CENTER);
   textFont(myFont);
   textSize(20);
   fill("white");
-  text("Take Back", boardSize + buttonWidth * 1.5, boardSize / 2);
+  text("Take Back", boardSize + buttonWidth * 1.5, (boardSize - buttonHeight) / 2);
 
   if (mouseX >= boardSize + buttonWidth && mouseX <= boardSize + buttonWidth + buttonWidth) {
-    if (mouseY >= (boardSize - buttonHeight) / 2 && mouseY <= (boardSize - buttonHeight) / 2 + buttonHeight) {
+    if (mouseY >= boardSize / 2 - buttonHeight && mouseY <= boardSize / 2 - buttonHeight + buttonHeight) {
       if (mouseIsPressed && theBoardList.length - 2 >= 0) {
         theBoard = theBoardList[theBoardList.length - 2];
         // after the take back, the turn should also be given back to the previous player
@@ -338,6 +352,14 @@ function takeBack() {
 
 // function used to display the time used by each player
 function timer() {
+  // display the date of day
+  textAlign(CENTER);
+  textFont(myFont);
+  textSize(20);
+  fill("black");
+  text("Game played on", boardSize + buttonWidth * 1.5, boardSize / 2 + boardSize / (rows * 3) * 1);
+  text(YEAR + ' ' + MONTH + ' ' + DAY, boardSize + buttonWidth * 1.5, boardSize / 2 + boardSize / (rows * 3) * 2);
+
   blackSecondTimer = blackTimer % 60; // counts how many seconds
   blackMinuteTimer = floor(blackTimer / 60); // counts how many minutes
 
