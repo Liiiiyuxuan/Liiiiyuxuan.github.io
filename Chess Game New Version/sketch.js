@@ -5,7 +5,7 @@ Switch & Case √
 
 Date Get √ 
 
-Arrow Function
+Arrow Function √
 
 */
 
@@ -339,25 +339,17 @@ function addToBoardList() {
 }
  
 function takeBack() {
-  let takeBackBtn = new Button(boardSize + buttonWidth, boardSize / 2 - buttonHeight, buttonWidth, buttonHeight, 'black', 'Take Back', 'white');
+  let takeBackBtn = new Button(boardSize + buttonWidth, boardSize / 2 - buttonHeight, buttonWidth, buttonHeight, 'black', 'Take Back', 'white', 20);
   takeBackBtn.showButton();
-  // takeBackBtn.showText();
+  takeBackBtn.showText();
 
-  textAlign(CENTER);
-  textFont(myFont);
-  textSize(20);
-  fill("white");
-  text("Take Back", boardSize + buttonWidth * 1.5, (boardSize - buttonHeight) / 2);
-
-  if (mouseX >= boardSize + buttonWidth && mouseX <= boardSize + buttonWidth + buttonWidth) {
-    if (mouseY >= boardSize / 2 - buttonHeight && mouseY <= boardSize / 2 - buttonHeight + buttonHeight) {
-      if (mouseIsPressed && theBoardList.length - 2 >= 0) {
-        theBoard = theBoardList[theBoardList.length - 2];
-        // after the take back, the turn should also be given back to the previous player
-        whoseTurn = whoseTurn === 'white' ? 'black' : 'white';
-      }
+  takeBackBtn.buttonClicked(() => {
+    if (theBoardList.length - 2 >= 0) {
+      theBoard = theBoardList[theBoardList.length - 2];
+      // after the take back, the turn should also be given back to the previous player
+      whoseTurn = whoseTurn === 'white' ? 'black' : 'white';
     }
-  }
+  })
 }
 
 // function used to display the time used by each player
@@ -482,62 +474,54 @@ function gameOver(object) {
     gameOverSound.play();
     gameOverSound = false;
   }
-  background('black')
+
+  background('black');
   textAlign(CENTER);
   textFont(myFont);
   textSize(60);
   fill("white");
   text("Game Over", windowWidth / 2, windowHeight / 3);
-
   text ("The Winner Was " + object + "!", windowWidth / 2, windowHeight / 2);
 
-  text("Restart", windowWidth / 2, windowHeight / 3 * 2)
-
+  let restartBtn = new Button(windowWidth / 2 - 120, windowHeight / 3 * 2 - 60, 240, 90, 'black', 'Restart', 'white', 60);
   stroke(255);
-  // the lines surround the restart button in the game over page
-  line(windowWidth / 2 - 120, windowHeight / 3 * 2 - 60, windowWidth / 2 + 120, windowHeight / 3 * 2 - 60);
-  line(windowWidth / 2 - 120, windowHeight / 3 * 2 + 30, windowWidth / 2 + 120, windowHeight / 3 * 2 + 30 );
-  line(windowWidth / 2 - 120, windowHeight / 3 * 2 - 60, windowWidth / 2 - 120, windowHeight / 3 * 2 + 30 );
-  line(windowWidth / 2 + 120, windowHeight / 3 * 2 + 30, windowWidth / 2 + 120, windowHeight / 3 * 2 - 60 );
+  restartBtn.showButton();
+  restartBtn.showText();
   
-  if (mouseX > windowWidth / 2 - 120 && mouseX < windowWidth / 2 + 120) {
-    if (mouseY > windowHeight / 3 * 2 - 60 && mouseY < windowHeight / 3 * 2 + 30) {
-      if (mouseIsPressed) {
-        theBoard = [
-          [],
-          [],
-          [],
-          [],
-          [],
-          [],
-          [],
-          []
-        ];
+  restartBtn.buttonClicked(() => { // is the restart button is clicked, initializing the declarations
+    theBoard = [
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ];
 
-        // it is important to reset the array used for checking the winner
-        pieceTaken = [
-          ['none', 'none']
-        ];
+    // it is important to reset the array used for checking the winner
+    pieceTaken = [
+      ['none', 'none']
+    ];
 
-        theBoardList = [];
+    theBoardList = [];
 
-        whiteCastleKingSide  = true;
-        whiteCastleQueenSide = true;
-        blackCastleKingSide  = true;
-        blackCastleQueenSide = true;
-        gameOverSound = true;
+    whiteCastleKingSide  = true;
+    whiteCastleQueenSide = true;
+    blackCastleKingSide  = true;
+    blackCastleQueenSide = true;
+    gameOverSound = true;
 
-        whiteSecondTimer = 0;
-        whiteMinuteTimer = 0;
-        whiteTimer = 0;
-        blackSecondTimer = 0;
-        blackMinuteTimer = 0;
-        blackTimer = 0;
+    whiteSecondTimer = 0;
+    whiteMinuteTimer = 0;
+    whiteTimer = 0;
+    blackSecondTimer = 0;
+    blackMinuteTimer = 0;
+    blackTimer = 0;
 
-        setup();
-      }
-    }
-  }
+    setup();
+  });
 }
 
 function initializingAvailability() {
@@ -554,10 +538,5 @@ function pawnPromotion(j, i) {
   theBoard[j][i].piece = 'queen';
   return;
 }
-
-
-
-
-
 
 
