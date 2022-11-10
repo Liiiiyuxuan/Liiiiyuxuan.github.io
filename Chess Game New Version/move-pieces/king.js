@@ -17,12 +17,12 @@ function moveKing() {
             for (let i = -1; i <= 1; i ++) {
               for (let j = -1; j <= 1; j ++) {
                 if (rows > y + i && y + i >= 0 && columns > x + j && x + j >= 0 && theBoard[y + i][x + j].piece === 'none') {
-                  fill(25, 255, 25, 125);
+                  fill(moveColour);
                   rect((x + j) * (boardSize / columns), (y + i) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
                   theBoard[y + i][x + j].available = true;
                 }
                 if (rows > y + i && y + i >= 0 && columns > x + j && x + j >= 0 && theBoard[y + i][x + j].colour === opponentColour) {
-                  fill(255, 25, 25, 125);
+                  fill(takeColour);
                   rect((x + j) * (boardSize / columns), (y + i) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
                   theBoard[y + i][x + j].available = true;
                 }
@@ -31,22 +31,22 @@ function moveKing() {
   
             // if king is selected, we should detect whether it can castle
             if (theBoard[y][x].colour === 'white' && whiteCastleKingSide && theBoard[y][x + 1].colour === 'none' && theBoard[y][x + 2].colour === 'none' && theBoard[y][x + 3].colour === 'white') {
-              fill(25, 255, 25, 125);
+              fill(moveColour);
               circle((x + 2.5) * (boardSize / columns), (y + 0.5) * (boardSize / rows), 25, 25);
               theBoard[y][x + 2].available = true;
             }
             if (theBoard[y][x].colour === 'white' && whiteCastleQueenSide && theBoard[y][x - 1].colour === 'none' && theBoard[y][x - 2].colour === 'none' && theBoard[y][x - 3].colour === 'none' && theBoard[y][x - 4].colour === 'white') {
-              fill(25, 255, 25, 125);
+              fill(moveColour);
               circle((x - 1.5) * (boardSize / columns), (y + 0.5) * (boardSize / rows), 25, 25);
               theBoard[y][x - 2].available = true;
             }
             if (theBoard[y][x].colour === 'black' && blackCastleKingSide && theBoard[y][x + 1].colour === 'none' && theBoard[y][x + 2].colour === 'none' && theBoard[y][x + 3].colour === 'black') {
-              fill(25, 255, 25, 125);
+              fill(moveColour);
               circle((x + 2.5) * (boardSize / columns), (y + 0.5) * (boardSize / rows), 25, 25);
               theBoard[y][x + 2].available = true;
             }
             if (theBoard[y][x].colour === 'black' && blackCastleQueenSide && theBoard[y][x - 1].colour === 'none' && theBoard[y][x - 2].colour === 'none' && theBoard[y][x - 3].colour === 'none' && theBoard[y][x - 4].colour === 'black') {
-              fill(25, 255, 25, 125);
+              fill(moveColour);
               circle((x - 1.5) * (boardSize / columns), (y + 0.5) * (boardSize / rows), 25, 25);
               theBoard[y][x - 2].available = true;
             }

@@ -6,7 +6,7 @@ function movePawn() {
         // white pawn
         if (y === 6 && theBoard[y][x].colour === 'white' && theBoard[y][x].piece === 'pawn' && theBoard[y][x].selected) {
           initializingAvailability();
-          fill(25, 255, 25, 125);
+          fill(moveColour);
           // going forward
           if (y - 1 >= 0 && theBoard[y - 1][x].piece === 'none') {
             rect(x * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
@@ -19,12 +19,12 @@ function movePawn() {
   
           // taking piece diagonally
           if (y - 1 >= 0 && x - 1 >= 0 && theBoard[y - 1][x - 1].colour === 'black') {
-            fill(255, 25, 25, 125);
+            fill(takeColour);
             rect((x - 1) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
             theBoard[y - 1][x - 1].available = true;
           }
           if (y - 1 >= 0 && x + 1 < columns && theBoard[y-1][x+1].colour === 'black') {
-            fill(255, 25, 25, 125);
+            fill(takeColour);
             rect((x + 1) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
             theBoard[y-1][x+1].available = true;
           }
@@ -32,7 +32,7 @@ function movePawn() {
   
         if (y !== 6 && theBoard[y][x].colour === 'white' && theBoard[y][x].piece === 'pawn' && theBoard[y][x].selected) {
           initializingAvailability();
-          fill(25, 255, 25, 125);
+          fill(moveColour);
           // going forward
           if (y - 1 >= 0 && theBoard[y-1][x].piece === 'none') {
             rect(x * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
@@ -41,12 +41,12 @@ function movePawn() {
   
           // taking pieces diagonally
           if (y - 1 >= 0 && x - 1 >= 0 && theBoard[y - 1][x - 1].colour === 'black') {
-            fill(255, 25, 25, 125);
+            fill(takeColour);
             rect((x - 1) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
             theBoard[y - 1][x - 1].available = true;
           }
           if (y - 1 >= 0 && x + 1 < columns && theBoard[y - 1][x+1].colour === 'black') {
-            fill(255, 25, 25, 125);
+            fill(takeColour);
             rect((x + 1) * (boardSize / columns), (y - 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
             theBoard[y - 1][x + 1].available = true;
           }
@@ -65,12 +65,12 @@ function movePawn() {
             theBoard[y + 1][x].available = true;
           }
           if (y + 1 >= 0 && x - 1 >= 0 && theBoard[y + 1][x - 1].colour === 'white') {
-            fill(255, 25, 25, 125);
+            fill(takeColour);
             rect((x - 1) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
             theBoard[y + 1][x - 1].available = true;
           }
           if (y + 1 >= 0 && x + 1 < columns && theBoard[y + 1][x + 1].colour === 'white') {
-            fill(255, 25, 25, 125);
+            fill(takeColour);
             rect((x + 1) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
             theBoard[y + 1][x + 1].available = true;
           }
@@ -83,12 +83,12 @@ function movePawn() {
             theBoard[y + 1][x].available = true;
           }
           if (y + 1 < rows && x - 1 >= 0 && theBoard[y + 1][x - 1].colour === 'white') {
-            fill(255, 25, 25, 125);
+            fill(takeColour);
             rect((x - 1) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
             theBoard[y + 1][x - 1].available = true;
           }
           if (y + 1 < rows && x + 1 < columns && theBoard[y + 1][x + 1].colour === 'white') {
-            fill(255, 25, 25, 125);
+            fill(takeColour);
             rect((x + 1) * (boardSize / columns), (y + 1) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
             theBoard[y + 1][x + 1].available = true;
           }

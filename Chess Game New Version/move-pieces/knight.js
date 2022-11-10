@@ -20,13 +20,13 @@ function moveKnight() {
               // check every single pair in the checklists
               if (y + checkList1[counter] >= 0 && y + checkList1[counter] < rows && x + checkList2[counter] >= 0 && x + checkList2[counter] < columns 
                 && theBoard[y + checkList1[counter]][x + checkList2[counter]].piece === 'none') {
-                fill(25, 255, 25, 125);
+                fill(moveColour);
                 rect((x + checkList2[counter]) * (boardSize / columns), (y + checkList1[counter]) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
                 theBoard[y + checkList1[counter]][x + checkList2[counter]].available = true;
               }
               if (y + checkList1[counter] >= 0 && y + checkList1[counter] < rows && x + checkList2[counter] >= 0 && x + checkList2[counter] < columns 
                 && theBoard[y + checkList1[counter]][x + checkList2[counter]].colour === opponentColour) {
-                fill(255, 25, 25, 125);
+                fill(takeColour);
                 rect((x + checkList2[counter]) * (boardSize / columns), (y + checkList1[counter]) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
                 theBoard[y + checkList1[counter]][x + checkList2[counter]].available = true;
               }

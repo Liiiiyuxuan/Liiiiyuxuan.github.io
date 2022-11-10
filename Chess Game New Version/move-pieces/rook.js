@@ -19,7 +19,7 @@ function moveRook() {
               let a = 1;
   
               while (x + checkList[i] * a >= 0 && x + checkList[i] * a < columns && theBoard[y][x + checkList[i] * a].piece === 'none') {
-                fill(25, 255, 25, 125);
+                fill(moveColour);
                 rect((x + checkList[i] * a) * (boardSize / columns), y * (boardSize / rows), (boardSize / columns), (boardSize / rows));
                 theBoard[y][x + checkList[i] * a].available = true;
                 a ++;
@@ -27,7 +27,7 @@ function moveRook() {
   
               // if the while loop terminates, we check whether the spot it stops has an opponent's piece
               if (x + checkList[i] * a >= 0 && x + checkList[i] * a < columns && theBoard[y][x + checkList[i] * a].colour === opponentColour) {
-                fill(255, 25, 25, 125);
+                fill(takeColour);
                 rect((x + checkList[i] * a) * (boardSize / columns), y * (boardSize / rows), (boardSize / columns), (boardSize / rows));
                 theBoard[y][x + checkList[i] * a].available = true;
               }
@@ -38,7 +38,7 @@ function moveRook() {
               let b = 1;
   
               while (y + checkList[i] * b >= 0 && y + checkList[i] * b < rows && theBoard[y + checkList[i] * b][x].piece === 'none') {
-                fill(25, 255, 25, 125);
+                fill(moveColour);
                 rect(x * (boardSize / rows), (y + checkList[i] * b) * (boardSize / rows), (boardSize / rows), (boardSize / rows));
                 theBoard[y + checkList[i] * b][x].available = true;
                 b ++;

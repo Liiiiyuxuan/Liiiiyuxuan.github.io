@@ -24,6 +24,7 @@ let blackMinuteTimer = 0;
 let blackTimer = 0;
 
 let whoseTurn = 'white';
+let moveColour, takeColour;
 
 const DATE = new Date();
 const YEAR = DATE.getFullYear();
@@ -93,6 +94,9 @@ function setup() {
   fill(0);
   createCanvas(windowWidth, windowHeight);
   boardSetUp();
+
+  moveColour = color(25, 255, 25, 125);
+  takeColour = color(255, 25, 25, 125);
 }
 
 function draw() {
@@ -341,6 +345,7 @@ function addToBoardList() {
 function takeBack() {
   let takeBackBtn = new Button(boardSize + buttonWidth, boardSize / 2 - buttonHeight, buttonWidth, buttonHeight, 'black', 'Take Back', 'white', 20);
   takeBackBtn.showButton();
+  takeBackBtn.showHover();
   takeBackBtn.showText();
 
   takeBackBtn.buttonClicked(() => {
