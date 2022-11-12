@@ -24,7 +24,7 @@ function moveBishop() {
               while (y + checkList[i][0] * a >= 0 && y + checkList[i][0] * a < rows &&
                 x + checkList[i][1] * a >= 0 && x + checkList[i][1] * a < columns &&
                 theBoard[y + checkList[i][0]*a][x + checkList[i][1] * a].piece === 'none') {
-                  fill(25, 255, 25, 125);
+                  fill(moveColour);
                   rect((x + checkList[i][1] * a) * (boardSize / columns), (y + checkList[i][0] * a) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
                   theBoard[y + checkList[i][0] * a][x + checkList[i][1] * a].available = true;
                   a ++;
@@ -34,7 +34,7 @@ function moveBishop() {
               if (y + checkList[i][0] * a >= 0 && y + checkList[i][0] * a < rows &&
                 x + checkList[i][1] * a >= 0 && x + checkList[i][1] * a < columns &&
                 theBoard[y + checkList[i][0] * a][x + checkList[i][1] * a].colour === opponentColour) {
-                  fill(255, 25, 25, 125);
+                  fill(takeColour);
                   rect((x + checkList[i][1] * a) * (boardSize / columns), (y + checkList[i][0] * a) * (boardSize / rows), (boardSize / columns), (boardSize / rows));
                   theBoard[y + checkList[i][0] * a][x + checkList[i][1] * a].available = true;
               }
