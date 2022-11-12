@@ -65,7 +65,7 @@ class Cell{
                 rect(x, y, boardSize / columns, boardSize / rows);
               }
               image(blackPawnImg, x, y, boardSize / columns, boardSize / rows);
-              break;
+              break; 
             }
           break;
         case 'white':

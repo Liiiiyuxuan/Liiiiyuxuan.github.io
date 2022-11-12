@@ -7,6 +7,8 @@ Date Get √
 
 Arrow Function √
 
+Throw & Try & Catch √
+
 */
 
 let rows = 8;
@@ -535,8 +537,18 @@ function initializingAvailability() {
 }
 
 function pawnPromotion(j, i) {
-  theBoard[j][i].piece = 'queen';
-  return;
+  let inputPiece = prompt('WHAT PIECE WOULD YOU LIKE ? (queen / rook / bishop / knight)');
+
+  try {
+    if (inputPiece !== 'queen' && inputPiece !== 'rook' && inputPiece !== 'bishop' && inputPiece !== 'knight') {
+      throw 'error';
+    }
+
+    theBoard[j][i].piece = inputPiece;
+  } catch(e) {
+      inputPiece = prompt('COULD NOT RECOGNIZE THE INPUT ... (queen / rook / bishop / knight)');
+      theBoard[j][i].piece = inputPiece;
+  }
 }
 
 
