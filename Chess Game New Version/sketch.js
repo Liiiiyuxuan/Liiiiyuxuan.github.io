@@ -1,13 +1,13 @@
 /*
-Class √
+Class √                Class has been used to creat cells on the chess board and buttons 
 
-Switch & Case √
+Switch & Case √        Switch and case were used in the cell class. Easier to read compared to lines of if and else if
 
-Date Get √ 
+Date Get √             Date() is used to find out the date when the game is played
 
-Arrow Function √
+Arrow Function √       Arrow functions can be found in the button class. Sometimes easier to read
 
-Throw & Try & Catch √
+Throw & Try & Catch √  These can be found in the pawn promotion. Input will be asked from the user, and we need to detect whether the input is valid or not
 
 */
 
@@ -372,8 +372,8 @@ function timer() {
   blackSecondTimer = blackTimer % 60; // counts how many seconds
   blackMinuteTimer = floor(blackTimer / 60); // counts how many minutes
 
-  whiteSecondTimer = whiteTimer % 60;
-  whiteMinuteTimer = floor(whiteTimer / 60);
+  whiteSecondTimer = whiteTimer % 60; // counts how many seconds
+  whiteMinuteTimer = floor(whiteTimer / 60); // counts how many minutes
 
   textAlign(CENTER);
   textFont(myFont);
@@ -519,6 +519,7 @@ function gameOver(object) {
     blackCastleKingSide  = true;
     blackCastleQueenSide = true;
     gameOverSound = true;
+    pawnPromotionBtn = false;
 
     whiteSecondTimer = 0;
     whiteMinuteTimer = 0;
