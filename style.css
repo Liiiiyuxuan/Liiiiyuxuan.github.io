@@ -1,62 +1,58 @@
-@font-face {
-    font-family: gamefont; src: url('04B_19.TTF');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: #24252A;
 }
 
-img {
-    height: 200px;
-}
-
-.column p{
-    text-align: center;
-    font-family: gamefont;
-    font-size: 1.2em;
-}
-
-.columnleft {
-    background-color: white;
-    box-shadow: 0 0 10px 5px rgb(173, 173, 173);
-    border-radius: 3px;
-    overflow: hidden;
-    padding: 1em;
-    width: 33%;
-    float: left;
-    margin-left: 9%;
-    margin-right: 0px;
-    margin-top: 15px;
-}
-
-.columnright {
-    background-color: white;
-    box-shadow: 0 0 10px 5px rgb(173, 173, 173);
-    border-radius: 3px;
-    overflow: hidden;
-    padding: 1em;
-    width: 33%;
-    float: right;
-    margin-right: 9%;
-    margin-top: 15px;
-}
-
-.button {
-    border: none;
-    color: white;
-    padding: 16px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+li, a, button {
+    font-family: "Nunito", sans-serif;
+    font-weight: 500;
     font-size: 16px;
-    transition-duration: 0.4s;
+    color: #EDF0F1;
+    text-decoration: none;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 10%;
+}
+
+.logo {
+    width: 111px;
     cursor: pointer;
 }
 
-.button1 {
-    background-color: #4baf4f; 
-    color: whitesmoke; 
-    border: 2px solid #4baf4f;
-    margin-left: 40%;
+.nav__links {
+    list-style: none;
 }
-  
-.button1:hover {
-    background-color: #308833;
-    color: white;
+
+.nav__links li {
+    display: inline-block;
+    padding: 0px 20px;
+}
+
+.nav__links li a {
+    transition: all 0.3s ease 0s;
+}
+
+.nav__links li a:hover {
+    color: #0088A9;
+}
+
+button {
+    padding: 9px 25px;
+    background-color: rgba(0, 136, 169, 1);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+button:hover {
+    background-color: rgba(0, 136, 169, 0.6);
 }
