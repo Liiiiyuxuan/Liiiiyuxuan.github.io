@@ -2,8 +2,19 @@
     font-family: gamefont; src: url('04B_19.TTF');
 }
 
+@font-face {
+    font-family: writefont; src: url('DancingScript.TTF');
+}
+
 * {
     background-color: #24252A;
+}
+
+header {
+    font-size: 50px;
+    text-align: center;
+    color: white;
+    font-family: writefont, sans-serif;
 }
 
 img {
@@ -43,20 +54,18 @@ img {
 .button {
     border: none;
     padding: 16px 32px;
+    border-radius: 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     transition-duration: 0.4s;
-    cursor: pointer;
-}
-
-.button1 {
     background-color: #0c3a0e; 
     border: 2px solid #0c3a0e;
     margin-left: 40%;
+    cursor: pointer;
 }
   
-.button1:hover {
+.button:hover {
     background-color: #308833;
 }
