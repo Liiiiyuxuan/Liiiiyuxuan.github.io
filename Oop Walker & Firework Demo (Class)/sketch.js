@@ -69,7 +69,9 @@ function draw() {
     background(0);
     for (let i = 0; i < fireworks.length; i ++) {
         fireworks[i].move();
-        fireworks[i].display();
+        if (!fireworks[i].isDead()) {
+            fireworks[i].display();
+        }
     }
 }
 
@@ -106,5 +108,9 @@ class Particle {
         fill(this.colour);
         stroke(this.colour);
         circle(this.x, this.y, this.diametre);
+    }
+
+    isDead() {
+        return this.alpha <= 0;
     }
 }
