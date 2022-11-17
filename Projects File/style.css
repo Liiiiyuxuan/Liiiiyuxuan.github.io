@@ -6,6 +6,10 @@
     font-family: writefont; src: url('DancingScript.TTF');
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 * {
     background-color: #24252A;
 }
