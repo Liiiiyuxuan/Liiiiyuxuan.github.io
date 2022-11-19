@@ -27,6 +27,14 @@ header {
     cursor: pointer;
 }
 
+.auto-type {
+    margin-left: 150px;
+}
+
+.auto-type span {
+    color: #fff762;
+}
+
 .nav__links {
     list-style: none;
 }
@@ -38,10 +46,27 @@ header {
 
 .nav__links li a {
     transition: all 0.3s ease 0s;
+    position: relative;
+}
+
+.nav__links li a::after {
+    content: '';
+    width: 0;
+    height: 3px;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 136, 169, 1);
+    transition: width 0.3s;
 }
 
 .nav__links li a:hover {
     color: #0088A9;
+}
+
+.nav__links li a:hover::after {
+    width: 50%;
 }
 
 button {

@@ -41,7 +41,7 @@ img {
     float: left;
     margin-left: 9%;
     margin-right: 0px;
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 .columnright {
@@ -52,7 +52,7 @@ img {
     width: 33%;
     float: right;
     margin-right: 9%;
-    margin-top: 15px;
+    margin-bottom: 20px;
 }
 
 .button {
@@ -63,7 +63,6 @@ img {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    transition-duration: 0.4s;
     background-color: #0c3a0e; 
     border: 2px solid #0c3a0e;
     margin-left: 40%;

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css folder/style.css">
+    <link rel="stylesheet" href="css folder/transition.css">
+</head>
+<body>
+
+    <div class="transition transition-1 is-active"></div>
+
+    <div class="page">
+        <header>
+            <a href="index.html"><img class="logo" src="images/logo.png" alt="logo"></a>
+
+            <nav>
+                <ul class="nav__links">
+                    <li><a href="#">Services</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+            <a class="cta" href="contact.html"><button>Contacts</button></a>
+        </header>
+
+        <div class="auto-type">
+            <h1><span class="auto-type-text"></span></h1>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+    <script>
+        let typed = new Typed('.auto-type-text', {
+            strings: ['Live', 'Love', 'Laugh'],
+            typeSpeed: 150,
+            backSpeed: 150,
+            loop: true,
+        })
+    </script>
+
+    <script src="transition.js"></script>
+</body>
+</html>
