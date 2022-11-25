@@ -72,3 +72,7 @@ img {
 .button:hover {
     background-color: #308833;
 }
+
+.button:hover p{
+    background-color: transparent;
+}
