@@ -1,0 +1,5 @@
+/* npx tailwindcss -i css_folder/grid.css -o ./dist/output.css --watch  */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
