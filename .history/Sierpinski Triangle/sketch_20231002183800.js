@@ -22,10 +22,9 @@ function mousePressed() {
 
 function sierpinski(vertices, depth) {
   fill(theColours[depth % 8]);
-  triangle(
-    vertices[0].x, vertices[0].y, 
-    vertices[1].x, vertices[1].y, 
-    vertices[2].x, vertices[2].y);
+  triangle(vertices[0].x, vertices[0].y, 
+           vertices[1].x, vertices[1].y, 
+           vertices[2].x, vertices[2].y);
 
   if (depth > 0) {
     sierpinski([vertices[0], 
